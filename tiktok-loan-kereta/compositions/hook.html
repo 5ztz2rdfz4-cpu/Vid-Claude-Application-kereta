@@ -1,0 +1,88 @@
+<template>
+  <style>
+
+#root { position:absolute; inset:0; overflow:visible; font-family:'Montserrat', sans-serif; color:#fff; }
+.abs { position:absolute; }
+.band { position:absolute; left:100px; right:100px; top:300px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.pill { display:inline-flex; align-items:center; gap:14px; background:#FFD21F; color:#0B1430; font-weight:900; font-size:44px; letter-spacing:.04em; padding:12px 30px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.pill svg { width:44px; height:44px; }
+.ttl { font-weight:900; font-size:112px; line-height:.98; letter-spacing:-.01em; text-transform:uppercase; text-shadow:0 6px 28px rgba(0,0,0,.55); }
+.ttl .w { display:inline-block; }
+.y { color:#FFD21F; } .r { color:#FF3B3F; } .g { color:#2BD46B; }
+.sub { font-family:'Inter',sans-serif; font-weight:700; font-size:46px; line-height:1.2; text-shadow:0 4px 18px rgba(0,0,0,.6); }
+.glass { background:rgba(11,20,48,.82); border:2px solid rgba(255,255,255,.14); border-radius:30px; box-shadow:0 18px 50px rgba(0,0,0,.45); }
+.chip { display:inline-flex; align-items:center; gap:16px; padding:18px 30px; font-family:'Inter',sans-serif; font-weight:700; font-size:44px; }
+.chip svg { width:46px; height:46px; }
+.stamp { display:inline-block; border:9px solid #FF3B3F; color:#FF3B3F; font-weight:900; font-size:96px; letter-spacing:.06em; padding:4px 30px; border-radius:18px; background:rgba(255,255,255,.92); text-transform:uppercase; }
+/* full-screen B-roll cutaway */
+.broll { position:absolute; inset:0; }
+.broll .bg { position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    radial-gradient(120% 70% at 50% 30%, #1E3270 0%, #0B1430 55%, #050916 100%); }
+.broll .head { position:absolute; left:100px; right:100px; top:300px; text-align:center; }
+.row { position:absolute; left:90px; width:900px; height:170px; display:flex; align-items:center; gap:30px; padding:0 34px; background:#fff; color:#0B1430; border-radius:30px; box-shadow:0 18px 40px rgba(0,0,0,.35); }
+.row .ic { width:100px; height:100px; border-radius:24px; background:#EEF2FF; color:#1E3270; display:flex; align-items:center; justify-content:center; flex:none; }
+.row .ic svg { width:62px; height:62px; }
+.row .tx { flex:1; text-align:left; }
+.row .t1 { font-weight:900; font-size:50px; line-height:1.05; }
+.row .t2 { font-family:'Inter',sans-serif; font-weight:700; font-size:34px; color:#55607A; margin-top:6px; }
+.tick { width:84px; height:84px; border-radius:50%; background:#22C55E; color:#fff; display:flex; align-items:center; justify-content:center; flex:none; }
+.tick svg { width:54px; height:54px; }
+.tick.bad { background:#FF3B3F; }
+
+
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920" data-duration="6.4" data-layout-allow-overlap>
+    <div id="hook-a" class="clip " data-start="0.0" data-duration="3.07" style="">
+
+      <div class="band" id="hook-a-in" style="top:300px">
+        <div class="ttl" style="font-size:112px">LOAN KERETA</div>
+        <div class="ttl r" style="font-size:104px;white-space:nowrap">KENA REJECT?</div>
+        <div class="ttl" id="hook-reduce" style="font-size:66px;margin-top:22px;white-space:nowrap"><span class="w">ATAU</span> <span class="w">KENA</span> <span class="w y">REDUCE?</span></div>
+      </div>
+      <div class="abs" id="hook-stamp-w" style="left:0;right:0;top:612px;text-align:center"><div class="stamp" id="hook-stamp" style="font-size:72px">REJECTED</div></div>
+    
+    </div>
+    <div id="hook-b" class="clip " data-start="3.07" data-duration="3.33" style="">
+
+      <div class="band" style="top:310px;flex-direction:row;justify-content:center;gap:34px;align-items:center">
+        <div class="ttl y" id="hook-3" style="font-size:360px;line-height:.8">3</div>
+        <div style="text-align:left">
+          <div class="ttl" id="hook-b1" style="font-size:118px">BENDA</div>
+          <div class="ttl" id="hook-b2" style="font-size:96px">WAJIB</div>
+          <div class="ttl y" id="hook-b3" style="font-size:96px">TAHU</div>
+        </div>
+      </div>
+      <div class="band" style="top:700px"><div class="glass chip" id="hook-sub">sebelum apply loan kereta</div></div>
+    
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const IN = (sel, t, extra) => tl.fromTo(sel, Object.assign({ opacity: 0, y: 40, filter: "blur(10px)" }, (extra && extra.from) || {}),
+                                              Object.assign({ opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, (extra && extra.to) || {}), t);
+      const WORDS = (sel, t, gap) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)", scale: 1.08 },
+                                              { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.2, ease: "power4.out", stagger: gap || 0.08 }, t);
+      const OUT = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, t);
+      const POP = (sel, t) => tl.fromTo(sel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)" }, t);
+      const SLAM = (sel, t, rot) => tl.fromTo(sel, { scale: 2.2, opacity: 0, rotation: rot || -8 }, { scale: 1, opacity: 1, rotation: rot || -8, duration: 0.22, ease: "power4.in" }, t);
+      const BROLL_IN = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, t);
+
+      // frame 0 is the thumbnail: headline already on screen
+      tl.set("#hook-a-in", { opacity: 1 }, 0);
+      SLAM("#hook-stamp", 1.09, -9);
+      tl.fromTo("#hook-a-in", { x: 0 }, { keyframes: [{ x: -14, duration: .04 }, { x: 12, duration: .05 }, { x: -6, duration: .05 }, { x: 0, duration: .05 }] }, 1.31);
+      WORDS("#hook-reduce .w", 2.05, 0.12);
+      OUT("#hook-a-in, #hook-stamp-w", 2.95);
+      tl.fromTo("#hook-3", { scale: 1.6, opacity: 0, filter: "blur(16px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: .45, ease: "expo.out" }, 3.25);
+      WORDS("#hook-b1, #hook-b2, #hook-b3", 3.55, 0.12);
+      IN("#hook-sub", 4.9);
+      OUT("#hook-3, #hook-b1, #hook-b2, #hook-b3, #hook-sub", 6.18);
+    
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>

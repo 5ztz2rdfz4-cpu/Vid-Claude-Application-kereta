@@ -1,0 +1,143 @@
+<template>
+  <style>
+
+#root { position:absolute; inset:0; overflow:visible; font-family:'Montserrat', sans-serif; color:#fff; }
+.abs { position:absolute; }
+.band { position:absolute; left:100px; right:100px; top:300px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.pill { display:inline-flex; align-items:center; gap:14px; background:#FFD21F; color:#0B1430; font-weight:900; font-size:44px; letter-spacing:.04em; padding:12px 30px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.pill svg { width:44px; height:44px; }
+.ttl { font-weight:900; font-size:112px; line-height:.98; letter-spacing:-.01em; text-transform:uppercase; text-shadow:0 6px 28px rgba(0,0,0,.55); }
+.ttl .w { display:inline-block; }
+.y { color:#FFD21F; } .r { color:#FF3B3F; } .g { color:#2BD46B; }
+.sub { font-family:'Inter',sans-serif; font-weight:700; font-size:46px; line-height:1.2; text-shadow:0 4px 18px rgba(0,0,0,.6); }
+.glass { background:rgba(11,20,48,.82); border:2px solid rgba(255,255,255,.14); border-radius:30px; box-shadow:0 18px 50px rgba(0,0,0,.45); }
+.chip { display:inline-flex; align-items:center; gap:16px; padding:18px 30px; font-family:'Inter',sans-serif; font-weight:700; font-size:44px; }
+.chip svg { width:46px; height:46px; }
+.stamp { display:inline-block; border:9px solid #FF3B3F; color:#FF3B3F; font-weight:900; font-size:96px; letter-spacing:.06em; padding:4px 30px; border-radius:18px; background:rgba(255,255,255,.92); text-transform:uppercase; }
+/* full-screen B-roll cutaway */
+.broll { position:absolute; inset:0; }
+.broll .bg { position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    radial-gradient(120% 70% at 50% 30%, #1E3270 0%, #0B1430 55%, #050916 100%); }
+.broll .head { position:absolute; left:100px; right:100px; top:300px; text-align:center; }
+.row { position:absolute; left:90px; width:900px; height:170px; display:flex; align-items:center; gap:30px; padding:0 34px; background:#fff; color:#0B1430; border-radius:30px; box-shadow:0 18px 40px rgba(0,0,0,.35); }
+.row .ic { width:100px; height:100px; border-radius:24px; background:#EEF2FF; color:#1E3270; display:flex; align-items:center; justify-content:center; flex:none; }
+.row .ic svg { width:62px; height:62px; }
+.row .tx { flex:1; text-align:left; }
+.row .t1 { font-weight:900; font-size:50px; line-height:1.05; }
+.row .t2 { font-family:'Inter',sans-serif; font-weight:700; font-size:34px; color:#55607A; margin-top:6px; }
+.tick { width:84px; height:84px; border-radius:50%; background:#22C55E; color:#fff; display:flex; align-items:center; justify-content:center; flex:none; }
+.tick svg { width:54px; height:54px; }
+.tick.bad { background:#FF3B3F; }
+
+
+    .card { position:absolute; left:90px; width:900px; height:280px; background:#fff; color:#0B1430; border-radius:34px; box-shadow:0 18px 40px rgba(0,0,0,.35); display:flex; align-items:center; padding:0 40px; gap:30px; }
+    .card .lbl { font-weight:900; font-size:72px; width:250px; }
+    .card .ok { position:absolute; right:30px; bottom:22px; font-weight:900; font-size:30px; color:#fff; background:#22C55E; padding:8px 18px; border-radius:999px; }
+    .gauge { position:relative; width:330px; height:182px; margin-top:-20px; }
+    .needle { position:absolute; left:161px; bottom:16px; width:8px; height:140px; border-radius:6px; background:#0B1430; transform-origin:50% 100%; }
+    .sqs { display:grid; grid-template-columns:repeat(6, 70px); gap:12px; margin-top:-30px; }
+    .sq { width:70px; height:56px; border-radius:12px; background:#E3E8F3; }
+    .flag { color:#FF6B6E; border-color:rgba(255,59,63,.7); font-size:58px; padding:20px 38px; }
+    .flag svg { width:60px; height:60px; }
+    
+  </style>
+  <div id="root" data-composition-id="tip2" data-width="1080" data-height="1920" data-duration="26.2" data-layout-allow-overlap>
+    <div id="t2-ch" class="clip " data-start="0.0" data-duration="7.16" style="">
+
+      <div class="band" style="top:300px">
+        <div class="pill" id="t2-pill">TIP #2</div>
+        <div class="ttl" id="t2-ttl" style="margin-top:26px"><span class="w ">REKOD</span><br><span class="w y">CTOS</span> <span class="w y">&amp;</span> <span class="w y">CCRIS</span></div>
+        <div class="glass chip" id="t2-hp" style="margin-top:30px">Hire Purchase (HP) = Loan kereta</div>
+      </div>
+    
+    </div>
+    <div id="t2-broll" class="clip " data-start="7.16" data-duration="7.82" style="">
+
+      <div class="broll" id="t2-b-in">
+        <div class="bg"></div>
+        <div class="head">
+          <div class="pill" style="font-size:36px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg> BANK SEMAK DULU</div>
+          <div class="sub" id="t2-bsub" style="margin-top:22px">sebelum luluskan loan korang</div>
+        </div>
+        <div class="card" id="t2-ctos" style="top:500px">
+          <div class="lbl">CTOS</div>
+          <div class="gauge">
+            <svg viewBox="0 0 200 110" width="330" height="182">
+              <path d="M15 100 A85 85 0 0 1 185 100" fill="none" stroke="#FF3B3F" stroke-width="20" stroke-dasharray="89 400"/>
+              <path d="M15 100 A85 85 0 0 1 185 100" fill="none" stroke="#FFD21F" stroke-width="20" stroke-dasharray="0 89 89 400"/>
+              <path d="M15 100 A85 85 0 0 1 185 100" fill="none" stroke="#22C55E" stroke-width="20" stroke-dasharray="0 178 90 400"/>
+            </svg>
+            <div class="needle" id="t2-needle"></div>
+          </div>
+          <div class="ok" id="t2-ctos-ok">SKOR BAIK</div>
+        </div>
+        <div class="card" id="t2-ccris" style="top:820px">
+          <div class="lbl">CCRIS</div>
+          <div class="sqs"><div class="sq" id="t2-sq0"></div><div class="sq" id="t2-sq1"></div><div class="sq" id="t2-sq2"></div><div class="sq" id="t2-sq3"></div><div class="sq" id="t2-sq4"></div><div class="sq" id="t2-sq5"></div><div class="sq" id="t2-sq6"></div><div class="sq" id="t2-sq7"></div><div class="sq" id="t2-sq8"></div><div class="sq" id="t2-sq9"></div><div class="sq" id="t2-sq10"></div><div class="sq" id="t2-sq11"></div></div>
+          <div class="ok" id="t2-ccris-ok">BAYAR TEPAT 12 BULAN</div>
+        </div>
+      </div>
+    
+    </div>
+    <div id="t2-why" class="clip " data-start="14.98" data-duration="2.68" style="">
+
+      <div class="band" style="top:300px">
+        <div class="ttl" id="t2-w1" style="font-size:76px"><span class="w ">INI</span> <span class="w ">PUNCA</span> <span class="w ">RAMAI</span></div>
+        <div class="ttl r" id="t2-w2" style="font-size:136px;margin-top:10px"><span class="w ">TAK</span> <span class="w ">LEPAS</span></div>
+      </div>
+    
+    </div>
+    <div id="t2-flags" class="clip " data-start="17.66" data-duration="8.47" style="">
+
+      <div class="band" style="top:310px">
+        <div class="sub" id="t2-f0" style="font-size:52px">Bukan CTOS &amp; CCRIS je…</div>
+        <div style="display:flex;gap:26px;margin-top:30px">
+          <div class="glass chip flag" id="t2-saa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5L2.8 19.5h18.4z"/><path d="M12 10v4.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg> SAA</div>
+          <div class="glass chip flag" id="t2-akpk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5L2.8 19.5h18.4z"/><path d="M12 10v4.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg> AKPK</div>
+        </div>
+        <div style="margin-top:44px"><div class="stamp" id="t2-stuck" style="font-size:72px;white-space:nowrap">LOAN SANGKUT!</div></div>
+      </div>
+    
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const IN = (sel, t, extra) => tl.fromTo(sel, Object.assign({ opacity: 0, y: 40, filter: "blur(10px)" }, (extra && extra.from) || {}),
+                                              Object.assign({ opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, (extra && extra.to) || {}), t);
+      const WORDS = (sel, t, gap) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)", scale: 1.08 },
+                                              { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.2, ease: "power4.out", stagger: gap || 0.08 }, t);
+      const OUT = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, t);
+      const POP = (sel, t) => tl.fromTo(sel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)" }, t);
+      const SLAM = (sel, t, rot) => tl.fromTo(sel, { scale: 2.2, opacity: 0, rotation: rot || -8 }, { scale: 1, opacity: 1, rotation: rot || -8, duration: 0.22, ease: "power4.in" }, t);
+      const BROLL_IN = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, t);
+
+      tl.fromTo("#t2-pill", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: "back.out(2.2)" }, 0.05);
+      WORDS("#t2-ttl .w", 0.2, 0.12);
+      IN("#t2-hp", 5.48);
+      OUT("#t2-pill, #t2-ttl, #t2-hp", 6.96);
+      BROLL_IN("#t2-b-in", 7.16);
+      IN("#t2-bsub", 9.08);
+      IN("#t2-ctos", 9.53, { from: { y: 60 } });
+      tl.fromTo("#t2-needle", { rotation: -88 }, { rotation: 58, duration: .9, ease: "power3.out" }, 11.68);
+      POP("#t2-ctos-ok", 12.48);
+      IN("#t2-ccris", 10.43, { from: { y: 60 } });
+      tl.fromTo("#t2-ccris .sq", { backgroundColor: "#E3E8F3" }, { backgroundColor: "#22C55E", duration: .08, stagger: .045 }, 13.15);
+      POP("#t2-ccris-ok", 13.63);
+      tl.to("#t2-b-in", { opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }, 14.78);
+      WORDS("#t2-w1 .w", 15.08, 0.12);
+      tl.fromTo("#t2-w2 .w", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: .22, ease: "power4.in", stagger: .12 }, 16.93);
+      OUT("#t2-w1, #t2-w2", 17.46);
+      IN("#t2-f0", 17.93);
+      POP("#t2-saa", 19.48);
+      POP("#t2-akpk", 20.33);
+      SLAM("#t2-stuck", 24.63, -6);
+      OUT("#t2-f0, #t2-saa, #t2-akpk, #t2-stuck", 25.91);
+    
+      window.__timelines["tip2"] = tl;
+    })();
+  </script>
+</template>

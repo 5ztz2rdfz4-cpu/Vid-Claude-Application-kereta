@@ -1,0 +1,96 @@
+<template>
+  <style>
+
+#root { position:absolute; inset:0; overflow:visible; font-family:'Montserrat', sans-serif; color:#fff; }
+.abs { position:absolute; }
+.band { position:absolute; left:100px; right:100px; top:300px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.pill { display:inline-flex; align-items:center; gap:14px; background:#FFD21F; color:#0B1430; font-weight:900; font-size:44px; letter-spacing:.04em; padding:12px 30px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.pill svg { width:44px; height:44px; }
+.ttl { font-weight:900; font-size:112px; line-height:.98; letter-spacing:-.01em; text-transform:uppercase; text-shadow:0 6px 28px rgba(0,0,0,.55); }
+.ttl .w { display:inline-block; }
+.y { color:#FFD21F; } .r { color:#FF3B3F; } .g { color:#2BD46B; }
+.sub { font-family:'Inter',sans-serif; font-weight:700; font-size:46px; line-height:1.2; text-shadow:0 4px 18px rgba(0,0,0,.6); }
+.glass { background:rgba(11,20,48,.82); border:2px solid rgba(255,255,255,.14); border-radius:30px; box-shadow:0 18px 50px rgba(0,0,0,.45); }
+.chip { display:inline-flex; align-items:center; gap:16px; padding:18px 30px; font-family:'Inter',sans-serif; font-weight:700; font-size:44px; }
+.chip svg { width:46px; height:46px; }
+.stamp { display:inline-block; border:9px solid #FF3B3F; color:#FF3B3F; font-weight:900; font-size:96px; letter-spacing:.06em; padding:4px 30px; border-radius:18px; background:rgba(255,255,255,.92); text-transform:uppercase; }
+/* full-screen B-roll cutaway */
+.broll { position:absolute; inset:0; }
+.broll .bg { position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    radial-gradient(120% 70% at 50% 30%, #1E3270 0%, #0B1430 55%, #050916 100%); }
+.broll .head { position:absolute; left:100px; right:100px; top:300px; text-align:center; }
+.row { position:absolute; left:90px; width:900px; height:170px; display:flex; align-items:center; gap:30px; padding:0 34px; background:#fff; color:#0B1430; border-radius:30px; box-shadow:0 18px 40px rgba(0,0,0,.35); }
+.row .ic { width:100px; height:100px; border-radius:24px; background:#EEF2FF; color:#1E3270; display:flex; align-items:center; justify-content:center; flex:none; }
+.row .ic svg { width:62px; height:62px; }
+.row .tx { flex:1; text-align:left; }
+.row .t1 { font-weight:900; font-size:50px; line-height:1.05; }
+.row .t2 { font-family:'Inter',sans-serif; font-weight:700; font-size:34px; color:#55607A; margin-top:6px; }
+.tick { width:84px; height:84px; border-radius:50%; background:#22C55E; color:#fff; display:flex; align-items:center; justify-content:center; flex:none; }
+.tick svg { width:54px; height:54px; }
+.tick.bad { background:#FF3B3F; }
+
+
+  </style>
+  <div id="root" data-composition-id="tip1" data-width="1080" data-height="1920" data-duration="12.07" data-layout-allow-overlap>
+    <div id="t1-ch" class="clip " data-start="0.0" data-duration="3.47" style="">
+
+      <div class="band" style="top:300px">
+        <div class="pill" id="t1-pill">TIP #1</div>
+        <div class="ttl" id="t1-ttl" style="margin-top:26px"><span class="w ">DOKUMEN</span><br><span class="w y">LENGKAP</span></div>
+        
+      </div>
+    
+    </div>
+    <div id="t1-broll" class="clip " data-start="3.47" data-duration="4.48" style="">
+
+      <div class="broll" id="t1-b-in">
+        <div class="bg"></div>
+        <div class="head"><div class="pill" style="font-size:36px">TIP #1</div><div class="ttl" style="font-size:80px;margin-top:20px">DOKUMEN <span class="y">WAJIB</span></div></div>
+        <div class="row" id="t1-r1" style="top:520px"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><div class="tx"><div class="t1">PAYSLIP</div><div class="t2">3 bulan terkini</div></div><div class="tick" id="t1-r1-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+<div class="row" id="t1-r2" style="top:720px"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M3 9.5L12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20.5h18"/></svg></div><div class="tx"><div class="t1">BANK STATEMENT</div><div class="t2">3 bulan terkini</div></div><div class="tick" id="t1-r2-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+<div class="row" id="t1-r3" style="top:920px"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div><div class="tx"><div class="t1">BORANG EA</div><div class="t2">dari majikan</div></div><div class="tick" id="t1-r3-tk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+      </div>
+    
+    </div>
+    <div id="t1-alt" class="clip " data-start="7.95" data-duration="4.05" style="">
+
+      <div class="band" style="top:300px">
+        <div class="ttl" id="t1-q" style="font-size:88px"><span class="w ">TIADA</span> <span class="w ">PAYSLIP</span><br><span class="w y">3</span> <span class="w y">BULAN?</span></div>
+        <div class="sub" id="t1-cond" style="margin-top:22px">Kalau cukup syarat…</div>
+        <div class="pill" id="t1-skim" style="margin-top:26px;font-size:44px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/></svg> APPLY SKIM GRADUAN</div>
+      </div>
+    
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const IN = (sel, t, extra) => tl.fromTo(sel, Object.assign({ opacity: 0, y: 40, filter: "blur(10px)" }, (extra && extra.from) || {}),
+                                              Object.assign({ opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, (extra && extra.to) || {}), t);
+      const WORDS = (sel, t, gap) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)", scale: 1.08 },
+                                              { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.2, ease: "power4.out", stagger: gap || 0.08 }, t);
+      const OUT = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, t);
+      const POP = (sel, t) => tl.fromTo(sel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)" }, t);
+      const SLAM = (sel, t, rot) => tl.fromTo(sel, { scale: 2.2, opacity: 0, rotation: rot || -8 }, { scale: 1, opacity: 1, rotation: rot || -8, duration: 0.22, ease: "power4.in" }, t);
+      const BROLL_IN = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, t);
+
+      tl.fromTo("#t1-pill", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: "back.out(2.2)" }, 0.05);
+      WORDS("#t1-ttl .w", 0.2, 0.12);
+      OUT("#t1-pill, #t1-ttl", 3.27);
+      BROLL_IN("#t1-b-in", 3.47);
+      IN("#t1-r1", 4.22, { from: { x: 80, y: 0 }, to: { x: 0 } }); POP("#t1-r1-tk", 4.55);
+      IN("#t1-r2", 5.4, { from: { x: 80, y: 0 }, to: { x: 0 } }); POP("#t1-r2-tk", 6.05);
+      IN("#t1-r3", 6.7, { from: { x: 80, y: 0 }, to: { x: 0 } }); POP("#t1-r3-tk", 7.0);
+      tl.to("#t1-b-in", { opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }, 7.75);
+      WORDS("#t1-q .w", 8.0, 0.1);
+      IN("#t1-cond", 9.0);
+      POP("#t1-skim", 10.75);
+      OUT("#t1-q, #t1-cond, #t1-skim", 11.8);
+    
+      window.__timelines["tip1"] = tl;
+    })();
+  </script>
+</template>

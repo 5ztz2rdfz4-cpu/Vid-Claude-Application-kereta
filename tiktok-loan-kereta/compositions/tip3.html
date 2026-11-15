@@ -1,0 +1,106 @@
+<template>
+  <style>
+
+#root { position:absolute; inset:0; overflow:visible; font-family:'Montserrat', sans-serif; color:#fff; }
+.abs { position:absolute; }
+.band { position:absolute; left:100px; right:100px; top:300px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.pill { display:inline-flex; align-items:center; gap:14px; background:#FFD21F; color:#0B1430; font-weight:900; font-size:44px; letter-spacing:.04em; padding:12px 30px; border-radius:999px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
+.pill svg { width:44px; height:44px; }
+.ttl { font-weight:900; font-size:112px; line-height:.98; letter-spacing:-.01em; text-transform:uppercase; text-shadow:0 6px 28px rgba(0,0,0,.55); }
+.ttl .w { display:inline-block; }
+.y { color:#FFD21F; } .r { color:#FF3B3F; } .g { color:#2BD46B; }
+.sub { font-family:'Inter',sans-serif; font-weight:700; font-size:46px; line-height:1.2; text-shadow:0 4px 18px rgba(0,0,0,.6); }
+.glass { background:rgba(11,20,48,.82); border:2px solid rgba(255,255,255,.14); border-radius:30px; box-shadow:0 18px 50px rgba(0,0,0,.45); }
+.chip { display:inline-flex; align-items:center; gap:16px; padding:18px 30px; font-family:'Inter',sans-serif; font-weight:700; font-size:44px; }
+.chip svg { width:46px; height:46px; }
+.stamp { display:inline-block; border:9px solid #FF3B3F; color:#FF3B3F; font-weight:900; font-size:96px; letter-spacing:.06em; padding:4px 30px; border-radius:18px; background:rgba(255,255,255,.92); text-transform:uppercase; }
+/* full-screen B-roll cutaway */
+.broll { position:absolute; inset:0; }
+.broll .bg { position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 2px, transparent 2px 90px),
+    radial-gradient(120% 70% at 50% 30%, #1E3270 0%, #0B1430 55%, #050916 100%); }
+.broll .head { position:absolute; left:100px; right:100px; top:300px; text-align:center; }
+.row { position:absolute; left:90px; width:900px; height:170px; display:flex; align-items:center; gap:30px; padding:0 34px; background:#fff; color:#0B1430; border-radius:30px; box-shadow:0 18px 40px rgba(0,0,0,.35); }
+.row .ic { width:100px; height:100px; border-radius:24px; background:#EEF2FF; color:#1E3270; display:flex; align-items:center; justify-content:center; flex:none; }
+.row .ic svg { width:62px; height:62px; }
+.row .tx { flex:1; text-align:left; }
+.row .t1 { font-weight:900; font-size:50px; line-height:1.05; }
+.row .t2 { font-family:'Inter',sans-serif; font-weight:700; font-size:34px; color:#55607A; margin-top:6px; }
+.tick { width:84px; height:84px; border-radius:50%; background:#22C55E; color:#fff; display:flex; align-items:center; justify-content:center; flex:none; }
+.tick svg { width:54px; height:54px; }
+.tick.bad { background:#FF3B3F; }
+
+
+    .cal { position:absolute; left:60px; right:60px; top:470px; display:grid; grid-template-columns:repeat(6, 1fr); gap:16px; }
+    .mo { background:#fff; border-radius:26px; height:290px; display:flex; flex-direction:column; align-items:center; justify-content:space-around; color:#0B1430; box-shadow:0 14px 34px rgba(0,0,0,.35); }
+    .mo .mn { font-weight:900; font-size:40px; }
+    .mo .tick { width:96px; height:96px; }
+    
+  </style>
+  <div id="root" data-composition-id="tip3" data-width="1080" data-height="1920" data-duration="14.16" data-layout-allow-overlap>
+    <div id="t3-ch" class="clip " data-start="0.0" data-duration="7.16" style="">
+
+      <div class="band" style="top:300px">
+        <div class="pill" id="t3-pill">TIP #3</div>
+        <div class="ttl" id="t3-ttl" style="margin-top:26px"><span class="w ">REKOD</span><br><span class="w y">BAYARAN</span></div>
+        <div class="glass chip" id="t3-run" style="margin-top:30px">Ada loan sedang berjalan?</div>
+      </div>
+    
+    </div>
+    <div id="t3-broll" class="clip " data-start="7.16" data-duration="3.62" style="">
+
+      <div class="broll" id="t3-b-in">
+        <div class="bg"></div>
+        <div class="head"><div class="pill" style="font-size:36px">BAYAR IKUT MASA</div></div>
+        <div class="cal" id="t3-cal"><div class="mo" id="t3-m0"><div class="mn">JAN</div><div class="tick " id="t3-k0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div><div class="mo" id="t3-m1"><div class="mn">FEB</div><div class="tick " id="t3-k1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div><div class="mo" id="t3-m2"><div class="mn">MAC</div><div class="tick " id="t3-k2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div><div class="mo" id="t3-m3"><div class="mn">APR</div><div class="tick " id="t3-k3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div><div class="mo" id="t3-m4"><div class="mn">MEI</div><div class="tick bad" id="t3-k4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></div></div><div class="mo" id="t3-m5"><div class="mn">JUN</div><div class="tick " id="t3-k5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div></div>
+        <div class="abs" style="left:0;right:0;top:860px;text-align:center">
+          <div class="ttl r" id="t3-late" style="font-size:96px">LEWAT 1 BULAN</div>
+          <div class="sub" id="t3-late2" style="margin-top:16px">pun boleh bagi kesan!</div>
+        </div>
+      </div>
+    
+    </div>
+    <div id="t3-eff" class="clip " data-start="10.78" data-duration="3.25" style="">
+
+      <div class="band" style="top:300px">
+        <div class="glass chip" id="t3-e0" style="color:#FFD21F;font-size:50px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5L2.8 19.5h18.4z"/><path d="M12 10v4.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg> AWAS</div>
+        <div class="ttl" id="t3-e1" style="font-size:74px;margin-top:26px"><span class="w ">BERI</span> <span class="w ">KESAN</span> <span class="w ">PADA</span><br><span class="w y">APPLICATION</span> <span class="w y">LOAN</span></div>
+      </div>
+    
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const IN = (sel, t, extra) => tl.fromTo(sel, Object.assign({ opacity: 0, y: 40, filter: "blur(10px)" }, (extra && extra.from) || {}),
+                                              Object.assign({ opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, (extra && extra.to) || {}), t);
+      const WORDS = (sel, t, gap) => tl.fromTo(sel, { opacity: 0, filter: "blur(8px)", scale: 1.08 },
+                                              { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.2, ease: "power4.out", stagger: gap || 0.08 }, t);
+      const OUT = (sel, t) => tl.to(sel, { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, t);
+      const POP = (sel, t) => tl.fromTo(sel, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)" }, t);
+      const SLAM = (sel, t, rot) => tl.fromTo(sel, { scale: 2.2, opacity: 0, rotation: rot || -8 }, { scale: 1, opacity: 1, rotation: rot || -8, duration: 0.22, ease: "power4.in" }, t);
+      const BROLL_IN = (sel, t) => tl.fromTo(sel, { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "power3.out" }, t);
+
+      tl.fromTo("#t3-pill", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: .35, ease: "back.out(2.2)" }, 0.05);
+      WORDS("#t3-ttl .w", 0.2, 0.12);
+      IN("#t3-run", 3.08);
+      OUT("#t3-pill, #t3-ttl, #t3-run", 6.96);
+      BROLL_IN("#t3-b-in", 7.16);
+      IN(".mo", 7.23, { from: { y: 50 }, to: { stagger: .06, duration: .35 } });
+      tl.fromTo("#t3-k0, #t3-k1, #t3-k2, #t3-k3, #t3-k5", { scale: 0 }, { scale: 1, duration: .25, ease: "back.out(2.4)", stagger: .07 }, 7.53);
+      tl.fromTo("#t3-m4", { backgroundColor: "#ffffff" }, { backgroundColor: "#FFE1E2", duration: .15 }, 8.18);
+      SLAM("#t3-k4", 8.18, 0);
+      tl.fromTo("#t3-m4", { x: 0 }, { keyframes: [{ x: -10, duration: .04 }, { x: 9, duration: .05 }, { x: -4, duration: .05 }, { x: 0, duration: .05 }] }, 8.4);
+      WORDS("#t3-late", 8.73);
+      IN("#t3-late2", 9.18);
+      tl.to("#t3-b-in", { opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }, 10.58);
+      POP("#t3-e0", 10.83);
+      WORDS("#t3-e1 .w", 11.18, 0.1);
+      OUT("#t3-e0, #t3-e1", 13.78);
+    
+      window.__timelines["tip3"] = tl;
+    })();
+  </script>
+</template>
