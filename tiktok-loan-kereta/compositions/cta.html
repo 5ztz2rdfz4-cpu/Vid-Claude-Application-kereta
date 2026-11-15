@@ -33,36 +33,21 @@
 .tick.bad { background:#FF3B3F; }
 
 
-    .carbox { position:absolute; opacity:0; z-index:3; left:60px; width:960px; top:520px; height:600px; border-radius:36px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.55); border:3px solid rgba(255,255,255,.18); }
-    .carpan { position:absolute; left:0; top:-170px; width:1296px; height:1025px; }
-    .carpan video { width:1296px; height:1025px; object-fit:cover; display:block; }
-    .carfade { position:absolute; inset:0; background:linear-gradient(180deg, rgba(5,9,22,0) 70%, rgba(5,9,22,.55) 100%); }
     .arrow { width:110px; height:110px; color:#FFD21F; margin-top:6px; filter:drop-shadow(0 8px 20px rgba(0,0,0,.5)); }
     .arrow svg { width:110px; height:110px; }
     .free { font-size:34px; white-space:nowrap; background:#22C55E; color:#fff; margin-top:0; padding:12px 26px; } .free svg { width:36px; height:36px; }
     
   </style>
   <div id="root" data-composition-id="cta" data-width="1080" data-height="1920" data-duration="10.67" data-layout-allow-overlap>
-    <div id="c-q" class="clip " data-start="0.07" data-duration="3.49" style="">
+    <div id="c-q" class="clip " data-start="0.07" data-duration="5.9" style="">
 
       <div class="band" style="top:300px">
         <div class="ttl" id="c-q1" style="font-size:100px"><span class="w ">NAK</span> <span class="w ">TAHU</span></div>
         <div class="ttl y" id="c-q2" style="font-size:104px"><span class="w ">KORANG</span> <span class="w ">LAYAK?</span></div>
+        <div class="glass chip" id="c-q3" style="margin-top:30px">untuk kereta yang korang minat</div>
       </div>
     
     </div>
-    <div id="c-broll" class="clip " data-start="3.56" data-duration="2.54" style="">
-
-      <div class="broll" id="c-b-in">
-        <div class="bg"></div>
-        <div class="head"><div class="ttl" style="font-size:80px">KERETA YANG<br><span class="y">KORANG MINAT</span></div></div>
-      </div>
-    
-    </div>
-    <div class="carbox" id="c-carbox">
-          <div class="carpan" id="c-carpan"><video id="c-car" class="clip" data-start="3.56" data-duration="2.54" src="assets/car.mp4" muted playsinline></video></div>
-          <div class="carfade"></div>
-        </div>
     <div id="c-form" class="clip " data-start="6.1" data-duration="4.57" style="">
 
       <div class="band" style="top:300px">
@@ -88,12 +73,8 @@
 
       WORDS("#c-q1 .w", 0.16, 0.12);
       tl.fromTo("#c-q2 .w", { scale: 1.5, opacity: 0, filter: "blur(10px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: .3, ease: "expo.out", stagger: .14 }, 1.97);
-      OUT("#c-q1, #c-q2", 3.36);
-      BROLL_IN("#c-b-in", 3.56);
-      tl.fromTo("#c-carpan", { x: -150 }, { x: -40, duration: 2.54, ease: "none" }, 3.56);
-      tl.to("#c-b-in", { opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }, 5.9);
-      tl.fromTo("#c-carbox", { opacity: 0, scale: 1.08, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: .35, ease: "power3.out" }, 3.62);
-      tl.to("#c-carbox", { opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }, 5.9);
+      IN("#c-q3", 3.57);
+      OUT("#c-q1, #c-q2, #c-q3", 5.77);
       WORDS("#c-f1 .w", 6.37, 0.14);
       WORDS("#c-f2 .w", 6.87, 0.14);
       tl.fromTo("#c-arrow", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 7.17);

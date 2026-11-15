@@ -30,6 +30,7 @@ ICON = {
     "warn": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5L2.8 19.5h18.4z"/><path d="M12 10v4.2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>',
     "doc": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
     "bank": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M3 9.5L12 4l9 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20.5h18"/></svg>',
+    "idcard": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5 16.2c.8-1.6 2-2.3 3.5-2.3s2.7.7 3.5 2.3M14.5 10h4M14.5 13.5h3"/></svg>',
     "form": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
     "cap": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5M22 9v6"/></svg>',
     "arrow": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 12.5L12 19l6.5-6.5"/></svg>',
@@ -172,7 +173,7 @@ def build_tip1():
     rows = [
         ("t1-r1", "doc", "PAYSLIP", "3 bulan terkini", 520),
         ("t1-r2", "bank", "BANK STATEMENT", "3 bulan terkini", 720),
-        ("t1-r3", "form", "BORANG EA", "dari majikan", 920),
+        ("t1-r3", "idcard", "IC & LESEN", "kad pengenalan & lesen memandu", 920),
     ]
     rows_html = "\n".join(
         f'<div class="row" id="{rid}" style="top:{top}px"><div class="ic">{ICON[ic]}</div><div class="tx"><div class="t1">{t1}</div><div class="t2">{t2}</div></div><div class="tick" id="{rid}-tk">{ICON["check"]}</div></div>'
@@ -350,22 +351,13 @@ def build_tip3():
 def build_cta():
     s0, s1 = 58.83, TOTAL
     body = []
-    body.append(clip("c-q", 58.90, 62.39, s0, f"""
+    body.append(clip("c-q", 58.90, 64.80, s0, f"""
       <div class="band" style="top:300px">
         <div class="ttl" id="c-q1" style="font-size:100px">{words_html("NAK TAHU")}</div>
         <div class="ttl y" id="c-q2" style="font-size:104px">{words_html("KORANG LAYAK?")}</div>
+        <div class="glass chip" id="c-q3" style="margin-top:30px">untuk kereta yang korang minat</div>
       </div>
     """))
-    body.append(clip("c-broll", 62.39, 64.93, s0, f"""
-      <div class="broll" id="c-b-in">
-        <div class="bg"></div>
-        <div class="head"><div class="ttl" style="font-size:80px">KERETA YANG<br><span class="y">KORANG MINAT</span></div></div>
-      </div>
-    """))
-    body.append(f'''    <div class="carbox" id="c-carbox">
-          <div class="carpan" id="c-carpan"><video id="c-car" class="clip" data-start="{L(62.39, s0)}" data-duration="2.54" src="assets/car.mp4" muted playsinline></video></div>
-          <div class="carfade"></div>
-        </div>''')
     body.append(clip("c-form", 64.93, TOTAL, s0, f"""
       <div class="band" style="top:300px">
         <div class="ttl" id="c-f1" style="font-size:100px">{words_html("ISI FORM")}</div>
@@ -375,10 +367,6 @@ def build_cta():
       </div>
     """))
     css = """
-    .carbox { position:absolute; opacity:0; z-index:3; left:60px; width:960px; top:520px; height:600px; border-radius:36px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.55); border:3px solid rgba(255,255,255,.18); }
-    .carpan { position:absolute; left:0; top:-170px; width:1296px; height:1025px; }
-    .carpan video { width:1296px; height:1025px; object-fit:cover; display:block; }
-    .carfade { position:absolute; inset:0; background:linear-gradient(180deg, rgba(5,9,22,0) 70%, rgba(5,9,22,.55) 100%); }
     .arrow { width:110px; height:110px; color:#FFD21F; margin-top:6px; filter:drop-shadow(0 8px 20px rgba(0,0,0,.5)); }
     .arrow svg { width:110px; height:110px; }
     .free { font-size:34px; white-space:nowrap; background:#22C55E; color:#fff; margin-top:0; padding:12px 26px; } .free svg { width:36px; height:36px; }
@@ -386,12 +374,8 @@ def build_cta():
     js = f"""
       WORDS("#c-q1 .w", {L(58.99, s0)}, 0.12);
       tl.fromTo("#c-q2 .w", {{ scale: 1.5, opacity: 0, filter: "blur(10px)" }}, {{ scale: 1, opacity: 1, filter: "blur(0px)", duration: .3, ease: "expo.out", stagger: .14 }}, {L(60.80, s0)});
-      OUT("#c-q1, #c-q2", {L(62.19, s0)});
-      BROLL_IN("#c-b-in", {L(62.39, s0)});
-      tl.fromTo("#c-carpan", {{ x: -150 }}, {{ x: -40, duration: 2.54, ease: "none" }}, {L(62.39, s0)});
-      tl.to("#c-b-in", {{ opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }}, {L(64.73, s0)});
-      tl.fromTo("#c-carbox", {{ opacity: 0, scale: 1.08, filter: "blur(14px)" }}, {{ opacity: 1, scale: 1, filter: "blur(0px)", duration: .35, ease: "power3.out" }}, {L(62.45, s0)});
-      tl.to("#c-carbox", {{ opacity: 0, scale: .96, filter: "blur(10px)", duration: .2, ease: "power2.in" }}, {L(64.73, s0)});
+      IN("#c-q3", {L(62.40, s0)});
+      OUT("#c-q1, #c-q2, #c-q3", {L(64.60, s0)});
       WORDS("#c-f1 .w", {L(65.20, s0)}, 0.14);
       WORDS("#c-f2 .w", {L(65.70, s0)}, 0.14);
       tl.fromTo("#c-arrow", {{ opacity: 0, y: -40 }}, {{ opacity: 1, y: 0, duration: .35, ease: "power3.out" }}, {L(66.00, s0)});
@@ -402,9 +386,9 @@ def build_cta():
 
 
 # ================================================================ CAPTIONS
-FIX = {"ac": "EA", "setos": "CTOS", "secret": "CCRIS", "sae": "SAA", "jahatkan": "luluskan",
+FIX = {"ac": "IC", "setos": "CTOS", "secret": "CCRIS", "sae": "SAA", "jahatkan": "luluskan",
        "graduand": "graduan", "scheme": "skim", "sankut": "sangkut", "eventur": "walaupun"}
-HL = {"reject", "reduce", "3", "dokumen", "lengkap", "payslip", "statement", "ea", "skim", "graduan",
+HL = {"reject", "reduce", "3", "dokumen", "lengkap", "payslip", "statement", "ic", "lesen", "skim", "graduan",
       "ctos", "ccris", "saa", "akpk", "sangkut", "susah", "lepas", "cantik", "lambat", "sebulan",
       "layak", "form", "percuma", "semakan", "kelayakan", "pertama", "kedua", "ketiga", "record", "effect"}
 
@@ -508,7 +492,6 @@ def build_index():
         ("sfx-stamp3", "impact.wav", 43.12, 0.5),
         ("sfx-w7", "whoosh2.wav", 51.78, 0.35),
         ("sfx-stamp4", "impact.wav", 52.87, 0.4),
-        ("sfx-w8", "whoosh1.wav", 62.34, 0.35),
         ("sfx-p4", "pop.wav", 66.62, 0.35),
     ]
     sfx_html = "\n".join(
