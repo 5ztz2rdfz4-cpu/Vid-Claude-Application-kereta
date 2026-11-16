@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "gsap": "^3.15.0",
     "hyperframes": "^0.8.225"
   }
 }
