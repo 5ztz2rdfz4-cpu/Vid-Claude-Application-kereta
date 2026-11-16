@@ -1,0 +1,40 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; font-family: "Montserrat", sans-serif; color: #fff; }
+    .ink { color: #FFD400; }
+    .chip { display: inline-block; background: #0b0b0d; color: #fff; font-weight: 800; letter-spacing: .06em;
+      padding: 14px 28px 14px 24px; border-left: 10px solid #FFD400; border-radius: 6px; text-transform: uppercase; }
+    .center { position: absolute; left: 70px; width: 850px; text-align: center; }
+
+    
+    .spec { position: absolute; left: 90px; width: 900px; height: 190px; border-radius: 28px;
+      background: rgba(12,12,16,.80); border: 2px solid rgba(255,255,255,.14); backdrop-filter: blur(22px);
+      display: flex; align-items: center; padding: 0 44px; gap: 34px; box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+    #spec-engine { top: 330px; }
+    #spec-gear { top: 560px; }
+    .spec .ico { width: 104px; height: 104px; border-radius: 22px; background: #FFD400; display: flex; align-items: center; justify-content: center; flex: none; }
+    .spec .lbl { font-size: 34px; font-weight: 800; letter-spacing: .14em; color: rgba(255,255,255,.62); }
+    .spec .val { font-family: "Archivo Black", sans-serif; font-size: 84px; line-height: 1.02; color: #fff; }
+
+  </style>
+  <div id="root" data-composition-id="specs" data-width="1080" data-height="1920">
+    <div id="spec-engine" class="spec">
+      <div class="ico"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#0b0b0d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h2V8h4V6h4v2h3l2 2h1v6h-1l-2 2H9l-2-2H4z"/><path d="M2 11v4"/></svg></div>
+      <div><div class="lbl">ENJIN</div><div class="val">1.5L <span class="ink">NA</span></div></div>
+    </div>
+    <div id="spec-gear" class="spec">
+      <div class="ico"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#0b0b0d" stroke-width="2.2" stroke-linecap="round"><circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><path d="M6 8v8M12 8v8M18 8v4H6"/></svg></div>
+      <div><div class="lbl">GEARBOX</div><div class="val ink">CVT</div></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // "1.5" is spoken at 12.40, "CVT" at 16.76 (film time).
+    tl.fromTo("#spec-engine", { opacity: 0, x: -140, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0.30);
+    tl.fromTo("#spec-gear", { opacity: 0, x: 140, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 4.66);
+    tl.to(["#spec-engine", "#spec-gear"], { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in", stagger: 0.04 }, 5.62);
+    window.__timelines["specs"] = tl;
+  </script>
+</template>

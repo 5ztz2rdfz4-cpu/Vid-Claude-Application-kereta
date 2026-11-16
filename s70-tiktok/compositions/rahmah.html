@@ -1,0 +1,25 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; font-family: "Montserrat", sans-serif; color: #fff; }
+    .ink { color: #FFD400; }
+    .chip { display: inline-block; background: #0b0b0d; color: #fff; font-weight: 800; letter-spacing: .06em;
+      padding: 14px 28px 14px 24px; border-left: 10px solid #FFD400; border-radius: 6px; text-transform: uppercase; }
+    .center { position: absolute; left: 70px; width: 850px; text-align: center; }
+
+    
+    #rah { top: 300px; }
+    #rah .chip { font-size: 58px; padding: 22px 40px 22px 34px; }
+
+  </style>
+  <div id="root" data-composition-id="rahmah" data-width="1080" data-height="1920">
+    <div id="rah" class="center"><span class="chip"><span class="ink">S70</span> RAHMAH</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    tl.fromTo("#rah", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.45);
+    tl.to("#rah", { opacity: 0, duration: 0.15, ease: "power2.in" }, 1.80);
+    window.__timelines["rahmah"] = tl;
+  </script>
+</template>

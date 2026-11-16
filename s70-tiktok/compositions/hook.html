@@ -1,0 +1,38 @@
+<template>
+  <style>
+    
+    #root { position: absolute; inset: 0; font-family: "Montserrat", sans-serif; color: #fff; }
+    .ink { color: #FFD400; }
+    .chip { display: inline-block; background: #0b0b0d; color: #fff; font-weight: 800; letter-spacing: .06em;
+      padding: 14px 28px 14px 24px; border-left: 10px solid #FFD400; border-radius: 6px; text-transform: uppercase; }
+    .center { position: absolute; left: 70px; width: 850px; text-align: center; }
+
+    
+    #hook-kicker { top: 250px; }
+    #hook-kicker .chip { font-size: 44px; }
+    #hook-price { top: 330px; font-family: "Archivo Black", sans-serif; font-size: 188px; line-height: 1; color: #FFD400;
+      text-shadow: 0 10px 0 rgba(0,0,0,.55), 0 0 60px rgba(0,0,0,.45); letter-spacing: -.02em; }
+    #hook-sub1 { top: 560px; font-size: 58px; font-weight: 900; text-shadow: 0 5px 18px rgba(0,0,0,.7); }
+    #hook-sub2 { top: 636px; font-family: "Archivo Black", sans-serif; font-size: 100px; line-height: 1.05; text-shadow: 0 6px 20px rgba(0,0,0,.7); }
+
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-kicker" class="center"><span class="chip" data-var-text="hook_kicker">Minimum gaji bersih</span></div>
+    <div id="hook-price" class="center">RM2,300</div>
+    <div id="hook-sub1" class="center">DAH BOLEH BAWA BALIK</div>
+    <div id="hook-sub2" class="center">PROTON <span class="ink">S70</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Kicker + price are on screen at frame 0 (thumbnail); the payoff line lands next.
+    tl.fromTo("#hook-sub1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.45);
+    tl.fromTo("#hook-sub2", { opacity: 0, scale: 1.25 }, { opacity: 1, scale: 1, duration: 0.35, ease: "expo.out" }, 0.75);
+    // Hit on "RM2300" as it is spoken.
+    tl.fromTo("#hook-price", { scale: 1 }, { scale: 1.08, duration: 0.10, ease: "power2.out" }, 2.10);
+    tl.to("#hook-price", { scale: 1, duration: 0.30, ease: "power3.out" }, 2.20);
+    // Exit.
+    tl.to(["#hook-kicker", "#hook-price", "#hook-sub1", "#hook-sub2"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in", stagger: 0.03 }, 3.08);
+    window.__timelines["hook"] = tl;
+  </script>
+</template>
