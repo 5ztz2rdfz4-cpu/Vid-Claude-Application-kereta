@@ -1,0 +1,4 @@
+# large media (source footage lives in Google Drive)
+tiktok-first-car/assets/video/*.mp4
+tiktok-first-car/.hyperframes/
+node_modules/
