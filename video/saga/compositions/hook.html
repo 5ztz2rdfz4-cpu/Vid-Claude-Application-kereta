@@ -1,0 +1,165 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    #hk-bg {
+      position: absolute;
+      inset: 0;
+      background-color: #1d2025;
+      background-image: repeating-linear-gradient(
+        118deg,
+        rgba(190, 147, 91, 0.1) 0px,
+        rgba(190, 147, 91, 0.1) 1px,
+        transparent 1px,
+        transparent 120px
+      );
+    }
+    #hk-content {
+      position: absolute;
+      inset: 0;
+    }
+    #hk-brand {
+      position: absolute;
+      left: 80px;
+      top: 214px;
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.32em;
+      color: #be935b;
+    }
+    #hk-brand-line {
+      position: absolute;
+      left: 80px;
+      top: 262px;
+      width: 120px;
+      height: 3px;
+      background: #be935b;
+      transform-origin: left center;
+    }
+    #hk-five {
+      position: absolute;
+      left: 60px;
+      top: 296px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      font-size: 400px;
+      line-height: 1;
+      color: #be935b;
+      letter-spacing: -0.04em;
+      transform-origin: 30% 60%;
+    }
+    #hk-lines {
+      position: absolute;
+      left: 372px;
+      top: 352px;
+      width: 640px;
+    }
+    .hk-w {
+      display: block;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 86px;
+      line-height: 1.04;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    #hk-under {
+      position: absolute;
+      left: 376px;
+      top: 634px;
+      width: 410px;
+      height: 12px;
+      background: #be935b;
+      transform-origin: left center;
+    }
+    #hk-photo {
+      position: absolute;
+      left: 80px;
+      top: 724px;
+      width: 920px;
+      height: 470px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+    }
+    #hk-img-wrap {
+      position: absolute;
+      inset: 0;
+    }
+    #hk-img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 920px;
+      height: 470px;
+      object-fit: cover;
+      display: block;
+    }
+    #hk-pasal {
+      position: absolute;
+      left: 80px;
+      top: 1216px;
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.24em;
+      color: #9a9da3;
+    }
+    #hk-model {
+      position: absolute;
+      left: 76px;
+      top: 1252px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      font-size: 76px;
+      line-height: 1;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    #hk-model span {
+      color: #be935b;
+    }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hk-bg"></div>
+    <div id="hk-content">
+      <div id="hk-brand">SALAM AUTOMOBILE</div>
+      <div id="hk-brand-line"></div>
+      <div id="hk-five">5</div>
+      <div id="hk-lines">
+        <span class="hk-w">BENDA</span>
+        <span class="hk-w">KORANG</span>
+        <span class="hk-w">TAK TAHU</span>
+      </div>
+      <div id="hk-under"></div>
+      <div id="hk-photo">
+        <div id="hk-img-wrap"><img id="hk-img" src="assets/img/saga-exterior.jpg" alt="Proton Saga MC3" /></div>
+      </div>
+      <div id="hk-pasal">PASAL</div>
+      <div id="hk-model">PROTON SAGA <span>MC3</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // Frame 0 is the thumbnail: headline and car photo already on screen.
+      tl.fromTo("#hk-five", { scale: 1.1 }, { scale: 1, duration: 0.9, ease: "expo.out" }, 0);
+      tl.fromTo("#hk-brand-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 0.1);
+      tl.fromTo("#hk-under", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power3.inOut" }, 1.2);
+      // Slow push on the photo for life
+      tl.fromTo("#hk-img-wrap", { scale: 1.0 }, { scale: 1.08, duration: 5.4, ease: "none", transformOrigin: "50% 60%" }, 0);
+      // Model name lands on "Proton Saga MC3"
+      tl.fromTo("#hk-pasal", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.7);
+      tl.fromTo("#hk-model", { opacity: 0, x: -60, filter: "blur(10px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 3.4);
+      // Exit: colour flood — the charcoal ground wipes up to reveal the light stage
+      tl.to("#hk-content", { y: -140, opacity: 0, duration: 0.42, ease: "power3.in" }, 5.02);
+      tl.fromTo("#hk-bg", { clipPath: "inset(0% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.48, ease: "power3.inOut" }, 5.0);
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>

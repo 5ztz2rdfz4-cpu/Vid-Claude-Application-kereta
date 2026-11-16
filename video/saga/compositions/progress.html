@@ -1,0 +1,118 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #pg-bar {
+      position: absolute;
+      left: 80px;
+      right: 80px;
+      top: 196px;
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #pg-label {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    #pg-word {
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 30px;
+      letter-spacing: 0.2em;
+      color: #6b6f76;
+    }
+    #pg-num-mask {
+      height: 76px;
+      overflow: hidden;
+      position: relative;
+      width: 56px;
+    }
+    #pg-num-stack {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .pg-n {
+      height: 76px;
+      line-height: 76px;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 72px;
+      color: #1d2025;
+      text-align: center;
+      width: 56px;
+    }
+    #pg-of {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 34px;
+      color: #6b6f76;
+      margin-top: 18px;
+    }
+    #pg-segs {
+      display: flex;
+      gap: 12px;
+    }
+    .pg-seg {
+      width: 92px;
+      height: 10px;
+      border-radius: 5px;
+      background: rgba(29, 32, 37, 0.12);
+      overflow: hidden;
+      position: relative;
+    }
+    .pg-fill {
+      position: absolute;
+      inset: 0;
+      background: #be935b;
+      transform-origin: left center;
+    }
+  </style>
+  <div id="root" data-composition-id="progress" data-width="1080" data-height="1920">
+    <div id="pg-bar">
+      <div id="pg-label">
+        <span id="pg-word">FAKTA</span>
+        <div id="pg-num-mask" data-layout-allow-overflow>
+          <div id="pg-num-stack">
+            <div class="pg-n">1</div>
+            <div class="pg-n">2</div>
+            <div class="pg-n">3</div>
+            <div class="pg-n">4</div>
+            <div class="pg-n">5</div>
+          </div>
+        </div>
+        <span id="pg-of">/ 5</span>
+      </div>
+      <div id="pg-segs">
+        <div class="pg-seg"><div class="pg-fill" id="pg-f1"></div></div>
+        <div class="pg-seg"><div class="pg-fill" id="pg-f2"></div></div>
+        <div class="pg-seg"><div class="pg-fill" id="pg-f3"></div></div>
+        <div class="pg-seg"><div class="pg-fill" id="pg-f4"></div></div>
+        <div class="pg-seg"><div class="pg-fill" id="pg-f5"></div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const starts = [0, 4.38, 12.93, 24.18, 36.13];
+      tl.fromTo("#pg-bar", { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, 0.1);
+      tl.set(["#pg-f1", "#pg-f2", "#pg-f3", "#pg-f4", "#pg-f5"], { scaleX: 0 }, 0);
+      tl.set("#pg-num-stack", { y: 0 }, 0);
+      starts.forEach((s, i) => {
+        tl.fromTo("#pg-f" + (i + 1), { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, s + 0.15);
+        if (i > 0) {
+          tl.fromTo("#pg-num-stack", { y: -76 * (i - 1) }, { y: -76 * i, duration: 0.45, ease: "power3.inOut" }, s + 0.05);
+        }
+      });
+      tl.to("#pg-bar", { y: -30, opacity: 0, duration: 0.3, ease: "power3.in" }, 39.7);
+      window.__timelines["progress"] = tl;
+    })();
+  </script>
+</template>
