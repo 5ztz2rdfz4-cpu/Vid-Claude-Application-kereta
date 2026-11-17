@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Saga MC3 4AT vs CVT</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Montserrat"; font-weight: 500; src: url(assets/fonts/montserrat-latin-500-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 600; src: url(assets/fonts/montserrat-latin-600-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 700; src: url(assets/fonts/montserrat-latin-700-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 800; src: url(assets/fonts/montserrat-latin-800-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Montserrat"; font-weight: 900; src: url(assets/fonts/montserrat-latin-900-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 400; src: url(assets/fonts/poppins-latin-400-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 500; src: url(assets/fonts/poppins-latin-500-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 600; src: url(assets/fonts/poppins-latin-600-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Poppins"; font-weight: 700; src: url(assets/fonts/poppins-latin-700-normal.woff2) format("woff2"); }
+
+      :root {
+        --bg0: #09090b;
+        --bg1: #141418;
+        --card: #18181d;
+        --card2: #1e1e24;
+        --line: rgba(255, 255, 255, 0.08);
+        --gold: #c9a063;
+        --gold-l: #ecd3a0;
+        --gold-d: #9c7438;
+        --ink: #f4f1ea;
+        --mute: #8e8a83;
+        --red: #e5484d;
+        --cream: #f2ede3;
+        --dark: #23262c;
+        --gold-grad: linear-gradient(180deg, #f3dcaa 0%, #d4ab6c 48%, #a47a3d 100%);
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg0); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Poppins", sans-serif; color: var(--ink); }
+      .clip { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      .gold-text { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .mont { font-family: "Montserrat", sans-serif; }
+      .label { font-family: "Montserrat"; font-weight: 700; font-size: 22px; letter-spacing: 0.22em; color: var(--gold); text-transform: uppercase; }
+      .card { background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)); border: 1.5px solid var(--line); border-radius: 26px; box-shadow: 0 24px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05); }
+
+      /* ---------- background ---------- */
+      #bg { background: radial-gradient(120% 70% at 50% 0%, #1d1c20 0%, #111114 45%, #08080a 100%); }
+      #glow { position: absolute; left: 140px; top: -380px; width: 1100px; height: 900px; border-radius: 50%; background: radial-gradient(closest-side, rgba(201,160,99,0.22), rgba(201,160,99,0)); }
+      #glow2 { position: absolute; left: -420px; top: 1100px; width: 1000px; height: 900px; border-radius: 50%; background: radial-gradient(closest-side, rgba(201,160,99,0.08), rgba(201,160,99,0)); }
+      #grain { position: absolute; inset: 0; opacity: 0.07; mix-blend-mode: overlay; }
+      #arcs { position: absolute; left: 0; top: 1500px; opacity: 0.5; }
+
+      /* ---------- header ---------- */
+      #header { position: absolute; left: 64px; top: 92px; display: flex; align-items: center; gap: 16px; }
+      #header img { height: 46px; }
+      #header .t1 { font-family: "Montserrat"; font-weight: 800; font-size: 25px; letter-spacing: 0.24em; color: var(--ink); line-height: 1; }
+      #header .t2 { font-family: "Montserrat"; font-weight: 600; font-size: 11px; letter-spacing: 0.62em; color: var(--gold); margin-top: 6px; }
+
+      /* ---------- captions ---------- */
+      #captions { position: absolute; left: 0; top: 1392px; width: 1080px; height: 140px; }
+      .cap { position: absolute; left: 70px; width: 940px; top: 0; text-align: center; font-family: "Montserrat"; font-weight: 800; font-size: 50px; line-height: 1.18; opacity: 0; }
+      .cap span { color: rgba(244,241,234,0.28); display: inline-block; margin: 0 7px; }
+
+      /* ---------- scene 1 hook ---------- */
+      #s1 .tag { left: 64px; top: 236px; padding: 12px 24px; border: 2px solid rgba(201,160,99,0.6); border-radius: 40px; background: rgba(201,160,99,0.1); font-family: "Montserrat"; font-weight: 800; font-size: 24px; letter-spacing: 0.16em; color: var(--gold-l); }
+      #s1 .h1 { left: 64px; top: 318px; font-family: "Montserrat"; font-weight: 800; font-size: 78px; letter-spacing: -0.01em; }
+      #s1 .h2 { left: 58px; top: 400px; font-family: "Montserrat"; font-weight: 900; font-size: 172px; letter-spacing: -0.03em; line-height: 1; }
+      #s1 .sub { left: 66px; top: 600px; font-family: "Poppins"; font-weight: 500; font-size: 38px; color: var(--mute); }
+      #s1 .chips { left: 64px; top: 664px; display: flex; align-items: center; gap: 22px; }
+      .gchip { height: 104px; padding: 0 38px; display: flex; align-items: center; border-radius: 22px; font-family: "Montserrat"; font-weight: 900; font-size: 62px; letter-spacing: 0.02em; }
+      .gchip.a { background: var(--gold-grad); color: #1a1408; box-shadow: 0 14px 40px rgba(201,160,99,0.35); }
+      .gchip.b { border: 3px solid var(--gold); color: var(--gold-l); background: rgba(201,160,99,0.08); }
+      .vs { font-family: "Montserrat"; font-weight: 900; font-size: 40px; color: var(--mute); }
+      #s1 .stamp { left: 612px; top: 668px; padding: 10px 30px; border: 7px solid var(--red); border-radius: 18px; color: var(--red); font-family: "Montserrat"; font-weight: 900; font-size: 62px; letter-spacing: 0.02em; background: rgba(229,72,77,0.1); box-shadow: 0 0 40px rgba(229,72,77,0.35); }
+      #s1 .car { left: 40px; top: 820px; width: 1000px; }
+      #s1 .shadow { left: 120px; top: 1250px; width: 860px; height: 80px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,0,0,0.85), rgba(0,0,0,0)); }
+      #s1 .floor { left: 0; top: 1240px; width: 1080px; height: 2px; background: linear-gradient(90deg, transparent, rgba(201,160,99,0.55), transparent); }
+      .speed { position: absolute; height: 3px; border-radius: 3px; background: linear-gradient(90deg, rgba(201,160,99,0), rgba(236,211,160,0.9)); }
+
+      /* ---------- section header (ref style) ---------- */
+      .sec { left: 64px; top: 210px; width: 952px; height: 200px; }
+      .sec .num { position: absolute; left: 0; top: 0; font-family: "Montserrat"; font-weight: 900; font-size: 150px; line-height: 1; letter-spacing: -0.04em; }
+      .sec .meta { position: absolute; left: 0; top: 18px; }
+      .sec .meta .label { font-size: 20px; }
+      .sec .bars { display: flex; gap: 8px; margin-top: 10px; }
+      .sec .bars i { display: block; width: 34px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.14); }
+      .sec .bars i.on { background: var(--gold); }
+      .sec .title { font-family: "Montserrat"; font-weight: 800; font-size: 60px; line-height: 1.05; margin-top: 14px; }
+      .sec .rule { position: absolute; left: 0; top: 192px; width: 952px; height: 2px; background: linear-gradient(90deg, rgba(201,160,99,0.7), rgba(255,255,255,0.06)); transform-origin: left center; }
+
+      /* ---------- scene 2 variants ---------- */
+      .vrow { position: absolute; left: 64px; width: 952px; height: 128px; display: flex; align-items: center; padding: 0 30px; }
+      .vrow .ic { width: 78px; height: 78px; border-radius: 20px; background: rgba(201,160,99,0.12); border: 1.5px solid rgba(201,160,99,0.35); display: flex; align-items: center; justify-content: center; }
+      .vrow .nm { margin-left: 26px; }
+      .vrow .nm b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 42px; letter-spacing: 0.04em; }
+      .vrow .nm small { display: block; font-size: 24px; color: var(--mute); margin-top: 2px; }
+      .vrow .slot { margin-left: auto; height: 74px; min-width: 150px; border-radius: 16px; border: 2px dashed rgba(255,255,255,0.12); position: relative; }
+      .vrow .slot .gc { position: absolute; inset: -2px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: "Montserrat"; font-weight: 900; font-size: 38px; }
+      .gc.at { background: var(--gold-grad); color: #1a1408; }
+      .gc.cv { background: #22222a; border: 2.5px solid var(--gold); color: var(--gold-l); }
+      .vrow .hl { position: absolute; inset: -1.5px; border-radius: 26px; border: 3px solid var(--gold); box-shadow: 0 0 40px rgba(201,160,99,0.35), inset 0 0 30px rgba(201,160,99,0.12); opacity: 0; }
+      .detail { position: absolute; left: 64px; top: 984px; width: 952px; height: 330px; padding: 34px 40px; }
+      .detail .big { font-family: "Montserrat"; font-weight: 900; font-size: 118px; line-height: 1; letter-spacing: -0.02em; margin-top: 10px; }
+      .detail .desc { font-family: "Montserrat"; font-weight: 700; font-size: 32px; margin-top: 12px; }
+      .detail .desc2 { font-size: 24px; color: var(--mute); margin-top: 4px; }
+      .tiles { position: absolute; right: 40px; top: 92px; display: flex; gap: 14px; align-items: flex-end; }
+      .tiles i { display: flex; align-items: center; justify-content: center; width: 78px; border-radius: 16px; background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1); font-style: normal; font-family: "Montserrat"; font-weight: 900; font-size: 34px; color: var(--mute); }
+      .cvtbar { position: absolute; right: 40px; top: 150px; width: 360px; height: 26px; border-radius: 13px; background: linear-gradient(90deg, rgba(201,160,99,0.15), rgba(236,211,160,0.9)); }
+      .cvtbar .knob { position: absolute; top: -13px; left: 0; width: 52px; height: 52px; border-radius: 50%; background: var(--gold-grad); box-shadow: 0 0 26px rgba(236,211,160,0.6); }
+      .cvtbar .inf { position: absolute; left: -40px; top: -70px; width: 440px; white-space: nowrap; text-align: center; font-family: "Montserrat"; font-weight: 800; font-size: 23px; color: var(--gold-l); letter-spacing: 0.1em; }
+
+      /* ---------- scene 3 VS ---------- */
+      #s3 .q1 { left: 0; width: 1080px; top: 250px; text-align: center; font-family: "Montserrat"; font-weight: 800; font-size: 76px; }
+      #s3 .q2 { left: 0; width: 1080px; top: 336px; text-align: center; font-family: "Montserrat"; font-weight: 900; font-size: 104px; line-height: 1.1; }
+      .vpanel { position: absolute; top: 560px; width: 440px; height: 640px; display: flex; flex-direction: column; align-items: center; padding-top: 70px; }
+      .vpanel .t { font-family: "Montserrat"; font-weight: 900; font-size: 128px; line-height: 1; }
+      .vpanel .s { font-family: "Montserrat"; font-weight: 700; font-size: 30px; color: var(--ink); margin-top: 24px; }
+      .vpanel .s2 { font-size: 24px; color: var(--mute); margin-top: 6px; }
+      .vpanel svg { margin-top: 56px; }
+      .vpanel .hl { position: absolute; inset: -1.5px; border-radius: 26px; border: 3px solid var(--gold); box-shadow: 0 0 50px rgba(201,160,99,0.4); opacity: 0; }
+      #vsc { left: 455px; top: 800px; width: 170px; height: 170px; border-radius: 50%; background: var(--gold-grad); display: flex; align-items: center; justify-content: center; font-family: "Montserrat"; font-weight: 900; font-size: 64px; color: #17120a; box-shadow: 0 0 0 14px rgba(9,9,11,1), 0 0 60px rgba(201,160,99,0.5); }
+      #vsring { left: 425px; top: 770px; width: 230px; height: 230px; border-radius: 50%; border: 3px solid rgba(201,160,99,0.6); }
+
+      /* ---------- scene 4 depends ---------- */
+      #s4 .wheel { left: 300px; top: 300px; }
+      #s4 .l1 { left: 0; width: 1080px; top: 830px; text-align: center; font-size: 40px; font-weight: 500; color: var(--mute); }
+      #s4 .l2 { left: 0; width: 1080px; top: 896px; text-align: center; font-family: "Montserrat"; font-weight: 900; font-size: 86px; line-height: 1.05; }
+      #s4 .l3 { left: 0; width: 1080px; top: 1010px; text-align: center; font-family: "Montserrat"; font-weight: 800; font-size: 64px; }
+      #s4 .pills { left: 0; width: 1080px; top: 1150px; display: flex; justify-content: center; gap: 26px; }
+      .pill { display: flex; align-items: center; gap: 14px; height: 86px; padding: 0 34px; border-radius: 43px; background: var(--card2); border: 2px solid rgba(201,160,99,0.4); font-family: "Montserrat"; font-weight: 800; font-size: 34px; }
+
+      /* ---------- scenes 5/6 ---------- */
+      .pcard { position: absolute; left: 64px; width: 952px; padding: 30px 36px; }
+      .trait { display: flex; align-items: center; gap: 22px; }
+      .trait .ib { width: 84px; height: 84px; border-radius: 22px; display: flex; align-items: center; justify-content: center; background: rgba(201,160,99,0.12); border: 1.5px solid rgba(201,160,99,0.35); flex: none; }
+      .trait b { display: block; font-family: "Montserrat"; font-weight: 800; font-size: 36px; }
+      .trait small { display: block; font-size: 24px; color: var(--mute); }
+      .meter { position: relative; margin-top: 26px; height: 22px; border-radius: 11px; background: rgba(255,255,255,0.07); overflow: hidden; }
+      .meter i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 11px; background: linear-gradient(90deg, #a47a3d, #ecd3a0); transform-origin: left center; }
+      .meterlbl { display: flex; justify-content: space-between; margin-top: 10px; font-size: 22px; color: var(--mute); font-weight: 600; }
+      .meterlbl b { color: var(--gold-l); }
+      .chart .ttl { display: flex; justify-content: space-between; align-items: baseline; }
+      .rec { position: absolute; left: 64px; width: 952px; height: 150px; border-radius: 26px; background: var(--gold-grad); color: #17120a; display: flex; align-items: center; padding: 0 34px; gap: 24px; box-shadow: 0 20px 60px rgba(201,160,99,0.3); }
+      .rec .ck { width: 84px; height: 84px; border-radius: 50%; background: #17120a; display: flex; align-items: center; justify-content: center; flex: none; }
+      .rec .r1 { font-family: "Montserrat"; font-weight: 700; font-size: 22px; letter-spacing: 0.18em; opacity: 0.75; }
+      .rec .r2 { font-family: "Montserrat"; font-weight: 900; font-size: 54px; line-height: 1.05; }
+      .rec .chipsr { margin-left: auto; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+      .rec .chipsr span { background: #17120a; color: var(--gold-l); font-family: "Montserrat"; font-weight: 800; font-size: 24px; padding: 8px 18px; border-radius: 12px; }
+      .tile2 { flex: 1; height: 170px; border-radius: 22px; background: var(--card2); border: 1.5px solid rgba(201,160,99,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+      .tile2 b { font-family: "Montserrat"; font-weight: 800; font-size: 32px; }
+      .gearpic { position: absolute; right: 36px; top: 30px; width: 250px; height: 250px; border-radius: 22px; overflow: hidden; border: 2px solid rgba(201,160,99,0.55); }
+      .gearpic img { width: 100%; height: 100%; object-fit: cover; }
+      .gearpic span { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 0; text-align: center; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85)); font-family: "Montserrat"; font-weight: 800; font-size: 20px; letter-spacing: 0.14em; color: var(--gold-l); }
+
+      /* ---------- scene 7 CTA ---------- */
+      #photo { left: 64px; top: 220px; width: 952px; height: 700px; border-radius: 30px; overflow: hidden; border: 1.5px solid rgba(255,255,255,0.12); box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+      #photo img { position: absolute; left: -250px; top: -20px; height: 740px; }
+      #photo .ov { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(9,9,11,0) 35%, rgba(9,9,11,0.55) 62%, rgba(9,9,11,0.95) 100%); }
+      #photo .txt { position: absolute; left: 44px; bottom: 40px; }
+      #photo .txt .label { font-size: 20px; }
+      #photo .txt h3 { font-family: "Montserrat"; font-weight: 900; font-size: 64px; line-height: 1.06; margin-top: 10px; }
+      .bul { position: absolute; left: 96px; display: flex; align-items: center; gap: 18px; font-family: "Montserrat"; font-weight: 700; font-size: 32px; }
+      .bul i { width: 46px; height: 46px; border-radius: 50%; background: rgba(201,160,99,0.15); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; }
+      #btn { left: 140px; top: 1146px; width: 800px; height: 118px; border-radius: 59px; background: var(--gold-grad); display: flex; align-items: center; justify-content: center; gap: 20px; font-family: "Montserrat"; font-weight: 900; font-size: 44px; letter-spacing: 0.04em; color: #17120a; box-shadow: 0 0 0 0 rgba(201,160,99,0.5), 0 20px 60px rgba(201,160,99,0.4); }
+      #btnglow { left: 140px; top: 1146px; width: 800px; height: 118px; border-radius: 59px; border: 3px solid rgba(236,211,160,0.8); }
+      #chev { left: 510px; top: 1282px; }
+      #tap { left: 700px; top: 1176px; width: 64px; height: 64px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.9); }
+
+      /* ---------- scene 8 closing ---------- */
+      #s8 { background: radial-gradient(90% 60% at 50% 42%, #fbf8f2 0%, #f1ebdf 55%, #e4dccb 100%); }
+      #s8 .waves { position: absolute; left: 0; top: 1320px; opacity: 0.55; }
+      #logo { position: absolute; left: 140px; top: 520px; width: 800px; height: 537px; }
+      #logo img, #logo .shine { position: absolute; left: 0; top: 0; width: 800px; height: 537px; }
+      #logo .shine { -webkit-mask-image: url(assets/logo_mark_gold.png); mask-image: url(assets/logo_mark_gold.png); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; background: linear-gradient(105deg, rgba(255,255,255,0) 40%, rgba(255,250,235,0.95) 50%, rgba(255,255,255,0) 60%); background-size: 300% 100%; background-position: 100% 0; }
+      #s8 .g1 { left: 0; width: 1080px; top: 1150px; text-align: center; font-family: "Poppins"; font-weight: 600; font-size: 38px; color: #3a3d44; }
+      #s8 .g2 { left: 0; width: 1080px; top: 1204px; text-align: center; font-family: "Montserrat"; font-weight: 900; font-size: 74px; color: var(--dark); }
+      #s8 .g2 span { display: inline-block; }
+      #s8 .g2 .gz { color: #b98b48; }
+      #s8 .loc { left: 190px; top: 1360px; width: 700px; height: 84px; border-radius: 42px; background: var(--dark); display: flex; align-items: center; justify-content: center; gap: 14px; font-family: "Montserrat"; font-weight: 700; font-size: 29px; color: #f2ede3; box-shadow: 0 16px 40px rgba(35,38,44,0.25); }
+      #s8 .loc b { color: var(--gold-l); font-weight: 800; }
+
+      /* ---------- transitions ---------- */
+      #slash { left: 0; top: -400px; width: 300px; height: 2800px; background: var(--gold-grad); transform: rotate(20deg); box-shadow: 0 0 80px rgba(201,160,99,0.6); }
+      #slash2 { left: 0; top: -400px; width: 120px; height: 2800px; background: rgba(236,211,160,0.5); transform: rotate(20deg); }
+      #flash { inset: 0; background: #fff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1080" data-height="1920">
+      <audio id="mix" data-start="0" data-duration="60" src="assets/audio/final_mix.wav" data-volume="1"></audio>
+
+      <!-- ================= BACKGROUND (dark scenes) ================= -->
+      <div id="bg" class="clip" data-start="0" data-duration="53.4" data-track-index="0">
+        <div id="glow"></div>
+        <div id="glow2"></div>
+        <svg id="grain" width="1080" height="1920">
+          <filter id="nz"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" /><feColorMatrix type="saturate" values="0" /></filter>
+          <rect width="1080" height="1920" filter="url(#nz)" />
+        </svg>
+        <svg id="arcs" width="1080" height="420" viewBox="0 0 1080 420" fill="none">
+          <path d="M-40 260 C 260 120, 760 120, 1120 250" stroke="rgba(201,160,99,0.18)" stroke-width="2" />
+          <path d="M-40 300 C 300 170, 720 170, 1120 290" stroke="rgba(255,255,255,0.06)" stroke-width="2" />
+          <path d="M-40 340 C 330 220, 700 220, 1120 330" stroke="rgba(255,255,255,0.04)" stroke-width="2" />
+        </svg>
+      </div>
+
+      <!-- ================= S1 HOOK ================= -->
+      <div id="s1" class="clip" data-start="0" data-duration="5.65" data-track-index="1">
+        <div class="speed" style="left: 80px; top: 930px; width: 520px"></div>
+        <div class="speed" style="left: 260px; top: 1010px; width: 620px"></div>
+        <div class="speed" style="left: 40px; top: 1090px; width: 460px"></div>
+        <div class="speed" style="left: 380px; top: 1160px; width: 540px"></div>
+        <div class="abs floor"></div>
+        <div class="abs shadow"></div>
+        <img class="abs car" src="assets/saga_cut.png" />
+        <div class="abs tag">&#9888;&nbsp; SEBELUM BELI SAGA</div>
+        <div class="abs h1">Korang tahu tak,</div>
+        <div class="abs h2 gold-text">SAGA MC3</div>
+        <div class="abs sub">ada <b style="color: var(--ink)">2 jenis gear</b> yang</div>
+        <div class="abs chips">
+          <div class="gchip a">4AT</div>
+          <div class="vs">VS</div>
+          <div class="gchip b">CVT</div>
+        </div>
+        <div class="abs stamp">BERBEZA!</div>
+      </div>
+
+      <!-- ================= HEADER ================= -->
+      <div id="hdr" class="clip" data-start="5.2" data-duration="48.2" data-track-index="2">
+        <div id="header">
+          <img src="assets/logo_mark_header.png" />
+          <div><div class="t1">SALAM</div><div class="t2">AUTOMOBILE</div></div>
+        </div>
+      </div>
+
+      <!-- ================= S2 VARIANTS ================= -->
+      <div id="s2" class="clip" data-start="5.25" data-duration="13.95" data-track-index="1">
+        <div class="abs sec">
+          <div class="num gold-text">3</div>
+          <div class="meta" style="left: 130px">
+            <div class="label">Spek Saga MC3</div>
+            <div class="title">Varian &amp; <span class="gold-text">Gearbox</span></div>
+          </div>
+          <div class="rule"></div>
+        </div>
+        <div class="vrow card" id="rowS" style="top: 456px">
+          <div class="ic"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c9a063" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 30v-5l5-2 6-8h15l7 8 5 2v5h-4" /><path d="M5 30h4M17 30h14" /><circle cx="13" cy="31" r="4" /><circle cx="35" cy="31" r="4" /></svg></div>
+          <div class="nm"><b>STANDARD</b><small>Saga MC3</small></div>
+          <div class="slot"><div class="gc at">4AT</div></div>
+          <div class="hl"></div>
+        </div>
+        <div class="vrow card" id="rowE" style="top: 606px">
+          <div class="ic"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c9a063" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 30v-5l5-2 6-8h15l7 8 5 2v5h-4" /><path d="M5 30h4M17 30h14" /><circle cx="13" cy="31" r="4" /><circle cx="35" cy="31" r="4" /></svg></div>
+          <div class="nm"><b>EXECUTIVE</b><small>Saga MC3</small></div>
+          <div class="slot"><div class="gc at">4AT</div></div>
+          <div class="hl"></div>
+        </div>
+        <div class="vrow card" id="rowP" style="top: 756px">
+          <div class="ic"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#c9a063" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 30v-5l5-2 6-8h15l7 8 5 2v5h-4" /><path d="M5 30h4M17 30h14" /><circle cx="13" cy="31" r="4" /><circle cx="35" cy="31" r="4" /></svg></div>
+          <div class="nm"><b>PREMIUM</b><small>Saga MC3</small></div>
+          <div class="slot"><div class="gc cv">CVT</div></div>
+          <div class="hl"></div>
+        </div>
+        <div class="detail card" id="det4">
+          <div class="label">Transmisi</div>
+          <div class="big gold-text">4AT</div>
+          <div class="desc">4-Speed Automatic</div>
+          <div class="desc2">Automatik 4 tingkat gear</div>
+          <div class="tiles"><i style="height: 70px">1</i><i style="height: 100px">2</i><i style="height: 130px">3</i><i style="height: 160px">4</i></div>
+        </div>
+        <div class="detail card" id="detC">
+          <div class="label">Transmisi</div>
+          <div class="big gold-text">CVT</div>
+          <div class="desc">Continuously Variable</div>
+          <div class="desc2">Tiada tingkat &bull; perubahan lancar</div>
+          <div class="cvtbar"><div class="inf">LANCAR &bull; TANPA STEP</div><div class="knob"></div></div>
+        </div>
+      </div>
+
+      <!-- ================= S3 VS ================= -->
+      <div id="s3" class="clip" data-start="18.85" data-duration="5.25" data-track-index="1">
+        <div class="abs q1">Jadi, mana satu</div>
+        <div class="abs q2 gold-text">lagi bagus?</div>
+        <div class="vpanel card" id="pA" style="left: 64px">
+          <div class="t gold-text">4AT</div>
+          <div class="s">4-Speed Auto</div>
+          <div class="s2">Rasa setiap gear</div>
+          <svg width="220" height="150" viewBox="0 0 220 150" fill="none" stroke="#c9a063" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 140 H60 V105 H110 V70 H160 V35 H210" /></svg>
+          <div class="hl"></div>
+        </div>
+        <div class="vpanel card" id="pB" style="left: 576px">
+          <div class="t gold-text">CVT</div>
+          <div class="s">Variable</div>
+          <div class="s2">Lancar &amp; smooth</div>
+          <svg width="220" height="150" viewBox="0 0 220 150" fill="none" stroke="#c9a063" stroke-width="7" stroke-linecap="round"><path d="M10 140 C 80 130, 140 80, 210 20" /></svg>
+          <div class="hl"></div>
+        </div>
+        <div class="abs" id="vsring"></div>
+        <div class="abs" id="vsc">VS</div>
+      </div>
+
+      <!-- ================= S4 DEPENDS ================= -->
+      <div id="s4" class="clip" data-start="23.75" data-duration="3.95" data-track-index="1">
+        <svg class="abs wheel" id="wheel" width="480" height="480" viewBox="0 0 480 480" fill="none">
+          <circle id="wring" cx="240" cy="240" r="200" stroke="url(#wg)" stroke-width="30" />
+          <circle cx="240" cy="240" r="58" stroke="#c9a063" stroke-width="20" />
+          <path d="M60 220 Q 240 170 420 220" stroke="#c9a063" stroke-width="26" stroke-linecap="round" />
+          <path d="M240 298 V 430" stroke="#c9a063" stroke-width="26" stroke-linecap="round" />
+          <defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3dcaa" /><stop offset="1" stop-color="#a47a3d" /></linearGradient></defs>
+        </svg>
+        <div class="abs l1">Jawapan dia bergantung kepada</div>
+        <div class="abs l2 gold-text">CARA PEMANDUAN</div>
+        <div class="abs l3">korang.</div>
+        <div class="abs pills">
+          <div class="pill" id="pl1"><svg width="34" height="34" viewBox="0 0 24 24" fill="#c9a063"><path d="M13 2 4 14h7l-1 8 9-12h-7z" /></svg>Kaki Lenjan</div>
+          <div class="pill" id="pl2"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#c9a063" stroke-width="2.2" stroke-linecap="round"><path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" /><path d="M16 11h2a2 2 0 0 1 0 4h-2" /><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3" /></svg>Santai</div>
+        </div>
+      </div>
+
+      <!-- ================= S5 LENJAN ================= -->
+      <div id="s5" class="clip" data-start="27.45" data-duration="8.75" data-track-index="1">
+        <div class="abs sec">
+          <div class="num gold-text">01</div>
+          <div class="meta" style="left: 230px">
+            <div class="label">Jenis Pemandu &bull; 1/2</div>
+            <div class="bars"><i class="on"></i><i></i></div>
+            <div class="title">Kaki <span class="gold-text">Lenjan</span></div>
+          </div>
+          <div class="rule"></div>
+        </div>
+        <div class="pcard card" id="l_prof" style="top: 448px">
+          <div class="trait">
+            <div class="ib"><svg width="44" height="44" viewBox="0 0 24 24" fill="#c9a063"><path d="M13 2 4 14h7l-1 8 9-12h-7z" /></svg></div>
+            <div><b>Nak kepuasan memandu</b><small>Suka rasa "feel" bila tekan minyak</small></div>
+          </div>
+          <div class="meter"><i id="l_meter"></i></div>
+          <div class="meterlbl"><span>Kepuasan memandu</span><b>TINGGI</b></div>
+        </div>
+        <div class="pcard card chart" id="l_chart" style="top: 744px; height: 340px">
+          <div class="ttl"><div class="label">Rasa Gear 4AT</div><div style="font-size: 22px; color: var(--mute)">RPM &uarr; &nbsp;Kelajuan &rarr;</div></div>
+          <svg width="880" height="240" viewBox="0 0 880 240" fill="none" style="margin-top: 14px">
+            <path d="M0 220 H880" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+            <path id="saw" d="M10 215 L200 50 L200 150 L400 45 L400 135 L600 40 L600 125 L870 35" stroke="#e2c28a" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" />
+            <g font-family="Montserrat" font-weight="800" font-size="26" fill="#c9a063"><text x="90" y="200">1</text><text x="290" y="200">2</text><text x="490" y="200">3</text><text x="720" y="200">4</text></g>
+          </svg>
+        </div>
+        <div class="rec" id="l_rec" style="top: 1112px">
+          <div class="ck"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#ecd3a0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7" /></svg></div>
+          <div><div class="r1">PILIHAN KORANG</div><div class="r2">Gear 4AT</div></div>
+          <div class="chipsr"><span>Saga Standard</span><span>Saga Executive</span></div>
+        </div>
+      </div>
+
+      <!-- ================= S6 SANTAI ================= -->
+      <div id="s6" class="clip" data-start="35.85" data-duration="8.35" data-track-index="1">
+        <div class="abs sec">
+          <div class="num gold-text">02</div>
+          <div class="meta" style="left: 230px">
+            <div class="label">Jenis Pemandu &bull; 2/2</div>
+            <div class="bars"><i class="on"></i><i class="on"></i></div>
+            <div class="title">Bawa <span class="gold-text">Santai</span></div>
+          </div>
+          <div class="rule"></div>
+        </div>
+        <div class="abs" style="left: 64px; top: 448px; width: 952px; display: flex; gap: 22px">
+          <div class="tile2" id="t_a"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#c9a063" stroke-width="2" stroke-linecap="round"><path d="M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" /><path d="M16 11h2a2 2 0 0 1 0 4h-2" /><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3" /></svg><b>Santai-santai</b></div>
+          <div class="tile2" id="t_b"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#c9a063" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c8 0 14-6 14-14-8 0-14 6-14 14z" /><path d="M5 19 13 11" /></svg><b>Relax-relax</b></div>
+        </div>
+        <div class="pcard card chart" id="c_chart" style="top: 646px; height: 440px">
+          <div class="label">Rasa Gear CVT</div>
+          <div style="font-family: Montserrat; font-weight: 800; font-size: 34px; margin-top: 10px; width: 560px">Lancar, tanpa sentakan</div>
+          <svg width="560" height="250" viewBox="0 0 560 250" fill="none" style="margin-top: 22px">
+            <path d="M0 236 H560" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+            <path id="curve" d="M10 230 C 160 215, 330 140, 545 40" stroke="#e2c28a" stroke-width="7" stroke-linecap="round" />
+          </svg>
+          <div class="gearpic" id="gp"><img src="assets/gear_cvt.jpg" /><span>GEAR CVT</span></div>
+        </div>
+        <div class="rec" id="c_rec" style="top: 1112px">
+          <div class="ck"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#ecd3a0" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7" /></svg></div>
+          <div><div class="r1">PILIHAN KORANG</div><div class="r2">Gear CVT</div></div>
+          <div class="chipsr"><span>Saga Premium</span></div>
+        </div>
+      </div>
+
+      <!-- ================= S7 CTA ================= -->
+      <div id="s7" class="clip" data-start="43.85" data-duration="9.55" data-track-index="1">
+        <div class="abs" id="photo">
+          <img id="photoimg" src="assets/saga_photo.jpg" />
+          <div class="ov"></div>
+          <div class="txt">
+            <div class="label">Berminat nak miliki Saga?</div>
+            <h3>Saga mana yang<br /><span class="gold-text">sesuai</span> dengan korang?</h3>
+          </div>
+        </div>
+        <div class="bul" id="b1" style="top: 966px"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ecd3a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7" /></svg></i>Kami bantu pilih spek &amp; gear</div>
+        <div class="bul" id="b2" style="top: 1036px"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ecd3a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7" /></svg></i>Ikut cara pemanduan korang</div>
+        <div class="abs" id="btnglow"></div>
+        <div class="abs" id="btn"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#17120a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></svg>ISI FORM DI BAWAH</div>
+        <svg class="abs" id="chev" width="60" height="80" viewBox="0 0 60 80" fill="none" stroke="#c9a063" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path class="cv1" d="M10 12 30 30 50 12" /><path class="cv2" d="M10 40 30 58 50 40" /></svg>
+        <div class="abs" id="tap"></div>
+      </div>
+
+      <!-- ================= CAPTIONS ================= -->
+      <div id="capwrap" class="clip" data-start="0" data-duration="53.2" data-track-index="3">
+        <div id="captions"></div>
+      </div>
+
+      <!-- ================= S8 CLOSING ================= -->
+      <div id="s8" class="clip" data-start="52.75" data-duration="7.25" data-track-index="4">
+        <svg class="waves" width="1080" height="600" viewBox="0 0 1080 600" fill="none">
+          <path d="M-40 200 C 260 80, 760 80, 1120 190" stroke="rgba(185,139,72,0.35)" stroke-width="2" />
+          <path d="M-40 250 C 300 130, 720 130, 1120 240" stroke="rgba(35,38,44,0.08)" stroke-width="2" />
+          <path d="M-40 300 C 330 190, 700 190, 1120 290" stroke="rgba(35,38,44,0.05)" stroke-width="2" />
+        </svg>
+        <div id="logo">
+          <img id="lg_gold" src="assets/logo_mark_gold.png" />
+          <img id="lg_dark" src="assets/logo_mark_dark.png" />
+          <div class="shine" id="lg_shine"></div>
+          <img id="lg_salam" src="assets/logo_salam.png" />
+          <img id="lg_auto" src="assets/logo_auto.png" />
+          <img id="lg_tag" src="assets/logo_tag.png" />
+        </div>
+        <div class="abs g1" id="g1">Kami guide anda dari</div>
+        <div class="abs g2"><span class="gz" id="gA">A</span> <span id="gH">hingga</span> <span class="gz" id="gZ">Z</span></div>
+        <div class="abs loc" id="loc"><svg width="30" height="30" viewBox="0 0 24 24" fill="#ecd3a0"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" /></svg>Proses <b>seluruh Semenanjung</b> Malaysia</div>
+      </div>
+
+      <!-- ================= TRANSITION LAYERS ================= -->
+      <div id="tr" class="clip" data-start="0" data-duration="60" data-track-index="5" style="pointer-events: none">
+        <div class="abs" id="slash2"></div>
+        <div class="abs" id="slash"></div>
+        <div class="abs" id="flash"></div>
+      </div>
+    </div>
+
+    <script>
+      const CAPS = [{"s":0.0,"e":1.18,"words":[{"w":"Korang","s":0.0,"k":false},{"w":"tahu","s":0.34,"k":false},{"w":"tak","s":0.5,"k":false},{"w":"yang","s":0.74,"k":false}]},{"s":1.18,"e":3.08,"words":[{"w":"Saga","s":1.18,"k":true},{"w":"MC3","s":1.52,"k":true},{"w":"ni","s":2.16,"k":false},{"w":"datang","s":2.36,"k":false}]},{"s":3.08,"e":4.32,"words":[{"w":"dengan","s":3.08,"k":false},{"w":"dua","s":3.24,"k":false},{"w":"jenis","s":3.6,"k":false},{"w":"gear","s":4.1,"k":true}]},{"s":4.32,"e":4.98,"words":[{"w":"yang","s":4.32,"k":false},{"w":"berbeza?","s":4.52,"k":true}]},{"s":5.53,"e":7.31,"words":[{"w":"Kalau","s":5.53,"k":false},{"w":"korang","s":5.85,"k":false},{"w":"ambil","s":6.31,"k":false},{"w":"kereta","s":6.77,"k":false}]},{"s":7.31,"e":8.81,"words":[{"w":"Saga","s":7.31,"k":true},{"w":"MC3","s":7.63,"k":true},{"w":"spek","s":8.13,"k":false},{"w":"standard","s":8.49,"k":true}]},{"s":8.81,"e":10.57,"words":[{"w":"ataupun","s":8.81,"k":false},{"w":"eksekutif","s":9.77,"k":true}]},{"s":10.57,"e":12.01,"words":[{"w":"dia","s":10.57,"k":false},{"w":"datang","s":11.19,"k":false},{"w":"dengan","s":11.51,"k":false},{"w":"transmission","s":11.67,"k":false}]},{"s":12.01,"e":12.93,"words":[{"w":"4AT","s":12.01,"k":true}]},{"s":13.82,"e":15.840000000000002,"words":[{"w":"Tapi","s":13.82,"k":false},{"w":"kalau","s":14.0,"k":false},{"w":"korang","s":14.44,"k":false},{"w":"ambil","s":14.78,"k":false},{"w":"spek","s":15.12,"k":false},{"w":"premium","s":15.46,"k":true}]},{"s":16.02,"e":17.48,"words":[{"w":"dia","s":16.02,"k":false},{"w":"datang","s":16.64,"k":false},{"w":"dengan","s":17.06,"k":false},{"w":"gear","s":17.18,"k":true}]},{"s":17.48,"e":18.46,"words":[{"w":"jenis","s":17.48,"k":false},{"w":"CVT","s":17.94,"k":true}]},{"s":19.04,"e":21.22,"words":[{"w":"Jadi","s":19.04,"k":false},{"w":"mana","s":19.38,"k":false},{"w":"satu","s":20.06,"k":false},{"w":"lagi","s":20.32,"k":false}]},{"s":21.22,"e":21.58,"words":[{"w":"bagus?","s":21.22,"k":true}]},{"s":22.0,"e":23.46,"words":[{"w":"4AT","s":22.0,"k":true},{"w":"ke","s":22.78,"k":false},{"w":"CVT?","s":23.04,"k":true}]},{"s":24.06,"e":26.04,"words":[{"w":"Jawapan","s":24.06,"k":false},{"w":"dia","s":24.66,"k":false},{"w":"bergantung","s":24.84,"k":false},{"w":"kepada","s":25.82,"k":false}]},{"s":26.04,"e":27.32,"words":[{"w":"cara","s":26.04,"k":false},{"w":"pemanduan","s":26.38,"k":true},{"w":"korang","s":26.98,"k":false}]},{"s":27.62,"e":28.72,"words":[{"w":"Kalau","s":27.62,"k":false},{"w":"korang","s":27.78,"k":false},{"w":"yang","s":28.18,"k":false},{"w":"jenis","s":28.28,"k":false}]},{"s":28.72,"e":30.82,"words":[{"w":"kaki","s":28.72,"k":false},{"w":"lenjan","s":29.06,"k":true},{"w":"nakkan","s":29.44,"k":false},{"w":"kepuasan","s":30.2,"k":true}]},{"s":30.82,"e":31.92,"words":[{"w":"ketika","s":30.82,"k":false},{"w":"memandu","s":31.34,"k":false}]},{"s":31.94,"e":33.22,"words":[{"w":"korang","s":31.94,"k":false},{"w":"ambillah","s":32.86,"k":false}]},{"s":33.54,"e":35.32,"words":[{"w":"Kereta","s":33.54,"k":false},{"w":"yang","s":34.12,"k":false},{"w":"gunakan","s":34.36,"k":false},{"w":"gear","s":34.98,"k":true}]},{"s":35.32,"e":35.76,"words":[{"w":"4AT","s":35.32,"k":true}]},{"s":36.06,"e":37.34,"words":[{"w":"Tapi","s":36.06,"k":false},{"w":"kalau","s":36.4,"k":false},{"w":"korang","s":36.7,"k":false},{"w":"yang","s":37.2,"k":false}]},{"s":37.34,"e":39.24,"words":[{"w":"jenis","s":37.34,"k":false},{"w":"bawa","s":37.74,"k":false},{"w":"kereta","s":37.98,"k":false},{"w":"santai-santai","s":38.42,"k":true}]},{"s":39.24,"e":39.76,"words":[{"w":"relax-relax","s":39.24,"k":true}]},{"s":39.98,"e":40.94,"words":[{"w":"korang","s":39.98,"k":false},{"w":"boleh","s":40.42,"k":false},{"w":"consider","s":40.58,"k":false}]},{"s":41.34,"e":42.72,"words":[{"w":"Ambil","s":41.34,"k":false},{"w":"Saga","s":41.86,"k":true},{"w":"premium","s":42.04,"k":true},{"w":"yang","s":42.42,"k":false}]},{"s":42.72,"e":43.64,"words":[{"w":"gunakan","s":42.72,"k":false},{"w":"CVT","s":43.14,"k":true}]},{"s":44.3,"e":45.84,"words":[{"w":"Jadi","s":44.3,"k":false},{"w":"kalau","s":44.7,"k":false},{"w":"korang","s":45.1,"k":false},{"w":"kat","s":45.48,"k":false},{"w":"luar","s":45.6,"k":false}]},{"s":45.84,"e":47.0,"words":[{"w":"sana","s":45.84,"k":false},{"w":"yang","s":45.98,"k":false},{"w":"mana","s":46.16,"k":false},{"w":"berminat","s":46.34,"k":false}]},{"s":47.0,"e":48.36,"words":[{"w":"nak","s":47.0,"k":false},{"w":"miliki","s":47.16,"k":false},{"w":"Saga","s":47.68,"k":true},{"w":"dan","s":47.9,"k":false}]},{"s":48.36,"e":49.3,"words":[{"w":"nak","s":48.36,"k":false},{"w":"tahu","s":48.6,"k":false},{"w":"Saga","s":48.82,"k":true},{"w":"mana","s":49.02,"k":false}]},{"s":49.3,"e":50.52,"words":[{"w":"yang","s":49.3,"k":false},{"w":"sesuai","s":49.56,"k":false},{"w":"dengan","s":49.9,"k":false},{"w":"korang","s":50.04,"k":false}]},{"s":51.02,"e":51.96,"words":[{"w":"Just","s":51.02,"k":false},{"w":"isi","s":51.22,"k":false},{"w":"form","s":51.4,"k":true},{"w":"yang","s":51.84,"k":false}]},{"s":51.96,"e":52.6,"words":[{"w":"ada","s":51.96,"k":false},{"w":"kat","s":52.1,"k":false},{"w":"bawah","s":52.26,"k":false}]}];
+      const tl = gsap.timeline({ paused: true });
+      const E = { o: "power3.out", i: "power2.in", io: "power2.inOut", b: "back.out(1.7)", x: "expo.out" };
+
+      // ---------- helpers ----------
+      const inUp = (sel, t, d = 0.5, y = 50, stagger = 0) =>
+        tl.fromTo(sel, { opacity: 0, y }, { opacity: 1, y: 0, duration: d, ease: E.o, stagger }, t);
+      const pop = (sel, t, d = 0.45) => tl.fromTo(sel, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: d, ease: E.b }, t);
+      const outUp = (sel, t, d = 0.3) => tl.to(sel, { opacity: 0, y: -40, filter: "blur(8px)", duration: d, ease: E.i }, t);
+      const slash = (t, dir = 1) => {
+        tl.fromTo("#slash", { x: dir > 0 ? 1350 : -1200, opacity: 1 }, { x: dir > 0 ? -1200 : 1350, duration: 0.6, ease: "power2.inOut" }, t);
+        tl.fromTo("#slash2", { x: dir > 0 ? 1450 : -1300, opacity: 1 }, { x: dir > 0 ? -1300 : 1450, duration: 0.66, ease: "power2.inOut" }, t + 0.03);
+      };
+
+      // init transition layers off-screen
+      tl.set(["#slash", "#slash2"], { x: 1500 }, 0);
+
+      // ---------- background ambience ----------
+      tl.fromTo("#glow", { x: -60, y: 0, scale: 1 }, { x: 80, y: 40, scale: 1.12, duration: 53.4, ease: "none" }, 0);
+      tl.fromTo("#glow2", { x: 0 }, { x: 160, duration: 53.4, ease: "none" }, 0);
+      tl.fromTo("#arcs", { x: 0 }, { x: -40, duration: 53.4, ease: "none" }, 0);
+
+      // ================= S1 HOOK (0 - 5.3) =================
+      tl.fromTo("#s1 .tag", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: E.o }, 0.0);
+      tl.fromTo("#s1 .h1", { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: E.o }, 0.02);
+      tl.fromTo("#s1 .car", { x: 900, opacity: 0, filter: "blur(14px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, ease: "expo.out" }, 0.05);
+      tl.fromTo("#s1 .shadow", { opacity: 0, scaleX: 0.4 }, { opacity: 1, scaleX: 1, duration: 0.9, ease: E.o }, 0.1);
+      tl.fromTo("#s1 .floor", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.9, ease: E.o }, 0.05);
+      tl.fromTo("#s1 .speed", { x: 700, opacity: 0 }, { x: -900, opacity: 1, duration: 0.9, ease: "power2.out", stagger: 0.06 }, 0.0);
+      tl.to("#s1 .speed", { opacity: 0, duration: 0.3 }, 0.8);
+      tl.to("#s1 .car", { x: -26, duration: 4.4, ease: "none" }, 0.95);
+      // SAGA MC3 slam
+      tl.fromTo("#s1 .h2", { opacity: 0, scale: 1.6, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.32, ease: "power4.out", transformOrigin: "left center" }, 1.16);
+      tl.fromTo("#s1", { x: 0 }, { keyframes: [{ x: -10, duration: 0.04 }, { x: 9, duration: 0.04 }, { x: -6, duration: 0.04 }, { x: 0, duration: 0.05 }] }, 1.44);
+      tl.fromTo("#flash", { opacity: 0.0 }, { keyframes: [{ opacity: 0.18, duration: 0.04 }, { opacity: 0, duration: 0.25 }] }, 1.16);
+      // 2 jenis gear
+      inUp("#s1 .sub", 2.4, 0.4, 24);
+      pop("#s1 .gchip.a", 3.22);
+      pop("#s1 .vs", 3.42, 0.3);
+      pop("#s1 .gchip.b", 3.58);
+      // stamp
+      tl.fromTo("#s1 .stamp", { opacity: 0, scale: 2.4, rotation: -14 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.22, ease: "power4.in" }, 4.4);
+      tl.fromTo("#s1 .chips", { y: 0 }, { keyframes: [{ y: 6, duration: 0.04 }, { y: -3, duration: 0.05 }, { y: 0, duration: 0.05 }] }, 4.62);
+      // out
+      outUp(["#s1 .tag", "#s1 .h1", "#s1 .h2", "#s1 .sub", "#s1 .chips", "#s1 .stamp"], 5.2, 0.3);
+      tl.to(["#s1 .car", "#s1 .shadow", "#s1 .floor"], { x: -1100, opacity: 0, duration: 0.45, ease: E.i }, 5.15);
+
+      // ================= HEADER =================
+      tl.fromTo("#header", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: E.o }, 5.3);
+      tl.to("#header", { opacity: 0, duration: 0.3 }, 52.75);
+
+      // ================= S2 VARIANTS (5.3 - 18.9) =================
+      tl.fromTo("#s2 .sec .num", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: E.o }, 5.4);
+      tl.fromTo("#s2 .sec .meta", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: E.o }, 5.5);
+      tl.fromTo("#s2 .sec .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: E.o }, 5.55);
+      inUp(["#rowS", "#rowE", "#rowP"], 5.65, 0.5, 60, 0.18);
+      tl.set("#s2 .gc", { opacity: 0, scale: 0.5 }, 0);
+      tl.set(["#det4", "#detC"], { opacity: 0 }, 0);
+      // standard
+      tl.to("#rowS .hl", { opacity: 1, duration: 0.3 }, 8.45);
+      tl.to("#rowS .gc", { opacity: 1, scale: 1, duration: 0.4, ease: E.b }, 8.5);
+      // executive
+      tl.to("#rowE .hl", { opacity: 1, duration: 0.3 }, 9.75);
+      tl.to("#rowE .gc", { opacity: 1, scale: 1, duration: 0.4, ease: E.b }, 9.8);
+      // detail 4AT
+      tl.fromTo("#det4", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: E.o }, 11.7);
+      tl.fromTo("#det4 .tiles i", { opacity: 0.25 }, { opacity: 1, duration: 0.01, stagger: 0.18 }, 12.05);
+      tl.to("#det4 .tiles i", { backgroundColor: "rgba(201,160,99,0.9)", color: "#17120a", borderColor: "rgba(236,211,160,1)", duration: 0.12, stagger: 0.18 }, 12.05);
+      // premium
+      tl.to(["#rowS", "#rowE"], { opacity: 0.38, duration: 0.4 }, 13.85);
+      tl.to(["#rowS .hl", "#rowE .hl"], { opacity: 0, duration: 0.4 }, 13.85);
+      tl.to("#rowP .hl", { opacity: 1, duration: 0.3 }, 15.42);
+      tl.to("#rowP .gc", { opacity: 1, scale: 1, duration: 0.4, ease: E.b }, 15.5);
+      tl.to("#det4", { opacity: 0, y: -40, duration: 0.35, ease: E.i }, 17.6);
+      tl.fromTo("#detC", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: E.o }, 17.9);
+      tl.fromTo("#detC .knob", { x: 0 }, { x: 308, duration: 0.9, ease: "sine.inOut" }, 18.1);
+      // out
+      outUp(["#s2 .sec", "#rowS", "#rowE", "#rowP", "#detC"], 18.85, 0.32);
+
+      // ================= S3 VS (19.0 - 23.9) =================
+      tl.fromTo("#s3 .q1", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: E.o }, 19.02);
+      tl.fromTo("#s3 .q2", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.5, ease: E.b }, 19.3);
+      tl.fromTo("#pA", { opacity: 0, x: -500 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 19.2);
+      tl.fromTo("#pB", { opacity: 0, x: 500 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 19.2);
+      tl.fromTo("#vsc", { opacity: 0, scale: 0, rotation: -90 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: E.b }, 19.55);
+      tl.set("#vsring", { opacity: 0 }, 0);
+      tl.fromTo("#vsring", { opacity: 0.9, scale: 0.7 }, { opacity: 0, scale: 1.6, duration: 1.1, ease: E.o, repeat: 3, repeatDelay: 0.1, immediateRender: false }, 19.7);
+      tl.to("#pA .hl", { opacity: 1, duration: 0.2 }, 21.98);
+      tl.fromTo("#pA", { scale: 1 }, { scale: 1.04, duration: 0.25, ease: E.o }, 21.98);
+      tl.to("#pA .hl", { opacity: 0, duration: 0.25 }, 22.95);
+      tl.to("#pA", { scale: 1, duration: 0.25 }, 22.95);
+      tl.to("#pB .hl", { opacity: 1, duration: 0.2 }, 23.02);
+      tl.fromTo("#pB", { scale: 1 }, { scale: 1.04, duration: 0.25, ease: E.o }, 23.02);
+      outUp(["#s3 .q1", "#s3 .q2", "#pA", "#pB", "#vsc"], 23.75, 0.3);
+
+      // ================= S4 DEPENDS (23.9 - 27.4) =================
+      tl.fromTo("#wheel", { opacity: 0, scale: 0.6, rotation: -60 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: "expo.out", transformOrigin: "50% 50%" }, 23.9);
+      tl.to("#wheel", { keyframes: [{ rotation: -18, duration: 0.9, ease: "sine.inOut" }, { rotation: 14, duration: 1.1, ease: "sine.inOut" }, { rotation: 0, duration: 0.8, ease: "sine.inOut" }] }, 24.7);
+      tl.fromTo("#s4 .l1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: E.o }, 24.05);
+      tl.fromTo("#s4 .l2", { opacity: 0, scale: 0.8, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: E.o }, 26.0);
+      tl.fromTo("#s4 .l3", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: E.o }, 26.95);
+      pop("#pl1", 26.45);
+      pop("#pl2", 26.65);
+
+      // ---- slash transition into 01 ----
+      slash(27.2, 1);
+      tl.to("#s4", { opacity: 0, duration: 0.12 }, 27.42);
+
+      // ================= S5 LENJAN (27.45 - 35.9) =================
+      tl.fromTo("#s5 .sec .num", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: E.x }, 27.5);
+      tl.fromTo("#s5 .sec .meta", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: E.o }, 27.6);
+      tl.fromTo("#s5 .sec .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: E.o }, 27.65);
+      inUp("#l_prof", 28.7, 0.5, 60);
+      tl.fromTo("#l_meter", { scaleX: 0 }, { scaleX: 0.92, duration: 1.0, ease: "power2.out" }, 30.2);
+      inUp("#l_chart", 31.9, 0.5, 60);
+      tl.fromTo("#saw", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 2.0, ease: "power1.inOut" }, 32.3);
+      tl.fromTo("#l_rec", { opacity: 0, y: 60, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: E.b }, 35.28);
+      outUp(["#s5 .sec", "#l_prof", "#l_chart", "#l_rec"], 35.85, 0.3);
+
+      // ================= S6 SANTAI (36.0 - 43.9) =================
+      tl.fromTo("#s6 .sec .num", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: E.x }, 36.05);
+      tl.fromTo("#s6 .sec .meta", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: E.o }, 36.15);
+      tl.fromTo("#s6 .sec .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: E.o }, 36.2);
+      pop("#t_a", 38.4);
+      pop("#t_b", 39.22);
+      inUp("#c_chart", 39.95, 0.5, 60);
+      tl.fromTo("#curve", { strokeDasharray: 700, strokeDashoffset: 700 }, { strokeDashoffset: 0, duration: 1.4, ease: "sine.inOut" }, 40.2);
+      tl.fromTo("#gp", { opacity: 0, scale: 0.8, rotation: 6 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.5, ease: E.b }, 41.85);
+      tl.fromTo("#c_rec", { opacity: 0, y: 60, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: E.b }, 43.1);
+      outUp(["#s6 .sec", "#t_a", "#t_b", "#c_chart", "#c_rec"], 43.85, 0.3);
+
+      // ================= S7 CTA (44.0 - 52.8) =================
+      tl.fromTo("#photo", { opacity: 0, y: 80, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: E.x }, 44.0);
+      tl.fromTo("#photoimg", { scale: 1.12, x: 40 }, { scale: 1.0, x: -20, duration: 9.0, ease: "none" }, 44.0);
+      tl.fromTo("#photo .txt", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: E.o }, 44.5);
+      tl.fromTo("#b1", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: E.o }, 47.1);
+      tl.fromTo("#b2", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.45, ease: E.o }, 49.5);
+      tl.fromTo("#btn", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 50.95);
+      tl.set("#btnglow", { opacity: 0 }, 0);
+      tl.fromTo("#btnglow", { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.25, duration: 0.9, ease: E.o, repeat: 1, repeatDelay: 0.05, immediateRender: false }, 51.35);
+      tl.fromTo("#chev", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 }, 51.3);
+      tl.to("#chev", { y: 14, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 3 }, 51.6);
+      tl.set("#tap", { opacity: 0 }, 0);
+      tl.fromTo("#tap", { opacity: 0, scale: 1.6 }, { immediateRender: false, keyframes: [{ opacity: 1, scale: 0.9, duration: 0.18 }, { opacity: 0, scale: 1.8, duration: 0.4 }] }, 51.7);
+      tl.fromTo("#btn", { scale: 1 }, { keyframes: [{ scale: 0.95, duration: 0.08 }, { scale: 1, duration: 0.18 }] }, 51.82);
+
+      // ================= S8 CLOSING (52.75 - 60) =================
+      slash(52.5, 1);
+      tl.fromTo("#s8", { clipPath: "polygon(110% 0%, 140% 0%, 140% 100%, 140% 100%)" }, { clipPath: "polygon(-40% 0%, 140% 0%, 140% 100%, -40% 100%)", duration: 0.55, ease: "power2.inOut" }, 52.62);
+      // logo build
+      tl.fromTo("#lg_gold", { opacity: 0, x: -120, clipPath: "inset(0% 100% 0% 0%)" }, { opacity: 1, x: 0, clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "expo.out" }, 52.95);
+      tl.fromTo("#lg_dark", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 53.15);
+      tl.fromTo("#lg_salam", { opacity: 0, clipPath: "inset(0% 50% 0% 50%)" }, { opacity: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power3.out" }, 53.5);
+      tl.fromTo("#lg_auto", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: E.o }, 53.8);
+      tl.fromTo("#lg_tag", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "none" }, 54.0);
+      tl.fromTo("#lg_shine", { backgroundPosition: "100% 0" }, { backgroundPosition: "0% 0", duration: 0.9, ease: "power1.inOut" }, 54.05);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.035, duration: 7.0, ease: "none" }, 53.0);
+      // guide A-Z
+      tl.fromTo("#g1", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: E.o }, 53.15);
+      tl.fromTo("#gA", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: E.b }, 54.18);
+      tl.fromTo("#gH", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, ease: E.o }, 54.38);
+      tl.fromTo("#gZ", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: E.b }, 54.64);
+      tl.fromTo("#loc", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: E.b }, 56.05);
+
+      // ================= CAPTIONS =================
+      const capRoot = document.getElementById("captions");
+      CAPS.forEach((g, gi) => {
+        const div = document.createElement("div");
+        div.className = "cap";
+        g.words.forEach((w) => {
+          const sp = document.createElement("span");
+          sp.textContent = w.w;
+          div.appendChild(sp);
+        });
+        capRoot.appendChild(div);
+        const next = CAPS[gi + 1];
+        const start = Math.max(0, g.s - 0.06);
+        let end = next ? Math.min(next.s - 0.06, g.e + 0.9) : g.e + 0.6;
+        end = Math.min(end, 52.7);
+        tl.fromTo(div, { opacity: 0, y: 16, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.16, ease: E.o }, start);
+        tl.to(div, { opacity: 0, duration: 0.08 }, Math.max(start + 0.2, end - 0.08));
+        Array.from(div.children).forEach((sp, wi) => {
+          const w = g.words[wi];
+          tl.to(sp, { color: w.k ? "#e2c28a" : "#f4f1ea", duration: 0.06 }, Math.max(start, w.s - 0.02));
+          if (w.k) tl.fromTo(sp, { scale: 1 }, { keyframes: [{ scale: 1.12, duration: 0.08 }, { scale: 1, duration: 0.14 }] }, Math.max(start, w.s - 0.02));
+        });
+      });
+
+      tl.set({}, {}, 60);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
