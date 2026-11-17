@@ -1,0 +1,23 @@
+{
+  "name": "salam-4kos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "hyperframes preview",
+    "check": "hyperframes check",
+    "render": "hyperframes render",
+    "snapshot": "hyperframes snapshot"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/inter": "5.1.0",
+    "@fontsource/montserrat": "5.1.0",
+    "gsap": "3.12.5",
+    "hyperframes": "0.9.9"
+  },
+  "private": true,
+  "type": "module"
+}
