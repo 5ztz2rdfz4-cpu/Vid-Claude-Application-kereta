@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Mont"; font-weight: 500; src: url(assets/fonts/montserrat-latin-500-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 600; src: url(assets/fonts/montserrat-latin-600-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 700; src: url(assets/fonts/montserrat-latin-700-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 800; src: url(assets/fonts/montserrat-latin-800-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 900; src: url(assets/fonts/montserrat-latin-900-normal.woff2) format("woff2"); }
+      :root {
+        --ground: #0b0c0f;
+        --ink: #ffffff;
+        --mute: rgba(255, 255, 255, 0.62);
+        --gold: #d2aa6a;
+        --gold-hi: #f3d9a4;
+        --gold-lo: #9a7136;
+        --cream: #f6f1e7;
+        --dark: #1c1e24;
+        --font-display: "Mont", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: var(--font-display); color: var(--ink); }
+      .clip { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      .gold-text {
+        background: linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 48%, var(--gold-lo) 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .goldc { color: var(--gold); }
+
+      /* ---------- background ---------- */
+      #bg { background:
+          radial-gradient(ellipse 900px 700px at 50% -8%, rgba(210, 170, 106, 0.22), transparent 70%),
+          radial-gradient(ellipse 700px 600px at 100% 100%, rgba(210, 170, 106, 0.08), transparent 70%),
+          linear-gradient(180deg, #14151a 0%, #0c0d10 55%, #0a0a0c 100%); }
+      #grid { background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.4px, transparent 1.6px); background-size: 34px 34px;
+        -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 60%, transparent 95%); mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 60%, transparent 95%); opacity: 0.5; }
+      #waves { left: -200px; top: 1420px; width: 1480px; height: 360px; }
+      #glow { left: 140px; top: -260px; width: 800px; height: 800px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(243, 217, 164, 0.16), transparent 65%); }
+
+      /* ---------- header ---------- */
+      #hdr { left: 72px; top: 150px; display: flex; align-items: center; gap: 18px; }
+      #hdr .mark { position: relative; width: 112px; height: 51px; }
+      #hdr .mark img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      #hdr .wm b { display: block; font-size: 25px; font-weight: 800; letter-spacing: 0.32em; }
+      #hdr .wm i { display: block; font-style: normal; font-size: 13px; font-weight: 600; letter-spacing: 0.52em; color: var(--gold); margin-top: 3px; }
+      #hdrline { left: 400px; top: 176px; width: 608px; height: 1px; background: linear-gradient(90deg, rgba(210,170,106,.6), transparent); transform-origin: left center; }
+
+      /* ---------- common ---------- */
+      .pill { display: inline-flex; align-items: center; gap: 12px; padding: 12px 24px; border-radius: 999px;
+        border: 1.5px solid rgba(210, 170, 106, 0.55); background: rgba(210, 170, 106, 0.1);
+        font-size: 22px; font-weight: 700; letter-spacing: 0.26em; color: var(--gold-hi); white-space: nowrap; }
+      .pill svg { width: 22px; height: 22px; }
+      .card { background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025));
+        border: 1.5px solid rgba(255, 255, 255, 0.09); border-radius: 30px; box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45); }
+      .line-word { display: inline-block; }
+
+      /* ---------- S1 hook ---------- */
+      #s1pill { position: absolute; left: 72px; top: 300px; }
+      #h1a { left: 72px; top: 384px; font-size: 90px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.02; white-space: nowrap; }
+      #h1b { left: 72px; top: 500px; font-size: 60px; font-weight: 700; color: var(--mute); white-space: nowrap; }
+      #h1c { left: 72px; top: 578px; font-size: 84px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.05; white-space: nowrap; }
+      #car { left: 120px; top: 830px; width: 840px; height: 330px; }
+      #road { left: 72px; top: 1150px; width: 936px; height: 3px; background: linear-gradient(90deg, transparent, rgba(210,170,106,.7), transparent); }
+      #speed { left: -40px; top: 930px; width: 360px; height: 200px; }
+      #speed i { position: absolute; height: 4px; border-radius: 4px; background: linear-gradient(90deg, transparent, var(--gold)); }
+
+      /* ---------- S2 ---------- */
+      #big3 { left: 52px; top: 250px; font-size: 400px; font-weight: 900; line-height: 1; letter-spacing: -0.04em; }
+      #s2t { left: 340px; top: 340px; }
+      #s2t .a { font-size: 28px; font-weight: 700; letter-spacing: 0.3em; color: var(--gold); }
+      #s2t .b { font-size: 92px; font-weight: 900; line-height: 0.98; margin-top: 10px; }
+      #s2t .c { font-size: 34px; font-weight: 600; color: var(--mute); margin-top: 14px; }
+      #s2line { left: 72px; top: 720px; width: 936px; height: 2px; background: linear-gradient(90deg, var(--gold), rgba(210,170,106,.08)); transform-origin: left; }
+      .mini { position: absolute; top: 770px; width: 300px; height: 420px; overflow: hidden; padding: 0; }
+      .mini .ph { position: absolute; left: 0; top: 0; width: 100%; height: 250px; overflow: hidden; border-radius: 28px 28px 0 0; }
+      .mini .ph img { width: 100%; height: 100%; object-fit: cover; }
+      .mini .n { position: absolute; left: 24px; top: 272px; font-size: 22px; font-weight: 700; letter-spacing: 0.24em; color: var(--gold); }
+      .mini .br { position: absolute; left: 24px; top: 308px; font-size: 26px; font-weight: 600; color: var(--mute); }
+      .mini .md { position: absolute; left: 24px; top: 342px; font-size: 40px; font-weight: 800; white-space: nowrap; }
+
+      /* ---------- S3 ---------- */
+      #s3pill { position: absolute; left: 72px; top: 300px; }
+      #s3h { left: 72px; top: 380px; font-size: 84px; font-weight: 900; line-height: 1.04; letter-spacing: -0.02em; }
+      #s3card { left: 72px; top: 610px; width: 936px; height: 620px; }
+      .stat { position: absolute; top: 60px; width: 420px; }
+      .stat .l { font-size: 22px; font-weight: 700; letter-spacing: 0.3em; color: var(--mute); }
+      .stat .v { font-size: 136px; font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; margin-top: 8px; white-space: nowrap; }
+      .stat .v small { font-size: 54px; font-weight: 800; letter-spacing: 0; margin-right: 6px; }
+      #dash { left: 446px; top: 170px; width: 46px; height: 8px; border-radius: 6px; background: rgba(255,255,255,.35); }
+      #track { left: 56px; top: 360px; width: 824px; height: 18px; border-radius: 18px; background: rgba(255, 255, 255, 0.08); }
+      #fill { left: 385.6px; top: 360px; width: 164.8px; height: 18px; border-radius: 18px; background: linear-gradient(90deg, var(--gold-lo), var(--gold-hi)); box-shadow: 0 0 30px rgba(210,170,106,.6); transform-origin: left center; }
+      .knob { top: 345px; width: 48px; height: 48px; margin-left: -24px; border-radius: 50%; background: #fff; border: 8px solid var(--gold); box-shadow: 0 6px 20px rgba(0,0,0,.5); }
+      .tick { top: 414px; font-size: 22px; font-weight: 600; color: rgba(255,255,255,.4); transform: translateX(-50%); white-space: nowrap; }
+      #permonth { left: 56px; top: 500px; }
+      #permonth .pill { font-size: 22px; }
+
+      /* ---------- car scenes ---------- */
+      .num { position: absolute; left: 60px; top: 262px; font-size: 230px; font-weight: 900; line-height: 1; letter-spacing: -0.05em; }
+      .meta { position: absolute; left: 400px; top: 300px; }
+      .meta .k { font-size: 24px; font-weight: 700; letter-spacing: 0.3em; color: var(--gold); }
+      .meta .dashes { display: flex; gap: 8px; margin-top: 14px; }
+      .meta .dashes i { width: 46px; height: 7px; border-radius: 6px; background: rgba(255,255,255,.18); }
+      .meta .dashes i.on { background: var(--gold); }
+      .meta .brand { font-size: 44px; font-weight: 600; color: var(--mute); margin-top: 22px; line-height: 1; }
+      .meta .model { font-size: 82px; font-weight: 900; line-height: 1.04; letter-spacing: -0.02em; white-space: nowrap; }
+      .divider { position: absolute; left: 72px; top: 548px; width: 936px; height: 2px; background: linear-gradient(90deg, var(--gold), rgba(210,170,106,.05)); transform-origin: left; }
+      .photo { position: absolute; left: 72px; top: 586px; width: 936px; height: 440px; border-radius: 32px; overflow: hidden;
+        border: 1.5px solid rgba(255,255,255,.12); box-shadow: 0 40px 80px rgba(0,0,0,.55); }
+      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .photo .shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(10,10,12,.75) 100%); }
+      .photo .chip { position: absolute; left: 30px; bottom: 28px; padding: 12px 24px; border-radius: 999px; font-size: 24px; font-weight: 800; letter-spacing: 0.22em;
+        background: rgba(12,12,14,.66); border: 1.5px solid rgba(243,217,164,.6); color: var(--gold-hi); }
+      .spec { position: absolute; top: 1052px; width: 459px; height: 196px; }
+      .spec .ic { position: absolute; left: 28px; top: 30px; width: 64px; height: 64px; border-radius: 18px; background: rgba(210,170,106,.14); border: 1.5px solid rgba(210,170,106,.4); display: grid; place-items: center; }
+      .spec .ic svg { width: 36px; height: 36px; }
+      .spec .lb { position: absolute; left: 110px; top: 32px; font-size: 22px; font-weight: 700; letter-spacing: 0.26em; color: var(--mute); }
+      .spec .sub { position: absolute; left: 110px; top: 64px; font-size: 22px; font-weight: 600; color: rgba(255,255,255,.45); white-space: nowrap; }
+      .spec .val { position: absolute; left: 28px; top: 112px; font-size: 62px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+      .spec .val small { font-size: 32px; font-weight: 800; color: var(--gold); margin-left: 4px; letter-spacing: 0; }
+      .spec .val .sep { color: rgba(255,255,255,.3); font-weight: 600; margin: 0 10px; }
+      .spec .val span { display: inline-block; }
+      .gpills { position: absolute; left: 28px; top: 112px; display: flex; gap: 14px; }
+      .gp { padding: 8px 24px; border-radius: 16px; font-size: 40px; font-weight: 900; border: 2px solid rgba(255,255,255,.14); color: rgba(255,255,255,.35); background: rgba(255,255,255,.03); }
+      .gp-tag { position: absolute; top: 130px; left: 190px; font-size: 21px; font-weight: 700; color: var(--gold); letter-spacing: .12em; white-space: nowrap; }
+
+      #slash { left: -900px; top: -300px; width: 520px; height: 2600px;
+        background: linear-gradient(90deg, rgba(243,217,164,0), var(--gold-hi) 30%, var(--gold) 70%, rgba(154,113,54,0)); }
+
+      /* ---------- S7 table ---------- */
+      #s7pill { position: absolute; left: 72px; top: 300px; }
+      #s7h { left: 72px; top: 378px; font-size: 68px; font-weight: 900; line-height: 1.06; letter-spacing: -0.02em; white-space: nowrap; }
+      #tbl { left: 72px; top: 600px; width: 936px; height: 620px; }
+      .col { position: absolute; top: 26px; width: 236px; text-align: center; }
+      .col .th { width: 200px; height: 120px; margin: 0 auto; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(255,255,255,.12); }
+      .col .th img { width: 100%; height: 100%; object-fit: cover; }
+      .col .nm { font-size: 30px; font-weight: 800; margin-top: 14px; white-space: nowrap; }
+      .col .nb { font-size: 18px; font-weight: 700; letter-spacing: .26em; color: var(--gold); margin-top: 4px; }
+      .row { position: absolute; left: 24px; width: 888px; height: 104px; border-top: 1.5px solid rgba(255,255,255,.08); }
+      .row .rl { position: absolute; left: 6px; top: 40px; font-size: 19px; font-weight: 700; letter-spacing: .2em; color: var(--mute); }
+      .row .c { position: absolute; top: 32px; width: 236px; text-align: center; font-size: 31px; font-weight: 800; white-space: nowrap; }
+      .colhi { position: absolute; top: 12px; width: 236px; height: 596px; border-radius: 24px; border: 2px solid rgba(210,170,106,0); }
+
+      /* ---------- S8 CTA ---------- */
+      #ctaPhoto { left: 72px; top: 300px; width: 936px; height: 560px; border-radius: 34px; overflow: hidden; border: 1.5px solid rgba(255,255,255,.12); box-shadow: 0 40px 90px rgba(0,0,0,.6); }
+      #ctaPhoto .trio { position: absolute; inset: 0; }
+      #ctaPhoto .trio div { position: absolute; top: 0; height: 100%; width: 312px; overflow: hidden; }
+      #ctaPhoto .trio img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      #ctaPhoto .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,12,.05) 25%, rgba(10,10,12,.94) 100%); }
+      #ctaPhoto .k { position: absolute; left: 44px; bottom: 190px; font-size: 24px; font-weight: 800; letter-spacing: .3em; color: var(--gold-hi); }
+      #ctaPhoto .t1 { position: absolute; left: 44px; bottom: 100px; font-size: 64px; font-weight: 900; line-height: 1; }
+      #ctaPhoto .t2 { position: absolute; left: 44px; bottom: 30px; font-size: 64px; font-weight: 900; line-height: 1.05; white-space: nowrap; }
+      #btn { left: 140px; top: 916px; width: 800px; height: 128px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 22px;
+        background: linear-gradient(180deg, #f6dfae, var(--gold) 60%, #b48a4a); color: #1a150d; font-size: 46px; font-weight: 900; letter-spacing: .04em; white-space: nowrap;
+        box-shadow: 0 0 0 2px rgba(255,236,196,.5) inset, 0 24px 60px rgba(210,170,106,.4); }
+      #btn svg { width: 44px; height: 44px; }
+      #btnGlow { left: 100px; top: 880px; width: 880px; height: 200px; border-radius: 999px; background: radial-gradient(ellipse, rgba(243,217,164,.45), transparent 70%); }
+      #ripple { left: 650px; top: 990px; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; border: 4px solid rgba(255,255,255,.9); opacity: 0; }
+      #finger { left: 630px; top: 970px; width: 90px; height: 90px; opacity: 0; }
+      #chev { left: 510px; top: 1066px; width: 60px; height: 120px; }
+      .chk { position: absolute; top: 1210px; display: flex; align-items: center; gap: 12px; padding: 14px 26px; border-radius: 999px; font-size: 28px; font-weight: 700; white-space: nowrap;
+        background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.12); }
+      .chk b { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; }
+      .chk b svg { width: 20px; height: 20px; }
+
+      /* ---------- closing ---------- */
+      #wipe { left: 540px; top: 980px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: var(--cream); transform: scale(0); }
+      #s9 { background: radial-gradient(ellipse 760px 900px at 50% 46%, #fffdf8 0%, #f6f0e4 55%, #e9dfcc 100%); }
+      #s9 .lg { position: absolute; left: 50%; }
+      #lgS, #lgA, #lgShine { top: 560px; width: 680px; height: 307px; margin-left: -340px; }
+      #lgSalam { top: 905px; width: 760px; height: 95px; margin-left: -380px; }
+      #lgAuto, #lgLines { top: 1012px; width: 760px; height: 55px; margin-left: -380px; }
+      #lgTag { top: 1092px; width: 640px; height: 26px; margin-left: -320px; }
+      #lgShine { -webkit-mask: url(assets/icon_full.png) center / 100% 100% no-repeat; mask: url(assets/icon_full.png) center / 100% 100% no-repeat; overflow: hidden; }
+      #lgShine i { position: absolute; top: -60px; left: -220px; width: 130px; height: 430px; transform: rotate(20deg); background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent); }
+      #kami { left: 0; width: 1080px; top: 1200px; text-align: center; font-size: 34px; font-weight: 700; color: #3b3a3d; }
+      #az { left: 0; width: 1080px; top: 1252px; text-align: center; font-size: 68px; font-weight: 900; color: var(--dark); }
+      #az span { display: inline-block; }
+      #az .g { color: #b98d4a; }
+      #s9waves { left: -200px; top: 1430px; width: 1480px; height: 360px; }
+      #s9line { left: 390px; top: 1170px; width: 300px; height: 2px; background: linear-gradient(90deg, transparent, #c9a063, transparent); }
+
+      /* ---------- captions ---------- */
+      #caps { left: 60px; top: 1318px; width: 960px; height: 170px; }
+      .cap { position: absolute; left: 0; top: 0; width: 960px; text-align: center; font-size: 54px; font-weight: 800; line-height: 1.18; letter-spacing: -0.01em; opacity: 0;
+        text-shadow: 0 4px 24px rgba(0,0,0,.6); }
+      .cap span { display: inline-block; margin: 0 7px; color: rgba(255,255,255,.28); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60" data-width="1080" data-height="1920">
+      <!-- ============ BACKGROUND (persistent) ============ -->
+      <div id="bgwrap" class="clip" data-start="0" data-duration="60" data-track-index="0">
+        <div id="bg" class="abs" style="inset:0"></div>
+        <div id="grid" class="abs" style="inset:0"></div>
+        <div id="glow" class="abs"></div>
+        <svg id="waves" class="abs" viewBox="0 0 1480 360" fill="none">
+          <path d="M0 200 C 250 120, 480 300, 740 200 S 1230 100, 1480 190" stroke="rgba(210,170,106,.32)" stroke-width="2"/>
+          <path id="wv2" d="M0 240 C 260 170, 520 330, 760 240 S 1250 150, 1480 230" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+          <path d="M0 160 C 300 90, 500 250, 760 170 S 1200 60, 1480 150" stroke="rgba(210,170,106,.14)" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <!-- ============ HEADER ============ -->
+      <div id="hdrwrap" class="clip" data-start="0" data-duration="53.95" data-track-index="1">
+        <div id="hdr" class="abs">
+          <div class="mark"><img src="assets/icon_gold.png" alt="" /><img src="assets/icon_light.png" alt="" /></div>
+          <div class="wm"><b>SALAM</b><i>AUTOMOBILE</i></div>
+        </div>
+        <div id="hdrline" class="abs"></div>
+      </div>
+
+      <!-- ============ S1 HOOK ============ -->
+      <div id="s1" class="clip" data-start="0" data-duration="3.62" data-track-index="2">
+        <div class="pill" id="s1pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg>
+          PANDUAN FIRST CAR
+        </div>
+        <div id="h1a" class="abs"><span class="line-word">Baru</span> <span class="line-word">start</span> <span class="line-word">kerja?</span></div>
+        <div id="h1b" class="abs"><span class="line-word">&amp;</span> <span class="line-word">perlukan</span> <span class="line-word">kereta</span></div>
+        <div id="h1c" class="abs"><span class="line-word gold-text">UNTUK</span> <span class="line-word gold-text">BERGERAK?</span></div>
+        <div id="speed" class="abs">
+          <i style="left:0;top:20px;width:300px"></i><i style="left:60px;top:70px;width:240px"></i><i style="left:20px;top:130px;width:280px"></i><i style="left:110px;top:175px;width:190px"></i>
+        </div>
+        <svg id="car" class="abs" viewBox="0 0 840 330">
+          <defs>
+            <linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf6ea"/><stop offset=".55" stop-color="#ece3cf"/><stop offset="1" stop-color="#cfc3a8"/></linearGradient>
+            <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3f4a"/><stop offset="1" stop-color="#1b1e25"/></linearGradient>
+            <radialGradient id="shadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="rgba(0,0,0,.65)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          </defs>
+          <ellipse cx="420" cy="296" rx="380" ry="26" fill="url(#shadow)"/>
+          <path d="M60 232 C 56 196, 70 176, 110 170 L 238 160 C 280 120, 330 86, 410 82 L 540 82 C 600 84, 640 120, 690 158 L 770 170 C 800 176, 806 204, 800 236 L 792 262 L 70 262 Z" fill="url(#body)"/>
+          <path d="M262 160 C 300 124, 340 104, 410 102 L 470 102 L 476 160 Z" fill="url(#glass)"/>
+          <path d="M492 102 L 540 102 C 584 104, 616 128, 652 160 L 498 160 Z" fill="url(#glass)"/>
+          <path d="M70 214 L 800 214" stroke="#d2aa6a" stroke-width="5"/>
+          <path d="M484 104 L 484 252 M 300 170 L 300 252" stroke="rgba(0,0,0,.18)" stroke-width="2.5"/>
+          <rect x="420" y="186" width="34" height="7" rx="3" fill="rgba(0,0,0,.35)"/><rect x="610" y="186" width="34" height="7" rx="3" fill="rgba(0,0,0,.35)"/>
+          <path d="M770 178 L 798 186 L 796 200 L 768 196 Z" fill="#fff3c9"/>
+          <path d="M64 186 L 88 182 L 88 200 L 62 202 Z" fill="#c0392b"/>
+          <g id="w1"><circle cx="196" cy="258" r="50" fill="#16171b"/><circle cx="196" cy="258" r="30" fill="#c9c1ae"/><circle cx="196" cy="258" r="10" fill="#6d6655"/><path d="M196 230 L196 286 M168 258 L224 258 M176 238 L216 278 M216 238 L176 278" stroke="#8f8774" stroke-width="4"/></g>
+          <g id="w2"><circle cx="652" cy="258" r="50" fill="#16171b"/><circle cx="652" cy="258" r="30" fill="#c9c1ae"/><circle cx="652" cy="258" r="10" fill="#6d6655"/><path d="M652 230 L652 286 M624 258 L680 258 M632 238 L672 278 M672 238 L632 278" stroke="#8f8774" stroke-width="4"/></g>
+        </svg>
+        <div id="road" class="abs"></div>
+      </div>
+
+      <!-- ============ S2 3 MODELS ============ -->
+      <div id="s2" class="clip" data-start="3.62" data-duration="3.24" data-track-index="2">
+        <div id="big3" class="abs gold-text">3</div>
+        <div id="s2t" class="abs">
+          <div class="a">PILIHAN TERBAIK</div>
+          <div class="b">Model<br />Kereta</div>
+          <div class="c">untuk first car korang</div>
+        </div>
+        <div id="s2line" class="abs"></div>
+        <div class="mini card" id="m1" style="left:72px"><div class="ph"><img src="assets/saga.jpg" alt="" style="object-position:40% 60%" /></div><div class="n">01</div><div class="br">Proton</div><div class="md">Saga MC3</div></div>
+        <div class="mini card" id="m2" style="left:390px"><div class="ph"><img src="assets/axia.jpg" alt="" style="object-position:45% 55%" /></div><div class="n">02</div><div class="br">Perodua</div><div class="md">Axia</div></div>
+        <div class="mini card" id="m3" style="left:708px"><div class="ph"><img src="assets/bezza.jpg" alt="" style="object-position:55% 60%" /></div><div class="n">03</div><div class="br">Perodua</div><div class="md">Bezza</div></div>
+      </div>
+
+      <!-- ============ S3 BUDGET ============ -->
+      <div id="s3" class="clip" data-start="6.86" data-duration="4.6" data-track-index="2">
+        <div class="pill" id="s3pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          BAJET BULANAN
+        </div>
+        <div id="s3h" class="abs">Range bulanan<br /><span class="gold-text">mampu milik</span></div>
+        <div id="s3card" class="abs card">
+          <div class="stat" style="left:56px"><div class="l">DARI</div><div class="v gold-text"><small>RM</small><span id="cnt1">0</span></div></div>
+          <div id="dash" class="abs"></div>
+          <div class="stat" id="stat2" style="left:530px"><div class="l">HINGGA</div><div class="v gold-text"><small>RM</small><span id="cnt2">0</span></div></div>
+          <div id="track" class="abs"></div>
+          <div id="fill" class="abs"></div>
+          <div id="k1" class="abs knob" style="left:56px"></div>
+          <div id="k2" class="abs knob" style="left:56px"></div>
+          <div class="abs tick" style="left:56px">RM0</div>
+          <div class="abs tick" style="left:385.6px">RM400</div>
+          <div class="abs tick" style="left:550.4px">RM600</div>
+          <div class="abs tick" style="left:880px">RM1000</div>
+          <div id="permonth" class="abs"><div class="pill">BAYARAN SEBULAN · ANGGARAN</div></div>
+        </div>
+      </div>
+
+      <!-- ============ S4 SAGA ============ -->
+      <div id="s4" class="clip" data-start="11.46" data-duration="13.2" data-track-index="2">
+        <div class="num gold-text">01</div>
+        <div class="meta"><div class="k">PILIHAN 1 / 3</div><div class="dashes"><i class="on"></i><i></i><i></i></div><div class="brand">Proton</div><div class="model">Saga MC3</div></div>
+        <div class="divider"></div>
+        <div class="photo"><img src="assets/saga.jpg" alt="" style="object-position:45% 62%" /><div class="shade"></div><div class="chip">SEDAN</div></div>
+        <div class="spec card sp1" style="left:72px">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2" stroke-linejoin="round"><path d="M4 10h3l2-3h6v3h2l2 2v5h-2v2h-4l-2-2H9v-2H6v-2H4z"/><path d="M2 12v4M9 4h6"/></svg></div>
+          <div class="lb">ENJIN</div><div class="sub">VVT</div>
+          <div class="val"><span id="e1">1.5<small>L</small></span></div>
+        </div>
+        <div class="spec card sp2" style="left:549px">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><path d="M6 8v8M12 8v8M18 8v4H6"/></svg></div>
+          <div class="lb">GEARBOX</div><div class="sub" id="s4sub">Auto · ikut spek</div>
+          <div class="gpills"><div class="gp" id="g41">4AT</div><div class="gp" id="g42">CVT</div></div>
+        </div>
+      </div>
+
+      <!-- ============ S5 AXIA ============ -->
+      <div id="s5" class="clip" data-start="24.66" data-duration="9.06" data-track-index="2">
+        <div class="num gold-text">02</div>
+        <div class="meta"><div class="k">PILIHAN 2 / 3</div><div class="dashes"><i class="on"></i><i class="on"></i><i></i></div><div class="brand">Perodua</div><div class="model">Axia</div></div>
+        <div class="divider"></div>
+        <div class="photo"><img src="assets/axia.jpg" alt="" style="object-position:45% 58%" /><div class="shade"></div><div class="chip" id="hatch">HATCHBACK</div></div>
+        <div class="spec card sp1" style="left:72px">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2" stroke-linejoin="round"><path d="M4 10h3l2-3h6v3h2l2 2v5h-2v2h-4l-2-2H9v-2H6v-2H4z"/><path d="M2 12v4M9 4h6"/></svg></div>
+          <div class="lb">ENJIN</div><div class="sub">Kompak &amp; jimat</div>
+          <div class="val"><span id="e5">1.0<small>L</small></span></div>
+        </div>
+        <div class="spec card sp2" style="left:549px">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><path d="M6 8v8M12 8v8M18 8v4H6"/></svg></div>
+          <div class="lb">GEARBOX</div><div class="sub">Automatik</div>
+          <div class="gpills"><div class="gp" id="g51">CVT</div></div>
+        </div>
+      </div>
+
+      <!-- ============ S6 BEZZA ============ -->
+      <div id="s6" class="clip" data-start="33.72" data-duration="10.08" data-track-index="2">
+        <div class="num gold-text">03</div>
+        <div class="meta"><div class="k">PILIHAN 3 / 3</div><div class="dashes"><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="brand">Perodua</div><div class="model">Bezza</div></div>
+        <div class="divider"></div>
+        <div class="photo"><img src="assets/bezza.jpg" alt="" style="object-position:50% 62%" /><div class="shade"></div><div class="chip">SEDAN</div></div>
+        <div class="spec card sp1" style="left:72px">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2" stroke-linejoin="round"><path d="M4 10h3l2-3h6v3h2l2 2v5h-2v2h-4l-2-2H9v-2H6v-2H4z"/><path d="M2 12v4M9 4h6"/></svg></div>
+          <div class="lb">ENJIN</div><div class="sub">2 pilihan</div>
+          <div class="val"><span id="e61">1.3<small>L</small></span><span class="sep" id="e6s">/</span><span id="e62">1.0<small>L</small></span></div>
+        </div>
+        <div class="spec card sp2" style="left:549px">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><path d="M6 8v8M12 8v8M18 8v4H6"/></svg></div>
+          <div class="lb">GEARBOX</div><div class="sub">Automatik</div>
+          <div class="gpills"><div class="gp" id="g61">4AT</div></div>
+          <div class="gp-tag" id="g6tag">1.0 LOW SPEC</div>
+        </div>
+      </div>
+
+      <!-- ============ S7 SUMMARY ============ -->
+      <div id="s7" class="clip" data-start="43.8" data-duration="6.44" data-track-index="2">
+        <div class="pill" id="s7pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f3d9a4" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          RINGKASAN
+        </div>
+        <div id="s7h" class="abs">Mana satu yang<br /><span class="gold-text">sesuai dengan korang?</span></div>
+        <div id="tbl" class="abs card">
+          <div class="colhi" id="hi1" style="left:212px"></div><div class="colhi" id="hi2" style="left:452px"></div><div class="colhi" id="hi3" style="left:692px"></div>
+          <div class="col" style="left:212px"><div class="th"><img src="assets/saga.jpg" alt="" style="object-position:40% 62%" /></div><div class="nm">Saga MC3</div><div class="nb">PROTON</div></div>
+          <div class="col" style="left:452px"><div class="th"><img src="assets/axia.jpg" alt="" style="object-position:45% 58%" /></div><div class="nm">Axia</div><div class="nb">PERODUA</div></div>
+          <div class="col" style="left:692px"><div class="th"><img src="assets/bezza.jpg" alt="" style="object-position:55% 60%" /></div><div class="nm">Bezza</div><div class="nb">PERODUA</div></div>
+          <div class="row" id="r1" style="top:278px"><div class="rl">JENIS</div><div class="c" style="left:188px">Sedan</div><div class="c" style="left:428px">Hatchback</div><div class="c" style="left:668px">Sedan</div></div>
+          <div class="row" id="r2" style="top:382px"><div class="rl">ENJIN</div><div class="c" style="left:188px">1.5L</div><div class="c" style="left:428px">1.0L</div><div class="c" style="left:668px">1.3L / 1.0L</div></div>
+          <div class="row" id="r3" style="top:486px"><div class="rl">GEARBOX</div><div class="c goldc" style="left:188px">4AT / CVT</div><div class="c goldc" style="left:428px">CVT</div><div class="c goldc" style="left:668px">4AT</div></div>
+        </div>
+      </div>
+
+      <!-- ============ S8 CTA ============ -->
+      <div id="s8" class="clip" data-start="50.24" data-duration="3.96" data-track-index="2">
+        <div id="ctaPhoto" class="abs">
+          <div class="trio">
+            <div style="left:0"><img src="assets/saga.jpg" alt="" style="object-position:40% 60%" /></div>
+            <div style="left:312px"><img src="assets/axia.jpg" alt="" style="object-position:38% 55%" /></div>
+            <div style="left:624px"><img src="assets/bezza.jpg" alt="" style="object-position:62% 60%" /></div>
+          </div>
+          <div class="shade"></div>
+          <div class="k">FIRST CAR?</div>
+          <div class="t1">Jom pilih yang</div>
+          <div class="t2 gold-text">paling sesuai</div>
+        </div>
+        <div id="btnGlow" class="abs"></div>
+        <div id="btn" class="abs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a150d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+          ISI FORM DI BAWAH
+        </div>
+        <div id="ripple" class="abs"></div>
+        <svg id="finger" class="abs" viewBox="0 0 64 64"><circle cx="20" cy="20" r="16" fill="rgba(255,255,255,.95)"/><circle cx="20" cy="20" r="16" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="2"/></svg>
+        <svg id="chev" class="abs" viewBox="0 0 60 120" fill="none" stroke="#d2aa6a" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+          <path class="cv" d="M12 14 L30 32 L48 14"/><path class="cv" d="M12 50 L30 68 L48 50"/><path class="cv" d="M12 86 L30 104 L48 86"/>
+        </svg>
+        <div class="chk" id="ck1" style="left:200px"><b><svg viewBox="0 0 24 24" fill="none" stroke="#1a150d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></b>Kami guide</div>
+        <div class="chk" id="ck2" style="left:560px"><b><svg viewBox="0 0 24 24" fill="none" stroke="#1a150d" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></b>Kami assist</div>
+        <div id="wipe" class="abs"></div>
+      </div>
+
+      <!-- ============ S9 CLOSING ============ -->
+      <div id="s9" class="clip" data-start="53.95" data-duration="6.05" data-track-index="3">
+        <svg id="s9waves" class="abs" viewBox="0 0 1480 360" fill="none">
+          <path d="M0 200 C 250 120, 480 300, 740 200 S 1230 100, 1480 190" stroke="rgba(185,141,74,.35)" stroke-width="2"/>
+          <path d="M0 240 C 260 170, 520 330, 760 240 S 1250 150, 1480 230" stroke="rgba(185,141,74,.18)" stroke-width="2"/>
+        </svg>
+        <div id="logo" class="abs" style="inset:0">
+          <img id="lgS" class="lg abs" src="assets/icon_gold.png" alt="" />
+          <img id="lgA" class="lg abs" src="assets/icon_dark.png" alt="" />
+          <div id="lgShine" class="lg abs"><i></i></div>
+          <div id="lgSalamWrap" class="abs" style="left:0;top:0;width:1080px;height:1920px;clip-path:inset(900px 0 915px 0)"><img id="lgSalam" class="lg abs" src="assets/salam.png" alt="" /></div>
+          <img id="lgLines" class="lg abs" src="assets/auto_lines.png" alt="" />
+          <img id="lgAuto" class="lg abs" src="assets/automobile.png" alt="" />
+          <img id="lgTag" class="lg abs" src="assets/tagline.png" alt="" />
+          <div id="s9line" class="abs"></div>
+          <div id="kami" class="abs">Kami guide &amp; assist anda dari</div>
+          <div id="az" class="abs"><span class="g" id="azA">A</span> <span id="azH">hingga</span> <span class="g" id="azZ">Z</span></div>
+        </div>
+      </div>
+
+      <!-- slash transition overlay -->
+      <div id="slashwrap" class="clip" data-start="0" data-duration="54" data-track-index="4">
+        <div id="slash" class="abs"></div>
+      </div>
+
+      <!-- captions -->
+      <div id="capwrap" class="clip" data-start="0" data-duration="53.95" data-track-index="5">
+        <div id="caps" class="abs"></div>
+      </div>
+
+      <audio id="mix" src="assets/mix.wav" data-start="0" data-duration="60" data-track-index="6" data-volume="1"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const E = "power3.out", E4 = "power4.out", B = "back.out(1.7)";
+      const GP_ON = { color: "#17140f", backgroundColor: "#e2bf82", borderColor: "#f3d9a4", boxShadow: "0 0 28px rgba(210,170,106,.5)" };
+      function gpOn(sel, t) {
+        tl.to(sel, Object.assign({ duration: 0.18 }, GP_ON), t);
+        tl.fromTo(sel, { scale: 1 }, { scale: 1.15, duration: 0.14, yoyo: true, repeat: 1 }, t);
+      }
+
+      /* ---------------- captions (VO word timings on the tightened edit) ---------------- */
+      const CAPS = [
+        [[0.0,"Korang"],[0.54,"baru"],[0.74,"start",1],[0.94,"kerja",1]],
+        [[1.44,"dan"],[1.8,"perlukan"],[2.4,"kereta",1],[2.82,"untuk"],[3.06,"bergerak?"]],
+        [[3.58,"Ini"],[4.08,"3",1],[4.4,"model",1],[4.66,"kereta",1]],
+        [[5.14,"yang"],[5.44,"saya"],[5.78,"suggest"],[6.06,"untuk"],[6.28,"korang"]],
+        [[6.84,"Range"],[7.28,"bulanan",1],[7.64,"kereta"]],
+        [[8.1,"sekitar"],[8.72,"RM400",1],[9.44,"hingga"],[10.1,"RM600",1]],
+        [[11.44,"Yang"],[11.78,"pertama,"]],
+        [[12.54,"Proton",1],[13.0,"Saga",1],[13.22,"MC3",1]],
+        [[13.74,"Proton"],[14.32,"Saga"],[14.5,"MC3"]],
+        [[15.22,"datang"],[15.64,"dengan"],[15.88,"enjin"],[16.16,"1.5",1],[16.98,"VVT",1]],
+        [[17.7,"menggunakan"],[18.62,"gearbox"],[18.96,"auto",1]],
+        [[19.78,"jenis"],[20.0,"4AT",1],[20.62,"dan"],[21.06,"juga"],[21.26,"CVT",1]],
+        [[21.92,"bergantung"],[22.88,"spek"],[23.42,"yang"],[23.56,"korang"],[23.78,"pilih"]],
+        [[24.64,"Yang"],[24.86,"kedua,"]],
+        [[25.84,"Perodua",1],[26.1,"Axia",1]],
+        [[26.92,"Perodua"],[27.44,"Axia,"],[27.82,"kereta"],[28.18,"hatchback",1]],
+        [[28.6,"datang"],[29.02,"dengan"],[29.24,"enjin"],[29.58,"1.0",1]],
+        [[30.56,"menggunakan"],[31.62,"gearbox"],[32.18,"jenis"],[32.86,"CVT",1]],
+        [[33.7,"Dan"],[34.08,"yang"],[34.22,"ketiga,"]],
+        [[35.36,"Perodua",1],[35.6,"Bezza",1]],
+        [[36.0,"yang"],[36.74,"datang"],[37.14,"dengan"],[37.32,"enjin"]],
+        [[37.66,"1.3",1],[38.72,"dan"],[38.98,"1.0",1]],
+        [[39.92,"bagi"],[40.36,"low",1],[40.54,"spec",1]],
+        [[40.84,"menggunakan"],[42.06,"gearbox"],[42.64,"jenis"],[43.2,"4AT",1]],
+        [[43.78,"Jadi,"],[44.44,"kalau"],[46.98,"korang"],[47.32,"nak"],[47.44,"tahu"]],
+        [[47.68,"mana"],[48.14,"satu"],[48.42,"kereta"]],
+        [[48.76,"yang"],[48.96,"sesuai",1],[49.4,"dengan"],[49.56,"korang"]],
+        [[50.3,"Isi",1],[50.75,"form",1],[51.05,"yang"],[51.3,"ada"],[51.5,"di"],[51.7,"bawah",1]],
+        [[52.28,"kita"],[52.66,"akan"],[52.86,"bantu"],[53.12,"guide",1]],
+        [[53.4,"dan"],[53.72,"assist",1]]
+      ];
+      const capsEl = document.getElementById("caps");
+      CAPS.forEach((chunk, ci) => {
+        const d = document.createElement("div");
+        d.className = "cap";
+        chunk.forEach(([t, w]) => {
+          const s = document.createElement("span");
+          s.textContent = w;
+          d.appendChild(s);
+        });
+        capsEl.appendChild(d);
+        const start = chunk[0][0];
+        const next = ci < CAPS.length - 1 ? CAPS[ci + 1][0][0] : 53.9;
+        const end = Math.min(next, chunk[chunk.length - 1][0] + 1.6);
+        tl.fromTo(d, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.2, ease: E }, Math.max(0, start - 0.06));
+        tl.to(d, { opacity: 0, y: -14, duration: 0.12, ease: "power2.in" }, end - 0.12);
+        [...d.children].forEach((s, wi) => {
+          const [t, , k] = chunk[wi];
+          tl.to(s, { color: k ? "#e6c287" : "#ffffff", duration: 0.1 }, t);
+          tl.fromTo(s, { scale: 1 }, { scale: 1.08, duration: 0.09, yoyo: true, repeat: 1, ease: "sine.inOut" }, t);
+        });
+      });
+
+      /* ---------------- background ambience ---------------- */
+      tl.fromTo("#waves", { x: 0 }, { x: -180, duration: 60, ease: "none" }, 0);
+      tl.fromTo("#wv2", { y: 0 }, { y: 18, duration: 6, yoyo: true, repeat: 9, ease: "sine.inOut" }, 0);
+      tl.fromTo("#glow", { opacity: 0.6, scale: 0.9 }, { opacity: 1, scale: 1.1, duration: 5, yoyo: true, repeat: 11, ease: "sine.inOut" }, 0);
+      tl.fromTo("#grid", { y: 0 }, { y: 34, duration: 60, ease: "none" }, 0);
+
+      /* ---------------- header ---------------- */
+      tl.from("#hdr", { opacity: 0, x: -30, duration: 0.5, ease: E }, 0.05);
+      tl.from("#hdrline", { scaleX: 0, duration: 0.8, ease: E }, 0.2);
+
+      /* ---------------- S1 HOOK ---------------- */
+      tl.from("#s1pill", { opacity: 0, y: -20, duration: 0.3, ease: E }, 0);
+      tl.from("#h1a .line-word", { opacity: 0, y: 70, rotation: 4, duration: 0.4, stagger: 0.18, ease: B }, 0.0);
+      tl.from("#h1b .line-word", { opacity: 0, y: 40, duration: 0.36, stagger: 0.22, ease: E }, 1.42);
+      tl.from("#h1c .line-word", { opacity: 0, y: 60, scale: 0.8, duration: 0.42, stagger: 0.2, ease: B }, 2.8);
+      tl.fromTo("#car", { x: -1100 }, { x: 0, duration: 0.95, ease: "power4.out" }, 0.08);
+      tl.fromTo("#car", { rotation: 0 }, { rotation: -1.2, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", transformOrigin: "50% 90%" }, 0.92);
+      tl.fromTo(["#w1", "#w2"], { rotation: 0 }, { rotation: 720, duration: 1.0, ease: "power3.out", transformOrigin: "50% 50%" }, 0.08);
+      tl.fromTo("#speed", { opacity: 0, x: -200 }, { opacity: 1, x: 0, duration: 0.5, ease: E }, 0.2);
+      tl.to("#speed", { opacity: 0, x: 120, duration: 0.4 }, 0.9);
+      tl.from("#road", { scaleX: 0, duration: 0.8, ease: E }, 0.1);
+      tl.fromTo("#car", { y: 0 }, { y: -4, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut" }, 1.2);
+      tl.to(["#w1", "#w2"], { rotation: 1440, duration: 0.5, ease: "power3.in" }, 3.1);
+      tl.to("#car", { x: 1300, duration: 0.5, ease: "power3.in" }, 3.1);
+      tl.to(["#s1pill", "#h1a", "#h1b", "#h1c", "#road"], { opacity: 0, y: -40, duration: 0.28, stagger: 0.03, ease: "power2.in" }, 3.3);
+
+      /* ---------------- S2 ---------------- */
+      tl.from("#s2t > div", { opacity: 0, x: 50, duration: 0.4, stagger: 0.1, ease: E }, 3.66);
+      tl.fromTo("#big3", { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power4.out", transformOrigin: "40% 50%" }, 3.96);
+      tl.fromTo("#s2", { x: 0 }, { x: 10, duration: 0.05, yoyo: true, repeat: 3, ease: "none" }, 4.34);
+      tl.from("#s2line", { scaleX: 0, duration: 0.6, ease: E }, 4.2);
+      tl.from(["#m1", "#m2", "#m3"], { opacity: 0, y: 120, scale: 0.9, duration: 0.5, stagger: 0.24, ease: B }, 4.6);
+      tl.fromTo(".mini img", { scale: 1.15 }, { scale: 1, duration: 2.4, ease: "none" }, 4.6);
+      tl.to(["#big3", "#s2t", "#s2line", "#m1", "#m2", "#m3"], { opacity: 0, y: -30, duration: 0.24, stagger: 0.02, ease: "power2.in" }, 6.58);
+
+      /* ---------------- S3 ---------------- */
+      tl.from("#s3pill", { opacity: 0, y: -20, duration: 0.35, ease: E }, 6.9);
+      tl.from("#s3h", { opacity: 0, y: 50, duration: 0.45, ease: E }, 6.96);
+      tl.from("#s3card", { opacity: 0, y: 80, duration: 0.55, ease: E }, 7.3);
+      const c1 = { v: 0 }, c2 = { v: 0 };
+      const n1 = document.getElementById("cnt1"), n2 = document.getElementById("cnt2");
+      tl.fromTo(c1, { v: 0 }, { v: 400, duration: 0.7, ease: "power2.out", onUpdate: () => (n1.textContent = Math.round(c1.v / 10) * 10) }, 8.6);
+      tl.fromTo(c2, { v: 0 }, { v: 600, duration: 0.6, ease: "power2.out", onUpdate: () => (n2.textContent = Math.round(c2.v / 10) * 10) }, 10.0);
+      tl.fromTo(["#k1", "#k2"], { x: 0 }, { x: 329.6, duration: 0.7, ease: "power2.out" }, 8.6);
+      tl.fromTo(".knob", { scale: 1 }, { scale: 1.25, duration: 0.14, yoyo: true, repeat: 1 }, 9.3);
+      tl.fromTo("#stat2", { opacity: 0.25 }, { opacity: 1, duration: 0.25 }, 9.95);
+      tl.to("#k2", { x: 494.4, duration: 0.6, ease: "power2.out" }, 10.0);
+      tl.fromTo("#fill", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.out" }, 10.0);
+      tl.from("#permonth", { opacity: 0, y: 20, duration: 0.35, ease: E }, 10.56);
+      tl.to(["#s3pill", "#s3h", "#s3card"], { opacity: 0, duration: 0.2 }, 11.3);
+
+      /* ---------------- gold slash transitions ---------------- */
+      tl.set("#slash", { rotation: 16, x: 0 }, 0);
+      [11.2, 24.42, 33.48, 43.58].forEach((t) => {
+        tl.fromTo("#slash", { x: 0 }, { x: 2300, duration: 0.55, ease: "power2.inOut", immediateRender: false }, t);
+      });
+
+      /* ---------------- car scene builder ---------------- */
+      function carScene(id, t0, o) {
+        const s = "#" + id + " ";
+        tl.from(s + ".num", { opacity: 0, x: -80, duration: 0.5, ease: E4 }, t0 + 0.04);
+        tl.from(s + ".meta > *", { opacity: 0, x: 40, duration: 0.42, stagger: 0.07, ease: E }, t0 + 0.1);
+        tl.from(s + ".divider", { scaleX: 0, duration: 0.6, ease: E }, t0 + 0.3);
+        tl.from(s + ".photo", { opacity: 0, y: 90, scale: 0.94, duration: 0.6, ease: E }, o.photo);
+        tl.fromTo(s + ".photo img", { scale: 1.16 }, { scale: 1.0, duration: o.end - o.photo, ease: "none" }, o.photo);
+        tl.from(s + ".photo .chip", { opacity: 0, x: -30, duration: 0.35, ease: E }, o.photo + 0.4);
+        tl.from(s + ".sp1", { opacity: 0, y: 60, duration: 0.45, ease: B }, o.sp1);
+        tl.from(s + ".sp2", { opacity: 0, y: 60, duration: 0.45, ease: B }, o.sp2);
+        tl.to([s + ".num", s + ".meta", s + ".divider", s + ".photo", s + ".sp1", s + ".sp2"], { opacity: 0, duration: 0.18 }, o.end - 0.22);
+      }
+      carScene("s4", 11.46, { photo: 12.46, sp1: 15.7, sp2: 17.62, end: 24.66 });
+      tl.from("#e1", { opacity: 0, y: 24, duration: 0.3, ease: B }, 16.16);
+      gpOn("#g41", 20.0);
+      gpOn("#g42", 21.26);
+      tl.to("#s4sub", { color: "#f3d9a4", duration: 0.3 }, 21.92);
+      tl.to("#s4 .sp2", { borderColor: "rgba(210,170,106,.7)", duration: 0.3 }, 21.92);
+
+      carScene("s5", 24.66, { photo: 25.76, sp1: 29.3, sp2: 30.56, end: 33.72 });
+      tl.from("#e5", { opacity: 0, y: 24, duration: 0.3, ease: B }, 29.58);
+      tl.fromTo("#hatch", { scale: 1 }, { scale: 1.18, duration: 0.18, yoyo: true, repeat: 1, ease: "sine.inOut", transformOrigin: "0% 50%" }, 28.18);
+      gpOn("#g51", 32.86);
+
+      carScene("s6", 33.72, { photo: 35.28, sp1: 37.4, sp2: 40.6, end: 43.8 });
+      tl.from("#e61", { opacity: 0, y: 24, duration: 0.3, ease: B }, 37.66);
+      tl.from(["#e6s", "#e62"], { opacity: 0, y: 24, duration: 0.3, stagger: 0.05, ease: B }, 38.95);
+      tl.from("#g6tag", { opacity: 0, x: -20, duration: 0.3 }, 41.0);
+      gpOn("#g61", 43.2);
+
+      /* ---------------- S7 summary ---------------- */
+      tl.from("#s7pill", { opacity: 0, y: -20, duration: 0.35, ease: E }, 43.86);
+      tl.from("#s7h", { opacity: 0, y: 50, duration: 0.5, ease: E }, 44.3);
+      tl.from("#tbl", { opacity: 0, y: 80, duration: 0.55, ease: E }, 44.6);
+      tl.from("#tbl .col", { opacity: 0, y: 30, duration: 0.4, stagger: 0.12, ease: B }, 44.9);
+      tl.from(["#r1", "#r2", "#r3"], { opacity: 0, x: -40, duration: 0.4, stagger: 0.3, ease: E }, 45.5);
+      [["#hi1", 47.68], ["#hi2", 48.14], ["#hi3", 48.6]].forEach(([h, t]) => {
+        tl.to(h, { borderColor: "rgba(210,170,106,.9)", backgroundColor: "rgba(210,170,106,.08)", duration: 0.18 }, t);
+        tl.to(h, { borderColor: "rgba(210,170,106,0)", backgroundColor: "rgba(210,170,106,0)", duration: 0.25 }, t + 0.4);
+      });
+      tl.to(["#hi1", "#hi2", "#hi3"], { borderColor: "rgba(210,170,106,.55)", duration: 0.3 }, 49.0);
+      tl.to(["#s7pill", "#s7h", "#tbl"], { opacity: 0, y: -30, duration: 0.24, stagger: 0.03, ease: "power2.in" }, 49.98);
+
+      /* ---------------- S8 CTA ---------------- */
+      tl.from("#ctaPhoto", { opacity: 0, y: 70, scale: 0.95, duration: 0.5, ease: E }, 50.24);
+      tl.from("#ctaPhoto .trio > div", { yPercent: 100, duration: 0.55, stagger: 0.08, ease: E4 }, 50.24);
+      tl.from(["#ctaPhoto .k", "#ctaPhoto .t1", "#ctaPhoto .t2"], { opacity: 0, x: -40, duration: 0.4, stagger: 0.1, ease: E }, 50.45);
+      tl.from("#btn", { opacity: 0, scale: 0.6, duration: 0.45, ease: "back.out(2.2)" }, 50.3);
+      tl.from("#btnGlow", { opacity: 0, duration: 0.5 }, 50.5);
+      tl.fromTo("#btnGlow", { scale: 0.95 }, { scale: 1.08, duration: 0.45, yoyo: true, repeat: 5, ease: "sine.inOut" }, 50.8);
+      tl.fromTo("#finger", { opacity: 0, x: 140, y: 160 }, { opacity: 1, x: 0, y: 0, duration: 0.42, ease: E }, 50.85);
+      tl.to("#finger", { scale: 0.82, duration: 0.1, yoyo: true, repeat: 1, transformOrigin: "30% 30%" }, 51.3);
+      tl.to("#btn", { scale: 0.95, duration: 0.1, yoyo: true, repeat: 1 }, 51.3);
+      tl.fromTo("#ripple", { opacity: 0.9, scale: 0.5 }, { opacity: 0, scale: 5, duration: 0.7, ease: "power2.out" }, 51.35);
+      tl.to("#finger", { opacity: 0, duration: 0.3 }, 51.9);
+      tl.from("#chev", { opacity: 0, duration: 0.3 }, 51.6);
+      tl.fromTo("#chev .cv", { opacity: 0.2 }, { opacity: 1, duration: 0.24, stagger: 0.12, yoyo: true, repeat: 3, ease: "sine.inOut" }, 51.6);
+      tl.fromTo("#chev", { y: 0 }, { y: 14, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 51.6);
+      tl.from("#ck1", { opacity: 0, y: 30, scale: 0.8, duration: 0.35, ease: B }, 52.9);
+      tl.from("#ck2", { opacity: 0, y: 30, scale: 0.8, duration: 0.35, ease: B }, 53.4);
+      tl.fromTo("#wipe", { scale: 0 }, { scale: 46, duration: 0.6, ease: "power3.in" }, 53.42);
+
+      /* ---------------- S9 CLOSING (logo motion) ---------------- */
+      tl.from("#s9waves", { opacity: 0, duration: 0.8 }, 54.0);
+      tl.fromTo("#s9waves", { x: 0 }, { x: -140, duration: 6, ease: "none" }, 54.0);
+      tl.fromTo("#lgS", { opacity: 0, x: -360, rotation: -10, scale: 0.9 }, { opacity: 1, x: 0, rotation: 0, scale: 1, duration: 0.75, ease: "expo.out", transformOrigin: "30% 60%" }, 54.02);
+      tl.fromTo("#lgA", { opacity: 0, y: -170, scale: 1.25 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(1.6)", transformOrigin: "60% 100%" }, 54.28);
+      tl.fromTo("#lgSalam", { y: 110 }, { y: 0, duration: 0.55, ease: "power4.out" }, 54.52);
+      tl.set("#lgSalamWrap", { clipPath: "inset(0px 0px 0px 0px)" }, 55.2);
+      tl.fromTo("#lgLines", { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1, duration: 0.6, ease: E }, 54.78);
+      tl.fromTo("#lgAuto", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 54.84);
+      tl.fromTo("#lgTag", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 55.05);
+      tl.fromTo("#s9line", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.5, ease: E }, 55.0);
+      tl.fromTo("#kami", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: E }, 54.4);
+      tl.fromTo("#azA", { opacity: 0, y: 30, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: B }, 54.76);
+      tl.fromTo("#azH", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: E }, 55.1);
+      tl.fromTo("#azZ", { opacity: 0, y: 30, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: B }, 55.86);
+      tl.fromTo("#lgShine i", { x: 0 }, { x: 1150, duration: 0.9, ease: "power2.inOut" }, 56.3);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.035, duration: 3.7, ease: "sine.inOut", transformOrigin: "50% 48%" }, 56.3);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
