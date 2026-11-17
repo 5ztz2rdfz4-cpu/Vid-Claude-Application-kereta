@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Salam Automobile — Interest Rate</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Mont"; font-weight: 500; src: url("assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 600; src: url("assets/fonts/montserrat-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 700; src: url("assets/fonts/montserrat-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 800; src: url("assets/fonts/montserrat-latin-800-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Mont"; font-weight: 900; src: url("assets/fonts/montserrat-latin-900-normal.woff2") format("woff2"); }
+
+      :root {
+        --bg: #0b0b0d;
+        --card: #141518;
+        --card-hi: #1a1b20;
+        --line: rgba(255, 255, 255, 0.08);
+        --gold: #c99d5c;
+        --gold-lt: #ecd09a;
+        --gold-grad: linear-gradient(180deg, #f3d9a4 0%, #d4a965 50%, #a9793b 100%);
+        --ink: #ffffff;
+        --muted: #8d8f96;
+        --dim: rgba(255, 255, 255, 0.32);
+        --red: #e5574e;
+        --green: #3cc584;
+        --cream: #f1ece1;
+        --dark-ink: #1d1e22;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Mont", sans-serif; color: var(--ink); background: var(--bg); }
+      .clip { position: absolute; inset: 0; }
+      .abs { position: absolute; }
+      .gold-text { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--gold); }
+
+      /* ---------- background */
+      #bg { background: radial-gradient(900px 700px at 8% 4%, rgba(201, 157, 92, 0.20), transparent 60%),
+                        radial-gradient(800px 900px at 100% 100%, rgba(201, 157, 92, 0.07), transparent 60%),
+                        linear-gradient(180deg, #121215 0%, #0b0b0d 45%, #09090a 100%); }
+      #bg .waves { position: absolute; left: -200px; top: 1380px; width: 1480px; height: 320px; }
+      #bg .dot { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--gold-lt); opacity: 0; filter: blur(0.6px); }
+
+      /* ---------- header */
+      #hdr { position: absolute; left: 90px; top: 196px; display: flex; align-items: center; gap: 16px; }
+      #hdr .mark { position: relative; width: 101px; height: 44px; }
+      #hdr .mark img { position: absolute; inset: 0; width: 101px; height: 44px; }
+      #hdr .wm b { display: block; font-weight: 800; font-size: 25px; letter-spacing: 6px; line-height: 1; }
+      #hdr .wm span { display: block; font-weight: 600; font-size: 12px; letter-spacing: 7px; color: var(--gold); margin-top: 6px; }
+
+      /* ---------- section header */
+      .sec-head { position: absolute; left: 90px; top: 300px; width: 900px; height: 210px; display: flex; align-items: center; gap: 34px; }
+      .sec-num { font-weight: 900; font-size: 196px; line-height: 0.82; letter-spacing: -6px; }
+      .sec-label { font-weight: 700; font-size: 22px; letter-spacing: 5px; color: var(--gold); }
+      .sec-dashes { display: flex; gap: 10px; margin: 14px 0 18px; }
+      .sec-dashes i { display: block; width: 46px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.14); }
+      .sec-dashes i.on { background: var(--gold); }
+      .sec-title { font-weight: 800; font-size: 54px; line-height: 1.08; letter-spacing: -0.5px; }
+      .sec-rule { position: absolute; left: 90px; top: 530px; width: 900px; height: 2px; background: linear-gradient(90deg, var(--gold), rgba(201, 157, 92, 0.05)); transform-origin: left center; }
+
+      .card { position: absolute; background: linear-gradient(180deg, var(--card-hi), var(--card)); border: 1.5px solid var(--line); border-radius: 30px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45); }
+      .label { font-weight: 700; font-size: 21px; letter-spacing: 4px; color: var(--muted); }
+      .icon-c { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(201, 157, 92, 0.12); border: 1.5px solid rgba(201, 157, 92, 0.35); }
+      .icon-c svg { width: 54%; height: 54%; stroke: var(--gold-lt); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* ---------- hook */
+      .chip { position: absolute; left: 90px; top: 300px; padding: 12px 22px; border-radius: 40px; border: 1.5px solid rgba(201, 157, 92, 0.55); background: rgba(201, 157, 92, 0.1); font-weight: 700; font-size: 22px; letter-spacing: 4px; color: var(--gold-lt); display: flex; align-items: center; gap: 12px; }
+      .chip svg { width: 26px; height: 26px; stroke: var(--gold-lt); fill: none; stroke-width: 2; }
+      .hl { position: absolute; left: 90px; width: 920px; font-weight: 900; letter-spacing: -2px; line-height: 1.02; }
+      .hl .ln { display: block; overflow: hidden; padding-bottom: 8px; }
+      .hl .ln > span { display: inline-block; }
+      .vs-card { top: 640px; width: 430px; height: 540px; }
+      .vs-card .who { position: absolute; left: 30px; top: 28px; display: flex; align-items: center; gap: 16px; }
+      .vs-card .who .icon-c { width: 64px; height: 64px; }
+      .vs-card .who b { font-weight: 800; font-size: 30px; letter-spacing: 1px; }
+      .vs-card .car { position: absolute; left: 35px; top: 118px; width: 360px; height: 140px; }
+      .vs-card .rows { position: absolute; left: 30px; top: 296px; width: 370px; }
+      .vs-card .row { display: flex; justify-content: space-between; align-items: center; height: 54px; border-top: 1.5px solid var(--line); font-weight: 600; font-size: 26px; color: #c9cbd1; }
+      .vs-card .tick { width: 34px; height: 34px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; }
+      .vs-card .tick svg { width: 20px; height: 20px; stroke: #0b0b0d; stroke-width: 3.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .vs-card .rate { position: absolute; left: 30px; top: 300px; width: 370px; }
+      .vs-card .rate .label { font-size: 19px; }
+      .rate-num { display: flex; align-items: flex-start; font-weight: 900; font-size: 128px; line-height: 128px; height: 128px; letter-spacing: -4px; margin-top: 14px; }
+      .odo { display: inline-block; height: 128px; overflow: hidden; }
+      .odo-col { display: block; }
+      .odo-col span { display: block; height: 128px; }
+      .rate-num .pct { font-size: 64px; line-height: 92px; letter-spacing: 0; margin-left: 6px; }
+      .rate-tag { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 8px 18px; border-radius: 30px; font-weight: 800; font-size: 21px; letter-spacing: 2px; }
+      .eq { position: absolute; left: 508px; top: 878px; width: 64px; height: 64px; border-radius: 50%; background: var(--gold-grad); color: #121212; font-weight: 900; font-size: 44px; line-height: 62px; text-align: center; box-shadow: 0 0 0 10px var(--bg); }
+      .stamp { position: absolute; left: 540px; top: 900px; transform: translate(-50%, -50%); padding: 18px 36px; border: 8px solid var(--red); border-radius: 22px; color: var(--red); font-weight: 900; font-size: 86px; letter-spacing: -1px; white-space: nowrap; background: rgba(11, 11, 13, 0.88); box-shadow: 0 0 60px rgba(229, 87, 78, 0.35); }
+
+      /* ---------- title */
+      .t-pct { position: absolute; left: 60px; top: 520px; font-weight: 900; font-size: 360px; line-height: 0.9; letter-spacing: -10px; }
+      .t-words { position: absolute; left: 400px; top: 548px; }
+      .t-words .w1 { font-weight: 900; font-size: 92px; line-height: 1; letter-spacing: -2px; }
+      .t-words .w2 { font-weight: 900; font-size: 150px; line-height: 0.95; letter-spacing: -4px; }
+      .t-sub { position: absolute; left: 90px; top: 905px; width: 900px; font-weight: 600; font-size: 34px; color: #c9cbd1; }
+      .t-sub b { color: var(--gold-lt); font-weight: 800; }
+      .t-chips { position: absolute; left: 90px; top: 1000px; width: 900px; display: flex; gap: 18px; }
+      .t-chip { flex: 1; height: 150px; border-radius: 24px; border: 1.5px solid var(--line); background: linear-gradient(180deg, var(--card-hi), var(--card)); padding: 20px 22px; }
+      .t-chip i { display: block; font-style: normal; font-weight: 900; font-size: 34px; }
+      .t-chip span { display: block; font-weight: 700; font-size: 25px; line-height: 1.15; margin-top: 8px; color: #e9e9ec; }
+      .t-glow { position: absolute; left: 140px; top: 520px; width: 800px; height: 420px; background: radial-gradient(closest-side, rgba(201, 157, 92, 0.25), transparent); }
+
+      /* ---------- who sets */
+      .who-card { left: 90px; width: 900px; height: 150px; }
+      .who-card .icon-c { position: absolute; left: 30px; top: 30px; width: 90px; height: 90px; }
+      .who-card .tt { position: absolute; left: 148px; top: 34px; font-weight: 800; font-size: 40px; }
+      .who-card .st { position: absolute; left: 148px; top: 88px; font-weight: 600; font-size: 24px; color: var(--muted); }
+      .who-card .strike { position: absolute; left: 144px; top: 58px; height: 4px; width: 0; background: var(--red); border-radius: 2px; }
+      .xbadge { position: absolute; right: 34px; top: 40px; width: 70px; height: 70px; border-radius: 50%; background: rgba(229, 87, 78, 0.14); border: 2px solid var(--red); display: flex; align-items: center; justify-content: center; }
+      .xbadge svg { width: 30px; height: 30px; stroke: var(--red); stroke-width: 3.4; stroke-linecap: round; fill: none; }
+      .okpill { position: absolute; right: 30px; top: 46px; height: 58px; padding: 0 22px; border-radius: 30px; background: var(--green); color: #07160e; font-weight: 900; font-size: 22px; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+      .okpill svg { width: 22px; height: 22px; stroke: #07160e; stroke-width: 3.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .bank-glow { border-color: rgba(201, 157, 92, 0.9) !important; box-shadow: 0 0 0 1px rgba(201, 157, 92, 0.4), 0 0 70px rgba(201, 157, 92, 0.28), 0 30px 60px rgba(0, 0, 0, 0.45) !important; }
+
+      /* ---------- how bank */
+      .steps { position: absolute; left: 90px; top: 590px; width: 900px; height: 190px; }
+      .steps .track { position: absolute; left: 140px; top: 54px; width: 620px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+      .steps .fill { position: absolute; left: 140px; top: 54px; width: 620px; height: 4px; background: var(--gold); border-radius: 2px; transform-origin: left center; transform: scaleX(0); }
+      .step { position: absolute; top: 0; width: 220px; text-align: center; }
+      .step .ring { margin: 0 auto; width: 112px; height: 112px; border-radius: 50%; background: var(--card-hi); border: 2px solid rgba(255, 255, 255, 0.12); display: flex; align-items: center; justify-content: center; position: relative; }
+      .step .ring svg { width: 46px; height: 46px; stroke: var(--muted); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+      .step .ring .on { position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--gold); background: rgba(201, 157, 92, 0.16); opacity: 0; }
+      .step b { display: block; margin-top: 16px; font-weight: 800; font-size: 26px; color: #e4e4e8; }
+      .profile { left: 90px; top: 830px; width: 900px; height: 400px; overflow: hidden; }
+      .profile .label { position: absolute; left: 36px; top: 30px; }
+      .profile .stat { position: absolute; right: 36px; top: 26px; font-weight: 800; font-size: 22px; letter-spacing: 2px; color: var(--gold-lt); }
+      .pf-row { position: absolute; left: 36px; width: 828px; height: 46px; display: flex; align-items: center; gap: 22px; }
+      .pf-row span { width: 270px; font-weight: 700; font-size: 25px; color: #d5d6db; }
+      .pf-row i { display: block; height: 14px; border-radius: 7px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+      .pf-row i em { position: absolute; inset: 0; background: linear-gradient(90deg, var(--gold), var(--gold-lt)); transform-origin: left; transform: scaleX(0); border-radius: 7px; }
+      .scanline { position: absolute; left: 0; top: 0; width: 900px; height: 120px; background: linear-gradient(180deg, transparent, rgba(236, 208, 154, 0.16) 70%, rgba(236, 208, 154, 0.85) 98%, transparent); opacity: 0; }
+      .pbar { position: absolute; left: 36px; bottom: 30px; width: 828px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+      .pbar em { position: absolute; inset: 0; background: var(--gold); transform-origin: left; transform: scaleX(0); }
+      .lulus { position: absolute; left: 540px; top: 1030px; transform: translate(-50%, -50%); padding: 14px 34px; border: 7px solid var(--green); border-radius: 20px; color: var(--green); font-weight: 900; font-size: 80px; letter-spacing: 2px; background: rgba(11, 11, 13, 0.9); display: flex; align-items: center; gap: 16px; box-shadow: 0 0 60px rgba(60, 197, 132, 0.3); }
+      .lulus svg { width: 70px; height: 70px; stroke: var(--green); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* ---------- five factors */
+      .f-row { left: 90px; width: 900px; height: 120px; border-radius: 26px; }
+      .f-row .n { position: absolute; left: 28px; top: 36px; font-weight: 900; font-size: 44px; line-height: 1; letter-spacing: -1px; }
+      .f-row .icon-c { position: absolute; left: 112px; top: 24px; width: 72px; height: 72px; }
+      .f-row .tt { position: absolute; left: 208px; top: 22px; font-weight: 800; font-size: 34px; white-space: nowrap; }
+      .f-row .st { position: absolute; left: 208px; top: 70px; font-weight: 600; font-size: 22px; color: var(--muted); white-space: nowrap; }
+      .f-row .wd { position: absolute; right: 28px; top: 30px; height: 60px; display: flex; align-items: center; }
+      .f-row .hi { position: absolute; inset: -1.5px; border-radius: 26px; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(201, 157, 92, 0.25); opacity: 0; }
+      .pill { height: 48px; padding: 0 18px; border-radius: 24px; font-weight: 900; font-size: 19px; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+      .pill svg { width: 20px; height: 20px; fill: none; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+      .mbars { display: flex; align-items: flex-end; gap: 7px; height: 56px; }
+      .mbars i { display: block; width: 16px; border-radius: 4px; background: var(--gold-grad); transform-origin: bottom; }
+
+      .f-intro { position: absolute; left: 0; top: 560px; width: 1080px; height: 700px; text-align: center; }
+      .f-intro .big { font-weight: 900; font-size: 470px; line-height: 0.92; letter-spacing: -10px; display: inline-block; }
+      .f-intro .lbl { font-weight: 800; font-size: 34px; letter-spacing: 10px; color: #e9e9ec; margin-top: 6px; }
+      .f-intro .ics { display: flex; justify-content: center; gap: 22px; margin-top: 34px; }
+      .f-intro .ics .icon-c { position: static; width: 96px; height: 96px; background: #17181c; }
+      .f-glow { position: absolute; left: 240px; top: 540px; width: 600px; height: 560px; background: radial-gradient(closest-side, rgba(201, 157, 92, 0.22), transparent); }
+      /* ---------- summary */
+      .chart { left: 90px; top: 560px; width: 900px; height: 640px; }
+      .chart .grid { position: absolute; left: 50px; width: 800px; height: 1.5px; background: rgba(255, 255, 255, 0.07); }
+      .bar { position: absolute; bottom: 150px; width: 170px; border-radius: 18px 18px 6px 6px; transform-origin: bottom; }
+      .bar-v { position: absolute; width: 200px; text-align: center; font-weight: 900; font-size: 52px; letter-spacing: -1px; }
+      .bar-n { position: absolute; bottom: 52px; width: 200px; text-align: center; }
+      .bar-n svg { display: block; margin: 0 auto 6px; width: 92px; height: 36px; }
+      .bar-n b { font-weight: 800; font-size: 24px; color: #d9dade; }
+      .same { position: absolute; left: 36px; top: 30px; }
+      .note { position: absolute; right: 36px; top: 38px; font-weight: 600; font-size: 19px; color: var(--muted); font-style: italic; }
+
+      /* ---------- CTA */
+      .cta-card { left: 90px; top: 300px; width: 900px; height: 720px; overflow: hidden; background: radial-gradient(520px 420px at 50% 34%, rgba(236, 208, 154, 0.22), transparent 70%), linear-gradient(180deg, #1c1d22, #0f1013); }
+      .cta-card .beam { position: absolute; left: 230px; top: -40px; width: 440px; height: 560px; background: linear-gradient(180deg, rgba(255, 240, 210, 0.22), transparent 85%); clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%); }
+      .cta-card .floor { position: absolute; left: 60px; top: 418px; width: 780px; height: 70px; border-radius: 50%; background: radial-gradient(closest-side, rgba(236, 208, 154, 0.35), transparent); }
+      .cta-card .bigcar { position: absolute; left: 130px; top: 190px; width: 640px; height: 249px; }
+      .cta-card .txt { position: absolute; left: 50px; top: 520px; }
+      .cta-card .txt .label { color: var(--gold); }
+      .cta-card .txt h2 { margin-top: 12px; font-weight: 900; font-size: 64px; line-height: 1.04; letter-spacing: -1.5px; }
+      .btn { position: absolute; left: 160px; top: 1060px; width: 760px; height: 120px; border-radius: 60px; background: var(--gold-grad); color: #17130c; display: flex; align-items: center; justify-content: center; gap: 18px; font-weight: 900; font-size: 42px; letter-spacing: 1px; box-shadow: 0 0 0 0 rgba(201, 157, 92, 0.6), 0 20px 70px rgba(201, 157, 92, 0.35); }
+      .btn svg { width: 42px; height: 42px; stroke: #17130c; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .ripple { position: absolute; left: 540px; top: 1120px; width: 160px; height: 160px; margin: -80px 0 0 -80px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.9); opacity: 0; }
+      .finger { position: absolute; left: 520px; top: 1104px; width: 26px; height: 26px; border-radius: 50%; background: #fff; opacity: 0; box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+      .chev { position: absolute; left: 510px; top: 1206px; width: 60px; }
+      .chev svg { display: block; width: 60px; height: 26px; stroke: var(--gold-lt); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+      /* ---------- captions */
+      #caps .cap { position: absolute; left: 70px; width: 940px; top: 1318px; text-align: center; font-weight: 800; font-size: 52px; line-height: 1.22; letter-spacing: -0.3px; opacity: 0; text-wrap: balance; }
+      #caps .cap span { color: var(--dim); }
+
+      /* ---------- streak */
+      #streak { position: absolute; left: 0; top: -300px; width: 70px; height: 2600px; background: linear-gradient(90deg, transparent, rgba(243, 217, 164, 0.95), transparent); transform: rotate(14deg); opacity: 0; filter: blur(1px); }
+
+      /* ---------- closing */
+      #close { background: radial-gradient(760px 900px at 50% 46%, #fbf8f2 0%, #f1ece1 55%, #e7dfcf 100%); clip-path: circle(0px at 540px 1120px); }
+      #close .cwave { position: absolute; left: -40px; width: 1160px; }
+      #logo { position: absolute; left: 132px; top: 470px; width: 816px; height: 544px; transform-origin: 50% 60%; }
+      #logo .part { position: absolute; display: block; }
+      #logo .lt { position: absolute; top: 335.2px; height: 94px; overflow: hidden; }
+      #logo .lt img { position: absolute; top: 0; width: 816px; height: 93.6px; }
+      #logo .shine { position: absolute; left: 64.8px; top: 0; width: 732.8px; height: 319.2px;
+        -webkit-mask-image: url("assets/img/icon_gold.png"); mask-image: url("assets/img/icon_gold.png"); -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+        background: linear-gradient(105deg, transparent 35%, rgba(255, 250, 235, 0.95) 50%, transparent 65%); background-size: 300% 100%; background-position: 120% 0; }
+      .c-div { position: absolute; left: 400px; top: 1092px; width: 280px; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+      .c-l1 { position: absolute; left: 0; width: 1080px; top: 1124px; text-align: center; font-weight: 700; font-size: 42px; color: var(--dark-ink); }
+      .c-l2 { position: absolute; left: 0; width: 1080px; top: 1186px; text-align: center; font-weight: 900; font-size: 84px; color: var(--dark-ink); letter-spacing: -1px; }
+      .c-l2 span { display: inline-block; }
+      .c-l2 .g { color: #b88a48; }
+      .c-l1 span { display: inline-block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="62.5" data-width="1080" data-height="1920">
+      <!-- ================= AUDIO ================= -->
+      <audio id="a-vo" src="assets/audio/vo.wav" data-start="0" data-duration="59.29" data-track-index="10" data-volume="1"></audio>
+      <audio id="a-music" src="assets/audio/music.wav" data-start="0" data-duration="62.5" data-track-index="11" data-volume="1.25"></audio>
+      <audio id="a-sfx" src="assets/audio/sfx.wav" data-start="0" data-duration="62.5" data-track-index="12" data-volume="1"></audio>
+
+      <!-- ================= BACKGROUND ================= -->
+      <div id="bg" class="clip" data-start="0" data-duration="62.5" data-track-index="0">
+        <svg class="waves" viewBox="0 0 1480 320" fill="none">
+          <path id="wv1" d="M0 170 C 260 90, 520 250, 780 160 S 1240 60, 1480 140" stroke="rgba(201,157,92,0.16)" stroke-width="2" />
+          <path id="wv2" d="M0 220 C 300 150, 560 290, 820 210 S 1260 120, 1480 200" stroke="rgba(255,255,255,0.06)" stroke-width="2" />
+        </svg>
+        <div class="dot" style="left:140px;top:1500px"></div>
+        <div class="dot" style="left:860px;top:1460px"></div>
+        <div class="dot" style="left:420px;top:1620px"></div>
+        <div class="dot" style="left:980px;top:1300px"></div>
+        <div class="dot" style="left:250px;top:1180px"></div>
+        <div class="dot" style="left:700px;top:1700px"></div>
+        <div class="dot" style="left:60px;top:900px"></div>
+        <div class="dot" style="left:1010px;top:760px"></div>
+      </div>
+
+      <!-- ================= HEADER ================= -->
+      <div id="hdrclip" class="clip" data-start="0" data-duration="56.3" data-track-index="1">
+        <div id="hdr">
+          <div class="mark"><img src="assets/img/icon_gold.png" alt="" /><img src="assets/img/icon_dark_white.png" alt="" /></div>
+          <div class="wm"><b>SALAM</b><span>AUTOMOBILE</span></div>
+        </div>
+      </div>
+
+      <!-- ================= S1+S2 HOOK ================= -->
+      <div id="s-hook" class="clip" data-start="0" data-duration="12.6" data-track-index="2">
+        <div class="chip" id="h-chip">
+          <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19z" /><path d="M12 10v4.5M12 17.2v.1" /></svg>
+          SEBELUM APPLY LOAN KERETA
+        </div>
+        <div class="hl" id="h-hl" style="top:372px">
+          <span class="ln"><span id="h-l1" style="font-size:100px">Kereta sama,</span></span>
+          <span class="ln"><span id="h-l2" class="gold-text" style="font-size:100px">rate lain?</span></span>
+        </div>
+
+        <div class="card vs-card" id="cardA" style="left:90px">
+          <div class="who"><div class="icon-c"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg></div><b>KAU</b></div>
+          <svg class="car" viewBox="0 0 360 140"><use href="#carSym" /></svg>
+          <div class="rows" id="rowsA">
+            <div class="row">Model <div class="tick tA0"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+            <div class="row">Spek <div class="tick tA1"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+            <div class="row">Harga <div class="tick tA2"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+            <div class="row">Tempoh <div class="tick tA3"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+          </div>
+          <div class="rate" id="rateA">
+            <div class="label">INTEREST RATE</div>
+            <div class="rate-num" style="color:var(--red)">
+              <span class="odo"><span class="odo-col" id="odoA1"><span>0</span><span>1</span><span>2</span><span>3</span></span></span><span>.</span><span class="odo"><span class="odo-col" id="odoA2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span></span></span><span class="pct">%</span>
+            </div>
+            <div class="rate-tag" style="background:rgba(229,87,78,0.14);color:var(--red);border:1.5px solid rgba(229,87,78,0.5)">▲ LEBIH TINGGI</div>
+          </div>
+        </div>
+        <div class="card vs-card" id="cardB" style="left:560px">
+          <div class="who"><div class="icon-c"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg></div><b>KAWAN KAU</b></div>
+          <svg class="car" viewBox="0 0 360 140"><use href="#carSym" /></svg>
+          <div class="rows" id="rowsB">
+            <div class="row">Model <div class="tick tB0"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+            <div class="row">Spek <div class="tick tB1"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+            <div class="row">Harga <div class="tick tB2"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+            <div class="row">Tempoh <div class="tick tB3"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg></div></div>
+          </div>
+          <div class="rate" id="rateB">
+            <div class="label">INTEREST RATE</div>
+            <div class="rate-num" style="color:var(--green)">
+              <span class="odo"><span class="odo-col" id="odoB1"><span>0</span><span>1</span><span>2</span></span></span><span>.</span><span class="odo"><span class="odo-col" id="odoB2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></span></span><span class="pct">%</span>
+            </div>
+            <div class="rate-tag" style="background:rgba(60,197,132,0.14);color:var(--green);border:1.5px solid rgba(60,197,132,0.5)">▼ LEBIH RENDAH</div>
+          </div>
+        </div>
+        <div class="eq" id="h-eq">=</div>
+        <div class="stamp" id="h-stamp" data-layout-allow-overlap>KENAPA BEZA?</div>
+      </div>
+
+      <!-- ================= S3 TITLE ================= -->
+      <div id="s-title" class="clip" data-start="12.45" data-duration="3.75" data-track-index="2">
+        <div class="t-glow" id="t-glow"></div>
+        <div class="chip" id="t-chip" style="top:420px">
+          <svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" /></svg>
+          TIPS LOAN KERETA
+        </div>
+        <div class="t-pct gold-text" id="t-pct">%</div>
+        <div class="t-words">
+          <div class="w1" id="t-w1">INTEREST</div>
+          <div class="w2 gold-text" id="t-w2">RATE</div>
+        </div>
+        <div class="t-sub" id="t-sub">Apa yang korang <b>kena tahu</b> sebelum apply loan.</div>
+        <div class="t-chips">
+          <div class="t-chip" id="tc1"><i class="gold-text">01</i><span>Siapa yang tetapkan</span></div>
+          <div class="t-chip" id="tc2"><i class="gold-text">02</i><span>Cara bank menilai</span></div>
+          <div class="t-chip" id="tc3"><i class="gold-text">03</i><span>5 faktor utama</span></div>
+        </div>
+      </div>
+
+      <!-- ================= S4 WHO SETS ================= -->
+      <div id="s-who" class="clip" data-start="16.0" data-duration="5.75" data-track-index="2">
+        <div class="sec-head" id="w-head">
+          <div class="sec-num gold-text">01</div>
+          <div>
+            <div class="sec-label">BAHAGIAN 1 / 3</div>
+            <div class="sec-dashes"><i class="on"></i><i></i><i></i></div>
+            <div class="sec-title">Siapa yang tetapkan<br /><span class="gold-text">interest rate?</span></div>
+          </div>
+        </div>
+        <div class="sec-rule" id="w-rule"></div>
+        <div class="card who-card" id="w1" style="top:600px">
+          <div class="icon-c"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.6" /><path d="M5 21c0-4 3.1-6.6 7-6.6s7 2.6 7 6.6" /><path d="m12 14.6-1.2 3 1.2 1.6 1.2-1.6z" /></svg></div>
+          <div class="tt">Sales Advisor (SA)</div><div class="st">Jurujual kereta</div><div class="strike" id="w1s"></div>
+          <div class="xbadge" id="w1x"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg></div>
+        </div>
+        <div class="card who-card" id="w2" style="top:780px">
+          <div class="icon-c"><svg viewBox="0 0 24 24"><path d="M3 9.5 5 4h14l2 5.5" /><path d="M3 9.5h18v1.2a2.6 2.6 0 0 1-5.2 0 2.6 2.6 0 0 1-5.2 0 2.6 2.6 0 0 1-5.2 0" /><path d="M4.5 12.5V20h15v-7.5M9.5 20v-4.5h5V20" /></svg></div>
+          <div class="tt">Dealer / Showroom</div><div class="st">Pengedar kereta</div><div class="strike" id="w2s"></div>
+          <div class="xbadge" id="w2x"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></svg></div>
+        </div>
+        <div class="card who-card" id="w3" style="top:960px">
+          <div class="icon-c"><svg viewBox="0 0 24 24"><path d="M3 9 12 4l9 5" /><path d="M4 9h16M5.5 9v8.5M9.8 9v8.5M14.2 9v8.5M18.5 9v8.5M3.5 20h17" /></svg></div>
+          <div class="tt">Pihak Bank</div><div class="st">Institusi kewangan</div>
+          <div class="okpill" id="w3ok"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>YANG TETAPKAN</div>
+        </div>
+      </div>
+
+      <!-- ================= S5 HOW BANK ================= -->
+      <div id="s-how" class="clip" data-start="21.6" data-duration="7.4" data-track-index="2">
+        <div class="sec-head" id="b-head">
+          <div class="sec-num gold-text">02</div>
+          <div>
+            <div class="sec-label">BAHAGIAN 2 / 3</div>
+            <div class="sec-dashes"><i class="on"></i><i class="on"></i><i></i></div>
+            <div class="sec-title">Macam mana bank<br /><span class="gold-text">tetapkan rate?</span></div>
+          </div>
+        </div>
+        <div class="sec-rule" id="b-rule"></div>
+        <div class="steps" id="b-steps">
+          <div class="track"></div><div class="fill" id="b-fill"></div>
+          <div class="step" style="left:30px"><div class="ring"><div class="on" id="b-on1"></div><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" /><path d="M14 3v4h4M9 12h6M9 16h6" /></svg></div><b>Permohonan</b></div>
+          <div class="step" style="left:340px"><div class="ring"><div class="on" id="b-on2"></div><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6" /><path d="m15 15 5 5" /></svg></div><b>Penilaian</b></div>
+          <div class="step" style="left:650px"><div class="ring"><div class="on" id="b-on3"></div><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z" /><path d="m8.5 12 2.4 2.4L15.5 9.8" /></svg></div><b>Kelulusan</b></div>
+        </div>
+        <div class="card profile" id="b-prof">
+          <div class="label">PROFIL PEMOHON</div>
+          <div class="stat" id="b-stat">BANK SEDANG MENILAI…</div>
+          <div class="pf-row" style="top:92px"><span>Rekod kredit</span><i style="width:520px"><em></em></i></div>
+          <div class="pf-row" style="top:146px"><span>Pendapatan</span><i style="width:440px"><em></em></i></div>
+          <div class="pf-row" style="top:200px"><span>Komitmen</span><i style="width:360px"><em></em></i></div>
+          <div class="pf-row" style="top:254px"><span>Pekerjaan</span><i style="width:480px"><em></em></i></div>
+          <div class="pf-row" style="top:308px"><span>Jumlah pinjaman</span><i style="width:400px"><em></em></i></div>
+          <div class="scanline" id="b-scan"></div>
+          <div class="pbar"><em id="b-pbar"></em></div>
+        </div>
+        <div class="lulus" id="b-lulus" data-layout-allow-overlap><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>LULUS</div>
+      </div>
+
+      <!-- ================= S6 FIVE FACTORS ================= -->
+      <div id="s-five" class="clip" data-start="28.85" data-duration="16.2" data-track-index="2">
+        <div class="sec-head" id="f-head">
+          <div class="sec-num gold-text">03</div>
+          <div>
+            <div class="sec-label">BAHAGIAN 3 / 3</div>
+            <div class="sec-dashes"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+            <div class="sec-title"><span class="gold-text" id="f-five">5 Faktor</span><br />Utama Bank</div>
+          </div>
+        </div>
+        <div class="sec-rule" id="f-rule"></div>
+        <div class="f-glow" id="f-glow"></div>
+        <div class="f-intro" id="f-intro"><div class="big gold-text" id="f-big">5</div><div class="lbl" id="f-lbl">FAKTOR UTAMA</div><div class="ics" id="f-ics"></div></div>
+
+        <div class="card f-row" id="fr1" style="top:574px"><div class="hi"></div>
+          <div class="n gold-text">01</div>
+          <div class="icon-c"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.2" /><path d="M3 10h18M7 15h4" /></svg></div>
+          <div class="tt">Rekod CCRIS &amp; CTOS</div><div class="st">Sejarah bayaran hutang korang</div>
+          <div class="wd"><div class="pill" style="background:rgba(60,197,132,0.14);border:1.5px solid rgba(60,197,132,0.55);color:var(--green)"><svg viewBox="0 0 24 24" style="stroke:var(--green)"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>BERSIH</div></div>
+        </div>
+        <div class="card f-row" id="fr2" style="top:710px"><div class="hi"></div>
+          <div class="n gold-text">02</div>
+          <div class="icon-c"><svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2" /><circle cx="12" cy="12" r="2.6" /><path d="M6 9.5v.1M18 14.5v.1" /></svg></div>
+          <div class="tt">Income Bulanan</div><div class="st">Gaji &amp; pendapatan tetap</div>
+          <div class="wd"><div class="mbars" id="f-mb"><i style="height:22px"></i><i style="height:36px"></i><i style="height:56px"></i></div></div>
+        </div>
+        <div class="card f-row" id="fr3" style="top:846px"><div class="hi"></div>
+          <div class="n gold-text">03</div>
+          <div class="icon-c"><svg viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0" /><path d="m12 17 4-5" /><circle cx="12" cy="17" r="1.2" /></svg></div>
+          <div class="tt">Komitmen Bulanan</div><div class="st">DSR — Debt Service Ratio</div>
+          <div class="wd"><svg width="96" height="56" viewBox="0 0 96 56"><path d="M8 52a40 40 0 0 1 80 0" stroke="rgba(255,255,255,0.12)" stroke-width="9" fill="none" stroke-linecap="round" /><path id="f-arc" d="M8 52a40 40 0 0 1 80 0" stroke="url(#gGold)" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="126" stroke-dashoffset="126" /><g id="f-needle"><path d="M48 52 48 20" stroke="#fff" stroke-width="4" stroke-linecap="round" /></g><circle cx="48" cy="52" r="5" fill="#fff" /></svg></div>
+        </div>
+        <div class="card f-row" id="fr4" style="top:982px"><div class="hi"></div>
+          <div class="n gold-text">04</div>
+          <div class="icon-c"><svg viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12" rx="2" /><path d="M9 7.5V5.5h6v2M3 12.5h18" /></svg></div>
+          <div class="tt">Jenis Pekerjaan</div><div class="st">Kerajaan, swasta atau bisnes</div>
+          <div class="wd"><div class="pill" style="border:1.5px solid rgba(201,157,92,0.6);color:var(--gold-lt);background:rgba(201,157,92,0.1)">STABIL?</div></div>
+        </div>
+        <div class="card f-row" id="fr5" style="top:1118px"><div class="hi"></div>
+          <div class="n gold-text">05</div>
+          <div class="icon-c"><svg viewBox="0 0 24 24"><path d="M12 3v18" /><path d="M16.5 7c0-1.7-2-3-4.5-3S7.5 5.3 7.5 7s2 2.6 4.5 3 4.5 1.4 4.5 3.2-2 3-4.5 3-4.5-1.3-4.5-3" /></svg></div>
+          <div class="tt">Jumlah Loan Amount</div><div class="st">Berapa banyak yang dipinjam</div>
+          <div class="wd"><div class="pill" style="background:var(--gold-grad);color:#17130c;font-size:24px">RM <svg viewBox="0 0 24 24" style="stroke:#17130c"><path d="M12 19V5M6 11l6-6 6 6" /></svg></div></div>
+        </div>
+      </div>
+
+      <!-- ================= S7 SUMMARY ================= -->
+      <div id="s-sum" class="clip" data-start="44.9" data-duration="5.6" data-track-index="2">
+        <div class="hl" style="top:300px">
+          <span class="ln"><span id="m-l1" style="font-size:66px;letter-spacing:-1px">Sebab tu setiap orang</span></span>
+          <span class="ln"><span id="m-l2" class="gold-text" style="font-size:96px">rate berbeza.</span></span>
+        </div>
+        <div class="card chart" id="m-chart">
+          <div class="same"><div class="pill" id="m-same" style="background:var(--gold-grad);color:#17130c;font-size:20px"><svg viewBox="0 0 24 24" style="stroke:#17130c"><path d="M3 15.5v-3l2.2-4.3A2 2 0 0 1 7 7h10a2 2 0 0 1 1.8 1.2L21 12.5v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" /><circle cx="7.5" cy="16.5" r="1.8" /><circle cx="16.5" cy="16.5" r="1.8" /></svg>KERETA SAMA</div></div>
+          <div class="note">*Contoh ilustrasi</div>
+          <div class="grid" style="top:180px"></div><div class="grid" style="top:290px"></div><div class="grid" style="top:400px"></div><div class="grid" style="top:490px"></div>
+          <div class="bar" id="bar1" style="left:115px;height:200px;background:linear-gradient(180deg,#5fd39c,#2a8a5c)"></div>
+          <div class="bar" id="bar2" style="left:365px;height:260px;background:var(--gold-grad)"></div>
+          <div class="bar" id="bar3" style="left:615px;height:320px;background:linear-gradient(180deg,#f07a70,#b8433b)"></div>
+          <div class="bar-v" id="bv1" style="left:100px;top:216px;color:var(--green)">2.7%</div>
+          <div class="bar-v gold-text" id="bv2" style="left:350px;top:156px">2.9%</div>
+          <div class="bar-v" id="bv3" style="left:600px;top:96px;color:var(--red)">3.1%</div>
+          <div class="bar-n" style="left:100px"><svg viewBox="0 0 360 140"><use href="#carSym" /></svg><b>Profil A</b></div>
+          <div class="bar-n" style="left:350px"><svg viewBox="0 0 360 140"><use href="#carSym" /></svg><b>Profil B</b></div>
+          <div class="bar-n" style="left:600px"><svg viewBox="0 0 360 140"><use href="#carSym" /></svg><b>Profil C</b></div>
+        </div>
+      </div>
+
+      <!-- ================= S8 CTA ================= -->
+      <div id="s-cta" class="clip" data-start="50.3" data-duration="6.0" data-track-index="2">
+        <div class="card cta-card" id="c-card">
+          <div class="beam" id="c-beam"></div>
+          <div class="floor"></div>
+          <svg class="bigcar" id="c-car" viewBox="0 0 360 140"><use href="#carSym" /></svg>
+          <div class="txt">
+            <div class="label">KERETA BARU?</div>
+            <h2 id="c-h2">Ada hajat nak<br /><span class="gold-text">beli kereta baru?</span></h2>
+          </div>
+        </div>
+        <div class="btn" id="c-btn"><svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" /><path d="M14 3v4h4M9 12h6M9 16h4" /></svg>ISI FORM DI BAWAH</div>
+        <div class="ripple" id="c-rip"></div>
+        <div class="finger" id="c-fing"></div>
+        <div class="chev" id="c-chev">
+          <svg viewBox="0 0 60 26"><path d="M8 4l22 16L52 4" /></svg>
+          <svg viewBox="0 0 60 26" style="margin-top:-6px;opacity:.6"><path d="M8 4l22 16L52 4" /></svg>
+        </div>
+      </div>
+
+      <!-- ================= CAPTIONS ================= -->
+      <div id="caps" class="clip" data-start="0" data-duration="56.3" data-track-index="3"></div>
+
+      <!-- ================= STREAK ================= -->
+      <div id="streakclip" class="clip" data-start="0" data-duration="56" data-track-index="4"><div id="streak"></div></div>
+
+      <!-- ================= S9 CLOSING ================= -->
+      <div id="close" class="clip" data-start="55.6" data-duration="6.9" data-track-index="5">
+        <svg class="cwave" style="top:250px" height="200" viewBox="0 0 1160 200" fill="none"><path class="cw" d="M0 110 C 220 160, 420 60, 640 90 S 1000 40, 1160 70" stroke="#c99d5c" stroke-opacity=".55" stroke-width="2.2" /></svg>
+        <svg class="cwave" style="top:1440px" height="260" viewBox="0 0 1160 260" fill="none"><path class="cw" d="M0 150 C 240 100, 480 190, 720 140 S 1040 40, 1160 60" stroke="#c99d5c" stroke-opacity=".55" stroke-width="2.2" /><path class="cw" d="M0 200 C 260 160, 520 240, 760 190 S 1060 110, 1160 120" stroke="#c99d5c" stroke-opacity=".32" stroke-width="2" /></svg>
+        <div id="logo">
+          <img class="part" id="lg-gold" src="assets/img/icon_gold.png" style="left:64.8px;top:0;width:732.8px;height:319.2px" alt="" />
+          <img class="part" id="lg-dark" src="assets/img/icon_dark.png" style="left:64.8px;top:0;width:732.8px;height:319.2px" alt="" />
+          <div class="shine" id="lg-shine"></div>
+          <div class="lt" style="left:4px;width:128px"><img src="assets/img/salam.png" style="left:-4px" alt="" /></div>
+          <div class="lt" style="left:164px;width:157px"><img src="assets/img/salam.png" style="left:-164px" alt="" /></div>
+          <div class="lt" style="left:354px;width:110px"><img src="assets/img/salam.png" style="left:-354px" alt="" /></div>
+          <div class="lt" style="left:486px;width:158px"><img src="assets/img/salam.png" style="left:-486px" alt="" /></div>
+          <div class="lt" style="left:674px;width:142px"><img src="assets/img/salam.png" style="left:-674px" alt="" /></div>
+          <img class="part" id="lg-auto" src="assets/img/automobile.png" style="left:0.8px;top:455.2px;width:815.2px;height:36.8px" alt="" />
+          <img class="part" id="lg-tag" src="assets/img/tagline.png" style="left:28.8px;top:522.4px;width:757.6px;height:21.6px" alt="" />
+        </div>
+        <div class="c-div" id="c-div"></div>
+        <div class="c-l1" id="c-l1"><span>Kami</span> <span>bantu</span> <span>guide</span> <span>&amp;</span> <span>assist</span> <span>anda</span> <span>dari</span></div>
+        <div class="c-l2"><span class="g" id="c-a">A</span> <span id="c-h">hingga</span> <span class="g" id="c-z">Z</span></div>
+      </div>
+
+      <!-- shared symbols -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a9793b" /><stop offset="1" stop-color="#f3d9a4" /></linearGradient>
+          <linearGradient id="gBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4efe4" /><stop offset=".62" stop-color="#e2dac9" /><stop offset="1" stop-color="#b9b09d" /></linearGradient>
+          <symbol id="carSym" viewBox="0 0 360 140">
+            <ellipse cx="182" cy="128" rx="170" ry="8" fill="rgba(0,0,0,0.45)" />
+            <path d="M12 96c0-13 9-21 27-23l58-6c19-21 44-35 79-36h56c29 1 52 15 72 33l30 6c14 3 20 11 20 22v12c0 5-4 8-9 8H22c-6 0-10-4-10-9z" fill="url(#gBody)" />
+            <path d="M112 67c15-17 36-26 62-27h28v27z" fill="#26282d" />
+            <path d="M210 40h26c24 1 41 10 56 27h-82z" fill="#26282d" />
+            <path d="M12 98h338" stroke="rgba(0,0,0,0.18)" stroke-width="2" />
+            <path d="M206 42v62M120 70h208" stroke="rgba(0,0,0,0.12)" stroke-width="2" fill="none" />
+            <rect x="330" y="80" width="18" height="7" rx="3" fill="#ffe6a8" />
+            <rect x="12" y="80" width="12" height="7" rx="3" fill="#e5574e" />
+            <circle cx="86" cy="110" r="25" fill="#17181b" /><circle cx="86" cy="110" r="13" fill="#8d8f96" /><circle cx="86" cy="110" r="5" fill="#26282d" />
+            <circle cx="282" cy="110" r="25" fill="#17181b" /><circle cx="282" cy="110" r="13" fill="#8d8f96" /><circle cx="282" cy="110" r="5" fill="#26282d" />
+          </symbol>
+        </defs>
+      </svg>
+    </div>
+
+    <script>
+      (function () {
+        // ---------------------------------------------------------------- captions data
+        // [start, end, "word|t ..."]  — a leading * marks a gold keyword
+        const CAPS = [
+          [0.0, 1.54, "Pernah|0 tak|.58 korang|.76 terfikir,|.96"],
+          [1.58, 3.74, "kau|1.58 dengan|1.76 kawan|2.0 kau|2.3 beli|2.78 *kereta|2.98 *yang|3.28 *sama,|3.48"],
+          [3.94, 5.68, "spek|3.94 yang|4.06 *sama,|4.34 harga|4.8 yang|5.06 *sama,|5.28"],
+          [5.9, 6.94, "ikat|5.9 tempoh|6.06 yang|6.32 *sama|6.56"],
+          [6.94, 8.62, "tapi|6.94 kau|7.22 dapat|7.4 rate|7.68 *3.1%,|7.78"],
+          [8.74, 10.46, "member|8.74 kau|8.96 dapat|9.12 rate|9.38 *2.7%|9.64"],
+          [10.46, 12.1, "macam|10.46 mana|10.82 benda|11.02 ni|11.24 boleh|11.38 *jadi?|11.54"],
+          [12.64, 13.78, "So|12.64 jom|12.72 hari|12.94 ni|13.18 kita|13.28 nak|13.46 share|13.6"],
+          [13.78, 16.08, "dengan|13.78 korang|13.98 tentang|14.38 *interest|14.94 *rate|15.62"],
+          [16.08, 18.2, "Siapa|16.08 yang|16.76 *tetapkan|16.94 interest|17.38 rate|17.7 ni?|17.84"],
+          [18.4, 19.86, "Bukan|18.4 SA,|18.54 bukan|19.18 dealer,|19.48"],
+          [19.86, 21.68, "tapi|19.86 *pihak|20.28 *bank|20.6 yang|20.78 tetapkan|20.94"],
+          [21.68, 24.6, "Jadi,|21.68 macam|22.66 mana|22.76 pihak|22.9 bank|23.12 *tetapkan|23.26 interest|23.74 rate|24.04 ni?|24.18"],
+          [24.72, 26.22, "Pihak|24.72 bank|24.94 akan|25.14 buat|25.4 *penilaian|25.56"],
+          [26.22, 28.6, "sebelum|26.22 dorang|27.0 *luluskan|27.3 *loan|28.0"],
+          [29.1, 32.2, "dan|29.1 pihak|29.42 bank|29.7 akan|29.84 semak|30.1 *5|30.58 *faktor|31.12 *utama|31.66"],
+          [32.2, 34.32, "Yang|32.2 pertama,|32.36 *CCRIS|32.84 dan|33.36 *CTOS|33.52 rekod|33.86"],
+          [34.32, 36.22, "yang|34.32 kedua,|34.56 *income|35.24 *bulanan|35.46 korang|35.76"],
+          [36.22, 39.54, "yang|36.22 ketiga,|36.58 *komitmen|37.42 *bulanan|37.76 ataupun|38.2 *DSR|38.66"],
+          [39.54, 41.56, "yang|39.54 keempat,|39.84 *jenis|40.52 *pekerjaan|40.72"],
+          [41.62, 43.48, "dan|41.62 yang|41.7 kelima,|41.76 *jumlah|42.44 *loan|42.8 *amount|43.0"],
+          [43.48, 44.94, "yang|43.48 dipinjam|43.76 dengan|44.12 pihak|44.38 bank|44.56"],
+          [44.94, 47.1, "Itulah|44.94 sebab|45.34 kenapa|45.72 setiap|46.18 orang|46.54"],
+          [47.1, 48.82, "mempunyai|47.1 *interest|47.78 yang|48.14 *berbeza|48.32"],
+          [48.82, 50.4, "walaupun|48.82 apply|49.32 *kereta|49.62 *yang|49.9 *sama|50.08"],
+          [50.4, 51.74, "Kalau|50.4 korang|50.92 kat|51.18 luar|51.34 sana|51.52"],
+          [51.74, 54.18, "yang|51.74 mana|51.94 ada|52.2 hajat|52.48 nak|52.86 *beli|53.16 *kereta|53.48 *baru|53.78"],
+          [54.18, 55.9, "just|54.18 *isi|54.64 *form|54.9 yang|55.1 ada|55.2 kat|55.38 bawah|55.52"],
+        ];
+        const caps = document.getElementById("caps");
+        CAPS.forEach((c, i) => {
+          const d = document.createElement("div");
+          d.className = "cap";
+          d.id = "cap" + i;
+          c[2].split(" ").forEach((tok, j) => {
+            const [w, t] = tok.split("|");
+            const s = document.createElement("span");
+            const key = w.startsWith("*");
+            s.textContent = key ? w.slice(1) : w;
+            s.dataset.t = t;
+            s.dataset.k = key ? "1" : "0";
+            d.appendChild(s);
+            d.appendChild(document.createTextNode(" "));
+          });
+          caps.appendChild(d);
+        });
+
+        // ---------------------------------------------------------------- timeline
+        const tl = gsap.timeline({ paused: true });
+        const E = "power3.out";
+
+        // captions
+        CAPS.forEach((c, i) => {
+          const el = "#cap" + i;
+          const next = CAPS[i + 1];
+          const out = next ? Math.min(c[1] + 0.35, next[0]) : c[1] + 0.3;
+          tl.fromTo(el, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.18, ease: E }, Math.max(0, c[0] - 0.06));
+          document.querySelectorAll(el + " span").forEach((s) => {
+            const t = parseFloat(s.dataset.t);
+            const col = s.dataset.k === "1" ? "#ecd09a" : "#ffffff";
+            tl.to(s, { color: col, duration: 0.1, ease: "none" }, t);
+          });
+          tl.to(el, { opacity: 0, y: -10, duration: 0.14, ease: "power2.in" }, out - 0.14);
+        });
+
+        // background drift
+        tl.fromTo("#wv1", { x: 0 }, { x: -160, duration: 62.5, ease: "none" }, 0);
+        tl.fromTo("#wv2", { x: -120 }, { x: 40, duration: 62.5, ease: "none" }, 0);
+        document.querySelectorAll("#bg .dot").forEach((d, i) => {
+          tl.fromTo(d, { opacity: 0, y: 0 }, { opacity: 0.35 + (i % 3) * 0.12, y: -60, duration: 4, ease: "sine.inOut" }, 0.3 + i * 0.7);
+          tl.to(d, { y: -520 - i * 30, duration: 50, ease: "none" }, 4.3 + i * 0.7);
+        });
+
+        // header
+        tl.from("#hdr", { opacity: 0, y: -16, duration: 0.5, ease: E }, 0.15);
+
+        // generic streak transition
+        const streak = (t) => {
+          tl.fromTo("#streak", { x: -200, opacity: 0 }, { x: 1250, opacity: 1, duration: 0.42, ease: "power2.inOut" }, t);
+          tl.to("#streak", { opacity: 0, duration: 0.08 }, t + 0.36);
+        };
+
+        // ================= HOOK =================
+        tl.from("#h-chip", { opacity: 0, x: -30, duration: 0.4, ease: E }, 0.05);
+        tl.from("#h-l1", { yPercent: 110, duration: 0.55, ease: "power4.out" }, 0.1);
+        tl.from("#h-l2", { yPercent: 110, duration: 0.55, ease: "power4.out" }, 0.28);
+        tl.from("#cardA", { opacity: 0, x: -120, duration: 0.6, ease: E }, 1.0);
+        tl.from("#cardB", { opacity: 0, x: 120, duration: 0.6, ease: E }, 1.12);
+        tl.from("#cardA .car", { x: -60, duration: 0.9, ease: "power2.out" }, 1.0);
+        tl.from("#cardB .car", { x: 60, duration: 0.9, ease: "power2.out" }, 1.12);
+        tl.from("#h-eq", { scale: 0, rotation: -90, duration: 0.45, ease: "back.out(2.2)" }, 3.25);
+        [[3.28, 0], [4.06, 1], [5.06, 2], [6.06, 3]].forEach(([t, k]) => {
+          tl.from(".tA" + k, { scale: 0, duration: 0.3, ease: "back.out(3)" }, t);
+          tl.from(".tB" + k, { scale: 0, duration: 0.3, ease: "back.out(3)" }, t + 0.06);
+        });
+        // swap rows -> rates
+        tl.to(["#rowsA", "#rowsB"], { opacity: 0, y: -20, duration: 0.3, ease: "power2.in" }, 6.9);
+        tl.to("#h-eq", { scale: 0, duration: 0.25, ease: "power2.in" }, 6.9);
+        tl.fromTo("#rateA", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: E }, 7.2);
+        tl.fromTo("#odoA1", { yPercent: 0 }, { yPercent: -75, duration: 0.6, ease: "power3.out" }, 7.72);
+        tl.fromTo("#odoA2", { yPercent: 0 }, { yPercent: (-11 / 12) * 100, duration: 0.75, ease: "power3.out" }, 7.72);
+        tl.from("#rateA .rate-tag", { opacity: 0, scale: 0.6, duration: 0.3, ease: "back.out(2)" }, 8.3);
+        tl.fromTo("#rateB", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: E }, 9.0);
+        tl.fromTo("#odoB1", { yPercent: 0 }, { yPercent: (-2 / 3) * 100, duration: 0.6, ease: "power3.out" }, 9.58);
+        tl.fromTo("#odoB2", { yPercent: 0 }, { yPercent: (-17 / 18) * 100, duration: 0.75, ease: "power3.out" }, 9.58);
+        tl.from("#rateB .rate-tag", { opacity: 0, scale: 0.6, duration: 0.3, ease: "back.out(2)" }, 10.2);
+        tl.to("#cardA", { borderColor: "rgba(229,87,78,0.6)", duration: 0.3 }, 8.2);
+        tl.to("#cardB", { borderColor: "rgba(60,197,132,0.6)", duration: 0.3 }, 10.1);
+        // stamp
+        tl.fromTo("#h-stamp", { opacity: 0, scale: 2.4, rotation: -2 }, { opacity: 1, scale: 1, rotation: -8, duration: 0.22, ease: "power4.in" }, 10.42);
+        tl.to("#s-hook .vs-card", { x: "+=8", duration: 0.05, yoyo: true, repeat: 3, ease: "none" }, 10.64);
+        tl.to(["#cardA", "#cardB", "#h-hl", "#h-chip"], { opacity: 0.35, duration: 0.3 }, 10.64);
+        tl.to("#h-stamp", { scale: 1.06, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1 }, 10.9);
+        // exit
+        tl.to("#s-hook > *", { opacity: 0, y: -40, duration: 0.3, ease: "power2.in", stagger: 0.02 }, 12.1);
+        streak(12.3);
+
+        // ================= TITLE =================
+        tl.fromTo("#t-glow", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.8, ease: E }, 12.55);
+        tl.from("#t-chip", { opacity: 0, y: 20, duration: 0.4, ease: E }, 12.6);
+        tl.from("#t-pct", { opacity: 0, scale: 0.4, rotation: -20, duration: 0.6, ease: "back.out(1.8)" }, 12.55);
+        tl.from("#t-w1", { opacity: 0, x: 80, duration: 0.5, ease: E }, 12.7);
+        tl.from("#t-w2", { opacity: 0, x: 80, duration: 0.5, ease: E }, 12.85);
+        tl.from("#t-sub", { opacity: 0, y: 20, duration: 0.4, ease: E }, 13.4);
+        tl.from(["#tc1", "#tc2", "#tc3"], { opacity: 0, y: 50, duration: 0.45, ease: E, stagger: 0.18 }, 13.8);
+        tl.to("#t-pct", { scale: 1.04, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 13.3);
+        tl.to("#s-title > *", { opacity: 0, y: -40, duration: 0.3, ease: "power2.in", stagger: 0.02 }, 15.75);
+
+        // section header helper
+        const head = (id, rule, t) => {
+          tl.from(id + " .sec-num", { opacity: 0, y: 60, duration: 0.55, ease: "power4.out" }, t);
+          tl.from(id + " .sec-label, " + id + " .sec-dashes", { opacity: 0, x: 40, duration: 0.4, ease: E, stagger: 0.06 }, t + 0.1);
+          tl.from(id + " .sec-dashes i", { scaleX: 0, transformOrigin: "left center", duration: 0.3, ease: E, stagger: 0.06 }, t + 0.18);
+          tl.from(id + " .sec-title", { opacity: 0, y: 30, duration: 0.45, ease: E }, t + 0.2);
+          tl.from(rule, { scaleX: 0, duration: 0.7, ease: "power2.out" }, t + 0.25);
+        };
+
+        // ================= WHO =================
+        head("#w-head", "#w-rule", 16.05);
+        tl.from("#w1", { opacity: 0, x: 120, duration: 0.45, ease: E }, 16.6);
+        tl.from("#w2", { opacity: 0, x: 120, duration: 0.45, ease: E }, 16.75);
+        tl.from("#w3", { opacity: 0, x: 120, duration: 0.45, ease: E }, 16.9);
+        tl.set(["#w1x", "#w2x", "#w3ok"], { opacity: 0 }, 16.0);
+        tl.fromTo("#w1x", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power4.in" }, 18.5);
+        tl.to("#w1s", { width: 360, duration: 0.3, ease: "power2.out" }, 18.62);
+        tl.to("#w1", { opacity: 0.45, duration: 0.3 }, 18.75);
+        tl.fromTo("#w2x", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power4.in" }, 19.45);
+        tl.to("#w2s", { width: 380, duration: 0.3, ease: "power2.out" }, 19.57);
+        tl.to("#w2", { opacity: 0.45, duration: 0.3 }, 19.7);
+        tl.to("#w3", { scale: 1.04, duration: 0.4, ease: "back.out(2)" }, 20.28);
+        tl.to("#w3", { borderColor: "rgba(201,157,92,0.95)", boxShadow: "0 0 0 1px rgba(201,157,92,0.4), 0 0 70px rgba(201,157,92,0.28), 0 30px 60px rgba(0,0,0,0.45)", duration: 0.35 }, 20.28);
+        tl.fromTo("#w3ok", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.4)" }, 20.32);
+        tl.to("#s-who > *", { opacity: 0, y: -40, duration: 0.3, ease: "power2.in", stagger: 0.02 }, 21.4);
+
+        // ================= HOW =================
+        head("#b-head", "#b-rule", 21.7);
+        tl.from("#b-steps .step", { opacity: 0, y: 40, duration: 0.45, ease: E, stagger: 0.12 }, 22.2);
+        tl.from("#b-steps .track", { scaleX: 0, transformOrigin: "left", duration: 0.6, ease: E }, 22.3);
+        tl.from("#b-prof", { opacity: 0, y: 60, duration: 0.5, ease: E }, 22.6);
+        tl.set("#b-lulus", { opacity: 0 }, 21.6);
+        tl.to("#b-on1", { opacity: 1, duration: 0.3 }, 24.72);
+        tl.to("#b-fill", { scaleX: 0.5, duration: 0.8, ease: "power2.inOut" }, 24.9);
+        tl.to("#b-on2", { opacity: 1, duration: 0.3 }, 25.56);
+        tl.fromTo("#b-scan", { y: -120, opacity: 0 }, { y: 400, opacity: 1, duration: 1.1, ease: "none" }, 25.6);
+        tl.fromTo("#b-scan", { y: -120 }, { y: 400, duration: 1.1, ease: "none", immediateRender: false }, 26.7);
+        tl.to("#b-scan", { opacity: 0, duration: 0.1 }, 27.75);
+        document.querySelectorAll("#b-prof .pf-row em").forEach((e, i) => {
+          tl.to(e, { scaleX: 1, duration: 0.5, ease: "power2.out" }, 25.75 + i * 0.36);
+        });
+        tl.to("#b-pbar", { scaleX: 1, duration: 2.1, ease: "power1.inOut" }, 25.6);
+        tl.to("#b-fill", { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 27.2);
+        tl.to("#b-on3", { opacity: 1, borderColor: "#3cc584", backgroundColor: "rgba(60,197,132,0.18)", duration: 0.3 }, 27.8);
+        tl.fromTo("#b-lulus", { opacity: 0, scale: 2.3, rotation: 0 }, { opacity: 1, scale: 1, rotation: -7, duration: 0.2, ease: "power4.in" }, 27.88);
+        tl.to("#b-prof", { opacity: 0.4, duration: 0.3 }, 28.1);
+        tl.to("#s-how > *", { opacity: 0, y: -40, duration: 0.28, ease: "power2.in", stagger: 0.015 }, 28.6);
+        streak(28.75);
+
+        // ================= FIVE =================
+        head("#f-head", "#f-rule", 28.95);
+        tl.fromTo("#f-five", { scale: 1 }, { scale: 1.12, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "left center" }, 30.55);
+        document.querySelectorAll("#s-five .f-row .icon-c").forEach((ic) => document.getElementById("f-ics").appendChild(ic.cloneNode(true)));
+        tl.fromTo("#f-glow", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.8, ease: E }, 29.2);
+        tl.from("#f-big", { opacity: 0, scale: 0.4, y: 60, duration: 0.6, ease: "back.out(1.7)" }, 29.25);
+        tl.from("#f-lbl", { opacity: 0, y: 24, duration: 0.4, ease: E }, 29.6);
+        tl.from("#f-ics .icon-c", { opacity: 0, scale: 0, duration: 0.35, ease: "back.out(2.6)", stagger: 0.09 }, 30.55);
+        tl.to("#f-big", { scale: 1.06, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1 }, 30.55);
+        tl.to(["#f-intro", "#f-glow"], { opacity: 0, scale: 0.85, y: -40, duration: 0.3, ease: "power2.in" }, 31.95);
+        const fT = [32.36, 34.56, 36.58, 39.84, 41.76];
+        fT.forEach((t, i) => {
+          const r = "#fr" + (i + 1);
+          tl.from(r, { opacity: 0, x: 140, duration: 0.45, ease: E }, t - 0.12);
+          tl.to(r + " .hi", { opacity: 1, duration: 0.25 }, t - 0.05);
+          if (i > 0) tl.to("#fr" + i + " .hi", { opacity: 0, duration: 0.3 }, t - 0.05);
+          tl.from(r + " .wd", { opacity: 0, scale: 0.5, duration: 0.35, ease: "back.out(2.4)" }, t + 0.25);
+        });
+        tl.from("#f-mb i", { scaleY: 0, duration: 0.35, ease: "back.out(2)", stagger: 0.1 }, 34.9);
+        tl.to("#f-arc", { strokeDashoffset: 40, duration: 0.9, ease: "power2.out" }, 37.0);
+        tl.fromTo("#f-needle", { rotation: -80, svgOrigin: "48 52" }, { rotation: 38, svgOrigin: "48 52", duration: 0.9, ease: "back.out(1.6)" }, 37.0);
+        tl.to("#fr5 .hi", { opacity: 0, duration: 0.3 }, 44.2);
+        tl.to("#s-five > *", { opacity: 0, y: -40, duration: 0.28, ease: "power2.in", stagger: 0.015 }, 44.62);
+
+        // ================= SUMMARY =================
+        tl.from("#m-l1", { yPercent: 110, duration: 0.5, ease: "power4.out" }, 45.0);
+        tl.from("#m-l2", { yPercent: 110, duration: 0.5, ease: "power4.out" }, 45.15);
+        tl.from("#m-chart", { opacity: 0, y: 60, duration: 0.5, ease: E }, 45.35);
+        tl.from("#m-chart .grid", { scaleX: 0, transformOrigin: "left", duration: 0.5, stagger: 0.05, ease: E }, 45.5);
+        [["#bar1", "#bv1", 46.2], ["#bar2", "#bv2", 46.55], ["#bar3", "#bv3", 46.9]].forEach(([b, v, t]) => {
+          tl.from(b, { scaleY: 0, duration: 0.6, ease: "back.out(1.4)" }, t);
+          tl.from(v, { opacity: 0, y: 30, duration: 0.35, ease: E }, t + 0.25);
+        });
+        tl.from("#m-chart .bar-n", { opacity: 0, y: 20, duration: 0.35, stagger: 0.1, ease: E }, 46.0);
+        tl.from("#m-same", { opacity: 0, scale: 0.4, duration: 0.4, ease: "back.out(2.4)" }, 48.85);
+        tl.to("#m-chart .bar-n svg", { y: -6, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.08 }, 49.6);
+        tl.to("#s-sum > *", { opacity: 0, y: -40, duration: 0.28, ease: "power2.in", stagger: 0.02 }, 50.15);
+
+        // ================= CTA =================
+        tl.from("#c-card", { opacity: 0, y: 80, scale: 0.94, duration: 0.55, ease: E }, 50.4);
+        tl.fromTo("#c-beam", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.out" }, 50.7);
+        tl.from("#c-car", { x: -420, duration: 1.1, ease: "power3.out" }, 50.55);
+        tl.from("#c-h2", { opacity: 0, y: 30, duration: 0.45, ease: E }, 51.7);
+        tl.from("#c-btn", { opacity: 0, y: 50, scale: 0.85, duration: 0.45, ease: "back.out(1.8)" }, 53.9);
+        tl.fromTo("#c-fing", { opacity: 0, scale: 1.6 }, { opacity: 0.95, scale: 1, duration: 0.2 }, 54.42);
+        tl.to("#c-btn", { scale: 0.95, duration: 0.1, ease: "power2.in" }, 54.6);
+        tl.to("#c-btn", { scale: 1, duration: 0.25, ease: "back.out(3)" }, 54.7);
+        tl.fromTo("#c-rip", { opacity: 1, scale: 0.2 }, { opacity: 0, scale: 2.2, duration: 0.7, ease: "power2.out" }, 54.62);
+        tl.to("#c-fing", { opacity: 0, duration: 0.25 }, 54.85);
+        tl.from("#c-chev", { opacity: 0, duration: 0.3 }, 54.75);
+        tl.fromTo("#c-chev", { y: 0 }, { y: 16, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 54.75);
+
+        // ================= CLOSING =================
+        tl.fromTo("#close", { clipPath: "circle(0px at 540px 1120px)" }, { clipPath: "circle(2300px at 540px 1120px)", duration: 0.75, ease: "power3.in" }, 55.6);
+        document.querySelectorAll("#close .cw").forEach((p, i) => {
+          const L = 1400;
+          tl.fromTo(p, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.6, ease: "power2.out" }, 55.9 + i * 0.15);
+        });
+        tl.fromTo("#lg-gold", { clipPath: "inset(0% 100% 0% 0%)", x: -60 }, { clipPath: "inset(0% 0% 0% 0%)", x: 0, duration: 0.8, ease: "power3.out" }, 56.05);
+        tl.fromTo("#lg-dark", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 56.25);
+        document.querySelectorAll("#logo .lt img").forEach((im, i) => {
+          tl.fromTo(im, { y: 100 }, { y: 0, duration: 0.5, ease: "power3.out" }, 56.55 + i * 0.07);
+        });
+        tl.fromTo("#lg-auto", { clipPath: "inset(0% 50% 0% 50%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power2.out" }, 57.0);
+        tl.fromTo("#lg-tag", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 57.3);
+        tl.fromTo("#lg-shine", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 0.9, ease: "power2.inOut" }, 57.4);
+        tl.fromTo("#c-div", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: E }, 57.35);
+        tl.from("#c-l1 span", { opacity: 0, y: 18, duration: 0.3, ease: E, stagger: 0.05 }, 57.45);
+        tl.fromTo("#c-a", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.6)" }, 58.33);
+        tl.fromTo("#c-h", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: E }, 58.68);
+        tl.fromTo("#c-z", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.6)" }, 59.0);
+        tl.fromTo("#logo", { scale: 1 }, { scale: 1.03, duration: 3.2, ease: "sine.inOut" }, 59.3);
+        tl.fromTo("#lg-shine", { backgroundPosition: "120% 0" }, { backgroundPosition: "-20% 0", duration: 1.0, ease: "power2.inOut", immediateRender: false }, 60.3);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
