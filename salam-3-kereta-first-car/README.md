@@ -8,7 +8,7 @@ Video infografik 2D (HyperFrames + GSAP), ~60s, 1080x1920 @30fps.
 | 0.0–3.6 | **Hook** — "Baru start kerja? & perlukan kereta UNTUK BERGERAK?" + kereta 2D masuk |
 | 3.6–6.9 | "3 Model Kereta" + 3 kad kereta |
 | 6.9–11.5 | Bajet bulanan RM400–RM600 (kaunter + slider) |
-| 11.5–24.7 | 01 Proton Saga MC3 — enjin 1.5 VVT, gearbox 4AT / CVT |
+| 11.5–24.7 | 01 Proton Saga MC3 — enjin 1.5 I-GT, gearbox 4AT / CVT |
 | 24.7–33.7 | 02 Perodua Axia — hatchback, 1.0L, CVT |
 | 33.7–43.8 | 03 Perodua Bezza — 1.3L / 1.0L, 4AT (low spec) |
 | 43.8–50.2 | Ringkasan: jadual perbandingan |
