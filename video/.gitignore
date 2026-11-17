@@ -1,2 +1,4 @@
 node_modules/
 .hyperframes/
+out/work-*/
+out/.*hf-transaction*/
