@@ -1,106 +1,85 @@
-"""Tighten the voiceover: shorten long pauses, remap word timestamps.
+"""Tight voiceover edit: keep only the spoken phrases (VAD segments), drop repeated/dragging bits,
+re-space the pauses, and speed the read up slightly.
 
-usage: python3 -I edit_vo.py <vo_clean48.wav> <transcript.json> <out.wav> <out_timing.json>
+usage: python3 -I edit_vo.py <vo_clean48.wav> <out.wav> <segmap.json>
+
+Segment times are in the ORIGINAL recording (IMG_0036.MOV), found with Silero VAD and checked
+by transcribing each segment on its own.
 """
-import json
+import subprocess
 import sys
+import tempfile
 import wave
 
 import numpy as np
 
-src, tx_path, out_wav, out_json = sys.argv[1:5]
+src, out_wav, map_path = sys.argv[1:4]
+import json
+VO_OFFSET = 0.25   # seconds of air before the first word (hook car whoosh plays here)
+TEMPO = 1.05       # gentle speed-up, pitch preserved (ffmpeg atempo)
 
-VO_OFFSET = 0.30  # VO starts this many seconds into the film (hook car whoosh first)
+# (start, end, pause_after) — pause_after is the silence inserted after this phrase
+KEEP = [
+    (0.24, 7.32, 0.30),    # Korang teringin nak pakai kereta baru tapi gaji korang dalam range RM1,800 hingga RM2,000
+    (7.88, 11.38, 0.30),   # Ini tiga model kereta baru yang sesuai dengan korang
+    (11.95, 13.01, 0.14),  # Model yang pertama
+    (13.48, 14.74, 0.18),  # Proton Saga MC3
+    (15.18, 16.24, 0.10),  # Bulanan serendah
+    (16.56, 18.36, 0.50),  # RM423            (dropped: "sebulan" 18.60-19.16 + 0.95 s drag)
+    (20.11, 21.08, 0.12),  # Model kedua
+    (21.52, 22.32, 0.18),  # Perodua Axia
+    (22.89, 23.86, 0.10),  # Bulanan serendah
+    (24.30, 26.23, 0.50),  # RM455            (dropped: "sebulan" 26.60-27.12 + 0.8 s drag)
+    (27.92, 28.98, 0.12),  # Model yang ketiga
+    (29.52, 30.32, 0.18),  # Perodua Bezza
+    (30.73, 31.86, 0.10),  # Bulanan serendah
+    (32.20, 34.20, 0.55),  # RM415            (dropped: "sebulan" 34.48-35.00 + 0.6 s drag)
+    (35.63, 39.385, 0.0),  # Jadi korang nak tahu mana satu yang lebih sesuai untuk kegunaan
+    (39.99, 41.30, 0.28),  # dan gaji korang  (dropped: repeated "korang" 39.385-39.99)
+    (41.74, 42.55, 0.14),  # Tunggu apa lagi
+    (42.89, 44.95, 0.10),  # isi form yang ada di bawah sekarang
+    (45.07, 47.96, 0.10),  # kita akan bantu guide dan assist korang daripada A
+    (48.27, 48.82, 0.0),   # sampai Z
+]
+PRE, POST = 0.035, 0.06    # breathing room around each VAD segment edge (soft onsets / tails)
 
 wf = wave.open(src)
 sr = wf.getframerate()
 a = np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16).astype(np.float32) / 32768
 
-# --- find quiet regions (20 ms RMS, relative threshold) ---
-h = int(sr * 0.02)
-n = len(a) // h
-rms = np.array([np.sqrt(np.mean(a[i * h:(i + 1) * h] ** 2)) + 1e-9 for i in range(n)])
-db = 20 * np.log10(rms)
-thr = np.percentile(db, 10) + 8
-low = db < thr
-quiet = []
-i = 0
-while i < n:
-    if low[i]:
-        j = i
-        while j < n and low[j]:
-            j += 1
-        quiet.append((i * 0.02, j * 0.02))
-        i = j
-    else:
-        i += 1
+xf = int(sr * 0.010)
+pieces = []
+segmap = []
+pos = 0.0
+for k, (s, e, gap) in enumerate(KEEP):
+    # hard word-splice (gap 0 and contiguous) gets no extra padding
+    s_pad = 0 if (k > 0 and KEEP[k - 1][2] == 0.0) else PRE
+    e_pad = 0 if gap == 0.0 and k < len(KEEP) - 1 else POST
+    seg = a[int((s - s_pad) * sr):int((e + e_pad) * sr)].copy()
+    f = min(xf, len(seg) // 4)
+    seg[:f] *= np.linspace(0, 1, f)
+    seg[-f:] *= np.linspace(1, 0, f)
+    pieces.append(seg)
+    segmap.append({"orig": [s, e], "new": [pos + s_pad, pos + len(seg) / sr - e_pad]})
+    pos += len(seg) / sr
+    if gap > 0:
+        pieces.append(np.zeros(int(gap * sr), dtype=np.float32))
+        pos += int(gap * sr) / sr
+out = np.concatenate(pieces)
 
-# section boundaries (original seconds) keep a bit more air for the scene change
-BOUNDARIES = [7.6, 11.6, 19.9, 27.4, 35.3, 41.5]
-segments = []  # (orig_start, orig_end) of kept audio
-cursor = 0.0
-for qs, qe in quiet:
-    dur = qe - qs
-    if dur < 0.26:
-        continue
-    is_boundary = any(qs - 0.1 <= b <= qe + 0.1 for b in BOUNDARIES)
-    keep = 0.34 if is_boundary else 0.20
-    if qs < 0.05:  # leading silence: drop it almost entirely
-        cursor = max(cursor, qe - 0.04)
-        continue
-    if qe > len(a) / sr - 0.05:  # trailing silence
-        segments.append((cursor, qs + 0.15))
-        cursor = None
-        break
-    if dur <= keep:
-        continue
-    cut_s = qs + keep / 2
-    cut_e = qe - keep / 2
-    segments.append((cursor, cut_s))
-    cursor = cut_e
-if cursor is not None:
-    segments.append((cursor, len(a) / sr))
+# tempo (pitch-preserving) via ffmpeg atempo
+with tempfile.TemporaryDirectory() as td:
+    p_in, p_out = f"{td}/in.wav", f"{td}/out.wav"
+    w = wave.open(p_in, "wb"); w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
+    w.writeframes((np.clip(out, -1, 1) * 32767).astype(np.int16).tobytes()); w.close()
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", p_in, "-af", f"atempo={TEMPO}", "-ar", str(sr), p_out], check=True)
+    w = wave.open(p_out)
+    out = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768
 
-# --- assemble with short crossfades ---
-xf = int(sr * 0.012)
-out = np.zeros(0, dtype=np.float32)
-for s, e in segments:
-    seg = a[int(s * sr):int(e * sr)].copy()
-    if len(out) and len(seg) > xf:
-        ramp = np.linspace(0, 1, xf, dtype=np.float32)
-        out[-xf:] = out[-xf:] * (1 - ramp) + seg[:xf] * ramp
-        seg = seg[xf:]
-    out = np.concatenate([out, seg])
-# fade tail
-ft = int(sr * 0.08)
-out[-ft:] *= np.linspace(1, 0, ft)
-
-# --- time map orig -> edited ---
-def remap(t):
-    acc = 0.0
-    for k, (s, e) in enumerate(segments):
-        if t < s:
-            return acc
-        if t <= e:
-            return acc + (t - s)
-        acc += (e - s) - (xf / sr if k > 0 else 0)
-    return acc
-
-tx = json.load(open(tx_path))
-words = []
-for seg in tx:
-    for w in seg["words"]:
-        words.append({"w": w["w"].strip(), "s": round(remap(w["s"]) + VO_OFFSET, 3), "e": round(remap(w["e"]) + VO_OFFSET, 3)})
-
-pad = np.zeros(int(VO_OFFSET * sr), dtype=np.float32)
-out = np.concatenate([pad, out])
-pcm = (np.clip(out, -1, 1) * 32767).astype(np.int16)
-ow = wave.open(out_wav, "wb")
-ow.setnchannels(1)
-ow.setsampwidth(2)
-ow.setframerate(sr)
-ow.writeframes(pcm.tobytes())
-ow.close()
-
-json.dump({"duration": round(len(out) / sr, 3), "segments": segments, "words": words}, open(out_json, "w"), indent=1)
-print("segments:", len(segments), "orig", round(len(a) / sr, 2), "-> edited", round(len(out) / sr, 2))
+out = np.concatenate([np.zeros(int(VO_OFFSET * sr), dtype=np.float32), out, np.zeros(int(0.05 * sr), dtype=np.float32)])
+ow = wave.open(out_wav, "wb"); ow.setnchannels(1); ow.setsampwidth(2); ow.setframerate(sr)
+ow.writeframes((np.clip(out, -1, 1) * 32767).astype(np.int16).tobytes()); ow.close()
+for m in segmap:
+    m["new"] = [round(VO_OFFSET + t / TEMPO, 3) for t in m["new"]]
+json.dump(segmap, open(map_path, "w"), indent=1)
+print("edited VO:", round(len(out) / sr, 2), "s")
