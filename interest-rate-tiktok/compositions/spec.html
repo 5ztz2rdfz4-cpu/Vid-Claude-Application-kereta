@@ -87,10 +87,10 @@
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.fromTo("#sp-card", { opacity: 0, y: -60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "power3.out" }, 0);
-    [0.05, 0.9, 2.25, 2.97].forEach((t, i) => {
+    [0.02, 0.84, 2.07, 2.78].forEach((t, i) => {
       tl.fromTo("#sp-c" + (i + 1), { opacity: 0.15, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.28, ease: "back.out(2.6)" }, t);
     });
-    tl.to("#sp-card", { opacity: 0, y: -50, duration: 0.3, ease: "power2.in" }, 3.55);
+    tl.to("#sp-card", { opacity: 0, y: -50, duration: 0.3, ease: "power2.in" }, 3.35);
     window.__timelines["spec"] = tl;
   </script>
 </template>

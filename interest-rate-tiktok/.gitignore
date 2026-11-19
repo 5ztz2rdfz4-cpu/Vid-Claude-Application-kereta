@@ -1,8 +1,8 @@
 .hyperframes/
 .transcode-cache/
 node_modules/
-# talking-head footage is >100MB (GitHub limit); a compressed copy is committed separately
-assets/video/talk.mp4
+
+
 renders/*.tmp*
 renders/work-*/
 renders/.*
