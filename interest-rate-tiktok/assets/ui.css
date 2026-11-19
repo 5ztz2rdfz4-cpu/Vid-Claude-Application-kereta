@@ -1,0 +1,61 @@
+/* Shared look for every scene: dark glass cards, condensed display type, yellow accent. */
+.lg {
+  font-family: "League Gothic", "Oswald", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+}
+.mont {
+  font-family: "Montserrat", sans-serif;
+}
+.y {
+  color: #ffd21e;
+}
+.r {
+  color: #ff3b3f;
+}
+.g {
+  color: #22c55e;
+}
+.card {
+  position: absolute;
+  background: rgba(14, 16, 23, 0.94);
+  border: 2px solid rgba(255, 255, 255, 0.07);
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  color: #fff;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffd21e;
+  color: #0b0d12;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 999px;
+}
+.numbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffd21e;
+  color: #0b0d12;
+  border-radius: 18px;
+  font-family: "League Gothic", sans-serif;
+}
+.ico {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}

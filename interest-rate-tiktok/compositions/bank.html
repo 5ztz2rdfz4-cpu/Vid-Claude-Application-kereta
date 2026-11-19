@@ -1,0 +1,97 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #bk-a {
+      left: 100px;
+      top: 236px;
+      width: 880px;
+      height: 214px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    #bk-ic {
+      width: 150px;
+      height: 150px;
+      flex: none;
+    }
+    #bk-ic svg {
+      width: 90px;
+      height: 90px;
+      stroke-width: 2.4;
+    }
+    #bk-a1 {
+      font-size: 60px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    #bk-a2 {
+      font-size: 100px;
+    }
+    #bk-a3 {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 4px;
+    }
+    #bk-b {
+      left: 150px;
+      top: 226px;
+      width: 780px;
+      height: 250px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+    #bk-five {
+      font-size: 250px;
+      line-height: 0.8;
+      padding-top: 26px;
+    }
+    #bk-b1 {
+      font-size: 104px;
+    }
+    #bk-b2 {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 8px;
+    }
+  </style>
+  <div id="root" data-composition-id="bank" data-width="1080" data-height="1920">
+    <div id="bk-a" class="card">
+      <div id="bk-ic" class="numbox"><svg class="ico" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="m9 14 2 2 4-4" /></svg></div>
+      <div>
+        <div id="bk-a1" class="lg">Bank buat</div>
+        <div id="bk-a2" class="lg y">Penilaian</div>
+        <div id="bk-a3">sebelum approve loan korang</div>
+      </div>
+    </div>
+    <div id="bk-b" class="card">
+      <div id="bk-five" class="lg y tnum">5</div>
+      <div>
+        <div id="bk-b1" class="lg">Faktor utama</div>
+        <div id="bk-b2">YANG BANK AKAN CHECK</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bk-a", { opacity: 0, y: -50, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 1.7);
+    tl.fromTo("#bk-ic", { rotation: -20, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.45, ease: "back.out(2.4)" }, 1.8);
+    tl.fromTo("#bk-a2", { scale: 1 }, { scale: 1.07, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 }, 2.86);
+    tl.to("#bk-a", { opacity: 0, y: -40, duration: 0.25, ease: "power2.in" }, 5.25);
+    tl.fromTo("#bk-b", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 5.6);
+    tl.fromTo("#bk-five", { opacity: 0, scale: 3.2 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power4.in" }, 6.07);
+    tl.fromTo("#bk-b", { x: 0 }, { x: 14, duration: 0.04, ease: "none", yoyo: true, repeat: 5 }, 6.37);
+    tl.to("#bk-b", { opacity: 0, y: -40, duration: 0.25, ease: "power2.in" }, 8.85);
+    window.__timelines["bank"] = tl;
+  </script>
+</template>

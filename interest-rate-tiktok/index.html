@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/ui.css" />
+    <style>
+      :root {
+        --ground: #0b0d12;
+        --panel: #141821;
+        --yellow: #ffd21e;
+        --red: #ff3b3f;
+        --green: #22c55e;
+        --ink: #ffffff;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: var(--ground);
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: "Montserrat", sans-serif;
+      }
+      /* dark studio ground, visible whenever the speaker shrinks to the PIP */
+      #bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: radial-gradient(120% 70% at 50% 0%, #1b2030 0%, #0b0d12 55%, #07080b 100%);
+      }
+      #bg-glow {
+        position: absolute;
+        left: -200px;
+        top: -260px;
+        width: 900px;
+        height: 900px;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(255, 210, 30, 0.16), rgba(255, 210, 30, 0));
+      }
+      #bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      #camwrap {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 2;
+      }
+      #camclip {
+        position: absolute;
+        inset: 0;
+        clip-path: inset(0px 0px 0px 0px round 0px);
+      }
+      #talk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        object-fit: cover;
+      }
+      #pipframe {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 3;
+        pointer-events: none;
+      }
+      #pipring {
+        position: absolute;
+        left: 362px;
+        top: 900px;
+        width: 356px;
+        height: 380px;
+        border: 6px solid var(--yellow);
+        border-radius: 40px;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
+        opacity: 0;
+      }
+      .scene {
+        z-index: 5;
+      }
+      #captions {
+        z-index: 8;
+      }
+      #chrome {
+        z-index: 9;
+      }
+      #endcard {
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="68.2"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div id="bg" class="clip" data-start="0" data-duration="68.2" data-track-index="0">
+        <div id="bg-grid"></div>
+        <div id="bg-glow"></div>
+      </div>
+
+      <div id="camwrap">
+        <div id="camclip">
+          <video
+            id="talk"
+            class="clip"
+            src="assets/video/talk.mp4"
+            data-start="0"
+            data-duration="64.1"
+            data-track-index="1"
+            data-has-audio="true"
+            data-volume="1"
+            playsinline
+          ></video>
+        </div>
+      </div>
+
+      <div id="pipframe" class="clip" data-start="0" data-duration="64.1" data-track-index="2">
+        <div id="pipring"></div>
+      </div>
+
+      <!-- graphics scenes, back to back on one lane -->
+      <div id="hook" class="scene" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="5" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="spec" class="scene" data-composition-id="spec" data-composition-src="compositions/spec.html" data-start="5" data-duration="3.9" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="compare" class="scene" data-composition-id="compare" data-composition-src="compositions/compare.html" data-start="8.9" data-duration="6.4" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="topic" class="scene" data-composition-id="topic" data-composition-src="compositions/topic.html" data-start="15.3" data-duration="3.1" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="who" class="scene" data-composition-id="who" data-composition-src="compositions/who.html" data-start="18.4" data-duration="7.6" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="bank" class="scene" data-composition-id="bank" data-composition-src="compositions/bank.html" data-start="26" data-duration="9.15" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="factors" class="scene" data-composition-id="factors" data-composition-src="compositions/factors.html" data-start="35.15" data-duration="15.3" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="diff" class="scene" data-composition-id="diff" data-composition-src="compositions/diff.html" data-start="50.45" data-duration="5.15" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="cta" class="scene" data-composition-id="cta" data-composition-src="compositions/cta.html" data-start="55.6" data-duration="8.5" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="64.1" data-duration="4.1" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+
+      <div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="64.1" data-track-index="4" data-track-kind="captions" data-width="1080" data-height="1920"></div>
+      <div id="chrome" data-composition-id="chrome" data-composition-src="compositions/chrome.html" data-start="0" data-duration="68.2" data-track-index="5" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+
+      <!-- music bed (level envelope baked into the file: under voice, up on the end card) -->
+      <audio id="bgm" class="clip" src="assets/music/bgm.wav" data-start="0" data-duration="68.2" data-track-index="6" data-volume="1" data-timeline-role="music"></audio>
+
+      <!-- sound effects, one lane -->
+      <audio id="sfx-hook-hit" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="0" data-duration="2.1" data-track-index="7" data-volume="0.55"></audio>
+      <audio id="sfx-badge" class="clip" src="assets/sfx/pop.mp3" data-start="2.11" data-duration="0.7" data-track-index="7" data-volume="0.6"></audio>
+      <audio id="sfx-spec-in" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="5.04" data-duration="0.55" data-track-index="8" data-volume="0.5"></audio>
+      <audio id="sfx-chip1" class="clip" src="assets/sfx/pop.mp3" data-start="4.96" data-duration="0.7" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="sfx-chip2" class="clip" src="assets/sfx/click-soft.mp3" data-start="5.86" data-duration="0.37" data-track-index="7" data-volume="0.7"></audio>
+      <audio id="sfx-chip3" class="clip" src="assets/sfx/pop.mp3" data-start="7.16" data-duration="0.7" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="sfx-chip4" class="clip" src="assets/sfx/click-soft.mp3" data-start="7.93" data-duration="0.37" data-track-index="7" data-volume="0.7"></audio>
+      <audio id="sfx-pip1" class="clip" src="assets/sfx/whoosh.mp3" data-start="8.7" data-duration="0.57" data-track-index="8" data-volume="0.5"></audio>
+      <audio id="sfx-rate1" class="clip" src="assets/sfx/pop.mp3" data-start="10.96" data-duration="0.7" data-track-index="7" data-volume="0.55"></audio>
+      <audio id="sfx-rate2" class="clip" src="assets/sfx/pop.mp3" data-start="13.01" data-duration="0.7" data-track-index="7" data-volume="0.55"></audio>
+      <audio id="sfx-question" class="clip" src="assets/sfx/glitch-1.mp3" data-start="13.57" data-duration="1.3" data-media-start="0.5" data-track-index="8" data-volume="0.3" data-fade-out="0.4"></audio>
+      <audio id="sfx-full1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="15.2" data-duration="0.55" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-pip2" class="clip" src="assets/sfx/whoosh.mp3" data-start="18.3" data-duration="0.57" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-x1" class="clip" src="assets/sfx/error.mp3" data-start="21.31" data-duration="1.0" data-media-start="0.55" data-track-index="7" data-volume="0.32" data-fade-out="0.3"></audio>
+      <audio id="sfx-x2" class="clip" src="assets/sfx/error.mp3" data-start="22.95" data-duration="1.0" data-media-start="0.55" data-track-index="7" data-volume="0.32" data-fade-out="0.3"></audio>
+      <audio id="sfx-bank" class="clip" src="assets/sfx/sparkle.mp3" data-start="25.08" data-duration="1.4" data-track-index="7" data-volume="0.45" data-fade-out="0.4"></audio>
+      <audio id="sfx-full2" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="26.05" data-duration="0.55" data-track-index="8" data-volume="0.5"></audio>
+      <audio id="sfx-eval" class="clip" src="assets/sfx/pop.mp3" data-start="27.83" data-duration="0.7" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="sfx-riser" class="clip" src="assets/sfx/riser.mp3" data-start="30.37" data-duration="2.1" data-media-start="1.47" data-track-index="7" data-volume="0.4"></audio>
+      <audio id="sfx-five" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="32.33" data-duration="2.1" data-track-index="8" data-volume="0.6"></audio>
+      <audio id="sfx-pip3" class="clip" src="assets/sfx/whoosh.mp3" data-start="35.0" data-duration="0.57" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-f1" class="clip" src="assets/sfx/pop.mp3" data-start="35.83" data-duration="0.7" data-track-index="8" data-volume="0.5"></audio>
+      <audio id="sfx-f2" class="clip" src="assets/sfx/click-soft.mp3" data-start="38.53" data-duration="0.37" data-track-index="7" data-volume="0.7"></audio>
+      <audio id="sfx-f3" class="clip" src="assets/sfx/pop.mp3" data-start="42.33" data-duration="0.7" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-f4" class="clip" src="assets/sfx/click-soft.mp3" data-start="44.38" data-duration="0.37" data-track-index="7" data-volume="0.7"></audio>
+      <audio id="sfx-f5" class="clip" src="assets/sfx/pop.mp3" data-start="46.68" data-duration="0.7" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-full3" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="50.4" data-duration="0.55" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-diff" class="clip" src="assets/sfx/pop.mp3" data-start="53.4" data-duration="0.7" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-cta" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="55.68" data-duration="0.55" data-track-index="7" data-volume="0.5"></audio>
+      <audio id="sfx-form" class="clip" src="assets/sfx/notification.mp3" data-start="60.15" data-duration="1.4" data-track-index="7" data-volume="0.35" data-fade-out="0.4"></audio>
+      <audio id="sfx-end-whoosh" class="clip" src="assets/sfx/whoosh.mp3" data-start="63.97" data-duration="0.57" data-track-index="7" data-volume="0.55"></audio>
+      <audio id="sfx-end-hit" class="clip" src="assets/sfx/impact-bass-1.mp3" data-start="64.38" data-duration="2.1" data-track-index="8" data-volume="0.5"></audio>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const ORIGIN = "540px 690px";
+      const FULL_CLIP = "inset(0px 0px 0px 0px round 0px)";
+      const PIP_CLIP = "inset(380px 250px 920px 250px round 66px)";
+      tl.set("#camwrap", { transformOrigin: ORIGIN, scale: 1.12, x: 0, y: 0 }, 0);
+      tl.set("#camclip", { clipPath: FULL_CLIP }, 0);
+
+      // slow ground drift so the backdrop never sits dead
+      tl.fromTo("#bg-glow", { x: 0, y: 0 }, { x: 420, y: 520, duration: 68.2, ease: "none" }, 0);
+
+      function pip(t) {
+        tl.to("#camwrap", { scale: 0.6, x: 0, y: 400, duration: 0.55, ease: "power3.inOut" }, t);
+        tl.to("#camclip", { clipPath: PIP_CLIP, duration: 0.55, ease: "power3.inOut" }, t);
+        tl.to("#pipring", { opacity: 1, duration: 0.25, ease: "back.out(2)" }, t + 0.4);
+      }
+      function full(t, s = 1) {
+        tl.to("#pipring", { opacity: 0, duration: 0.15, ease: "power2.in" }, t);
+        tl.to("#camwrap", { scale: s, x: 0, y: 0, duration: 0.55, ease: "power3.inOut" }, t);
+        tl.to("#camclip", { clipPath: FULL_CLIP, duration: 0.55, ease: "power3.inOut" }, t);
+      }
+      // hard punch-in / punch-out (a cut inside the shot)
+      function punch(t, s) {
+        tl.set("#camwrap", { scale: s }, t);
+      }
+      function push(t, s, d) {
+        tl.to("#camwrap", { scale: s, duration: d, ease: "sine.inOut" }, t);
+      }
+
+      // HOOK: tight on the face, then open up
+      push(0, 1.18, 3.4);
+      punch(3.46, 1.0);
+      push(3.5, 1.06, 5.0);
+      pip(8.6);
+      full(15.1, 1.0);
+      punch(17.04, 1.16);
+      pip(18.2);
+      full(25.95, 1.0);
+      punch(28.84, 1.1);
+      punch(31.58, 1.0);
+      punch(32.35, 1.2);
+      push(32.4, 1.1, 2.2);
+      pip(34.9);
+      full(50.3, 1.0);
+      punch(53.42, 1.15);
+      punch(55.68, 1.0);
+      push(55.7, 1.06, 4.4);
+      punch(60.18, 1.14);
+      push(60.2, 1.04, 3.8);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

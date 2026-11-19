@@ -1,0 +1,152 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #fc-head {
+      position: absolute;
+      left: 80px;
+      top: 222px;
+      width: 960px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+    #fc-num {
+      width: 112px;
+      height: 112px;
+      font-size: 100px;
+      padding-top: 8px;
+      flex: none;
+    }
+    #fc-t {
+      font-size: 76px;
+      color: #fff;
+    }
+    #fc-s {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 4px;
+    }
+    .fc-row {
+      left: 80px;
+      width: 920px;
+      height: 98px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 24px;
+    }
+    .fc-n {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Montserrat", sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      flex: none;
+    }
+    .fc-body {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+    }
+    .fc-ic {
+      width: 58px;
+      height: 58px;
+      color: #ffd21e;
+      flex: none;
+    }
+    .fc-name {
+      font-size: 54px;
+      color: #fff;
+    }
+    .fc-desc {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 600;
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.62);
+      margin-top: 2px;
+    }
+  </style>
+  <div id="root" data-composition-id="factors" data-width="1080" data-height="1920">
+    <div id="fc-head">
+      <div id="fc-num" class="numbox lg">5</div>
+      <div>
+        <div id="fc-t" class="lg">Faktor <span class="y">bank check</span></div>
+        <div id="fc-s">Ini yang tentukan interest rate korang</div>
+      </div>
+    </div>
+
+    <div id="fc-r1" class="card fc-row" style="top: 356px">
+      <div id="fc-n1" class="fc-n">1</div>
+      <div id="fc-b1" class="fc-body">
+        <svg class="fc-ic ico" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M16 13H8" /><path d="M16 17H8" /><path d="M10 9H8" /></svg>
+        <div><div class="fc-name lg">Rekod CCRIS</div><div class="fc-desc">Sejarah bayaran &amp; hutang korang</div></div>
+      </div>
+    </div>
+    <div id="fc-r2" class="card fc-row" style="top: 464px">
+      <div id="fc-n2" class="fc-n">2</div>
+      <div id="fc-b2" class="fc-body">
+        <svg class="fc-ic ico" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></svg>
+        <div><div class="fc-name lg">Komitmen bulanan (DSR)</div><div class="fc-desc">Berapa % gaji dah pergi bayar hutang</div></div>
+      </div>
+    </div>
+    <div id="fc-r3" class="card fc-row" style="top: 572px">
+      <div id="fc-n3" class="fc-n">3</div>
+      <div id="fc-b3" class="fc-body">
+        <svg class="fc-ic ico" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="12" cy="12" r="2" /><path d="M6 12h.01M18 12h.01" /></svg>
+        <div><div class="fc-name lg">Pendapatan</div><div class="fc-desc">Gaji &amp; bukti income korang</div></div>
+      </div>
+    </div>
+    <div id="fc-r4" class="card fc-row" style="top: 680px">
+      <div id="fc-n4" class="fc-n">4</div>
+      <div id="fc-b4" class="fc-body">
+        <svg class="fc-ic ico" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+        <div><div class="fc-name lg">Jenis pekerjaan</div><div class="fc-desc">Kerajaan, swasta atau bisnes sendiri</div></div>
+      </div>
+    </div>
+    <div id="fc-r5" class="card fc-row" style="top: 788px">
+      <div id="fc-n5" class="fc-n">5</div>
+      <div id="fc-b5" class="fc-body">
+        <svg class="fc-ic ico" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M8 6h8" /><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" /></svg>
+        <div><div class="fc-name lg">Jumlah pinjaman</div><div class="fc-desc">Loan amount yang korang mohon</div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#fc-head", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.3);
+    tl.fromTo("#fc-num", { scale: 0.4, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, 0.35);
+    // empty slots stack in first, then each fills as it is named
+    for (let i = 1; i <= 5; i++) {
+      tl.fromTo("#fc-r" + i, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.3 + i * 0.06);
+      tl.set("#fc-b" + i, { opacity: 0, x: 60 }, 0);
+    }
+    const cue = [0.05, 3.0, 6.62, 8.64, 11.1]; // "yang pertama / kedua / ..."
+    const name = [0.75, 3.45, 7.25, 9.3, 11.6]; // the factor itself
+    cue.forEach((t, k) => {
+      const i = k + 1;
+      if (k > 0) {
+        tl.to("#fc-r" + k, { borderColor: "rgba(255,255,255,0.07)", boxShadow: "0 24px 70px rgba(0,0,0,0.55)", scale: 1, duration: 0.25 }, t);
+      }
+      tl.to("#fc-n" + i, { backgroundColor: "#FFD21E", color: "#0B0D12", scale: 1.15, duration: 0.2, ease: "back.out(3)" }, t);
+      tl.to("#fc-n" + i, { scale: 1, duration: 0.2 }, t + 0.2);
+      tl.to("#fc-r" + i, { borderColor: "rgba(255,210,30,1)", boxShadow: "0 0 40px rgba(255,210,30,0.3)", scale: 1.02, duration: 0.25, ease: "power2.out" }, t);
+      tl.to("#fc-b" + i, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, name[k] - 0.1);
+    });
+    tl.to("#fc-r5", { borderColor: "rgba(255,255,255,0.07)", boxShadow: "0 24px 70px rgba(0,0,0,0.55)", scale: 1, duration: 0.3 }, 13.9);
+    tl.to(["#fc-head", "#fc-r1", "#fc-r2", "#fc-r3", "#fc-r4", "#fc-r5"], { opacity: 0, duration: 0.25, ease: "power2.in" }, 14.95);
+    window.__timelines["factors"] = tl;
+  </script>
+</template>
