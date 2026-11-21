@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="ms" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Salam Automobile — Bezza Paling Laris</title>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/captions.js"></script>
+<style>
+  @font-face { font-family: "Montserrat"; src: url("assets/fonts/montserrat-latin.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+  :root {
+    --bg: #0b0c10; --bg2: #12141a; --card: #16181f; --line: rgba(214, 178, 106, .22);
+    --gold: #d2ad66; --gold-hi: #f6dfa8; --gold-lo: #8f6a2c; --ink: #ffffff; --mute: #8d8f98;
+    --cream: #f3ede2; --dark: #1b1c21; --red: #e5484d; --green: #4cc38a;
+    --goldgrad: linear-gradient(180deg, #f8e3ae 0%, #d8b26a 48%, #a37a35 100%);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+  #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Montserrat", sans-serif; color: var(--ink); background: var(--bg); }
+  .clip, .layer { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .gold-text { background: var(--goldgrad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* ---------- background ---------- */
+  #bg { background: radial-gradient(900px 620px at 50% -60px, rgba(214,178,106,.30), rgba(214,178,106,0) 70%),
+                    radial-gradient(700px 700px at 110% 105%, rgba(214,178,106,.10), rgba(0,0,0,0) 70%),
+                    linear-gradient(180deg, #141519 0%, #0b0c10 45%, #0a0b0e 100%); }
+  #glow { left: 140px; top: -260px; width: 800px; height: 620px; border-radius: 50%; background: radial-gradient(closest-side, rgba(246,223,168,.20), rgba(246,223,168,0)); }
+  #waves { left: 0; top: 1440px; width: 1080px; height: 480px; opacity: .55; }
+  .grid-dots { inset: 0; background-image: radial-gradient(rgba(255,255,255,.045) 1.4px, transparent 1.6px); background-size: 36px 36px; mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0) 70%); -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,0) 70%); }
+
+  /* ---------- header ---------- */
+  #header { left: 72px; top: 132px; width: 936px; height: 60px; display: flex; align-items: center; gap: 18px; }
+  #header img { height: 46px; }
+  #header .brand { display: flex; flex-direction: column; line-height: 1; }
+  #header .brand b { font-size: 25px; font-weight: 800; letter-spacing: 7px; }
+  #header .brand i { font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: 6.4px; color: var(--gold); margin-top: 6px; }
+  #header .hline { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(214,178,106,.55), rgba(214,178,106,0)); margin-left: 16px; }
+
+  /* ---------- generic pieces ---------- */
+  .pill { display: inline-flex; align-items: center; gap: 10px; padding: 10px 22px; border: 1.5px solid rgba(214,178,106,.6); border-radius: 40px; font-size: 22px; font-weight: 700; letter-spacing: 3px; color: var(--gold); background: rgba(214,178,106,.07); text-transform: uppercase; }
+  .pill .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+  .card { background: linear-gradient(180deg, #1a1c23, #13151a); border: 1.5px solid var(--line); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,.45); overflow: hidden; }
+  .photo { position: absolute; inset: 0; background-size: cover; background-position: center; }
+  .tag { position: absolute; left: 26px; bottom: 24px; padding: 9px 18px; border-radius: 30px; background: rgba(10,11,14,.78); border: 1.5px solid rgba(214,178,106,.55); font-size: 20px; font-weight: 800; letter-spacing: 4px; color: var(--gold-hi); }
+  .tile { position: absolute; padding: 24px 26px; }
+  .tile .k { font-size: 18px; font-weight: 700; letter-spacing: 4px; color: var(--mute); text-transform: uppercase; }
+  .tile .v { font-weight: 900; line-height: 1; margin-top: 12px; }
+  .tile .s { font-size: 21px; font-weight: 600; color: #c9cad1; margin-top: 10px; line-height: 1.3; }
+  .icon-box { width: 64px; height: 64px; border-radius: 18px; background: rgba(214,178,106,.12); border: 1.5px solid rgba(214,178,106,.35); display: flex; align-items: center; justify-content: center; }
+  .icon-box svg { width: 36px; height: 36px; }
+
+  /* reason header */
+  .rhead { left: 72px; top: 250px; width: 936px; height: 250px; }
+  .rnum { position: absolute; left: -6px; top: 0; font-size: 230px; font-weight: 900; letter-spacing: -14px; line-height: .86; }
+  .rmeta { position: absolute; left: 330px; top: 14px; }
+  .rmeta .lbl { font-size: 22px; font-weight: 800; letter-spacing: 6px; color: var(--gold); }
+  .bars { display: flex; gap: 8px; margin-top: 14px; }
+  .bars span { width: 46px; height: 6px; border-radius: 4px; background: rgba(255,255,255,.14); }
+  .bars span.on { background: var(--gold); box-shadow: 0 0 10px rgba(214,178,106,.6); }
+  .rtitle { margin-top: 22px; font-size: 64px; font-weight: 800; line-height: 1.04; letter-spacing: -1px; }
+  .rtitle em { font-style: normal; }
+  .rdiv { left: 72px; top: 512px; width: 936px; height: 2px; background: linear-gradient(90deg, rgba(214,178,106,.7), rgba(214,178,106,.05)); transform-origin: left center; }
+
+  /* chips */
+  .chip { position: absolute; display: flex; align-items: center; gap: 14px; padding: 14px 24px 14px 16px; border-radius: 40px; background: rgba(12,13,17,.86); border: 1.5px solid rgba(214,178,106,.6); font-size: 28px; font-weight: 800; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+  .chip .ci { width: 48px; height: 48px; border-radius: 50%; background: var(--goldgrad); display: flex; align-items: center; justify-content: center; }
+  .chip .ci svg { width: 28px; height: 28px; }
+
+  /* ---------- hook ---------- */
+  #hk-pill { left: 72px; top: 252px; }
+  #hk-l1 { left: 72px; top: 330px; font-size: 66px; font-weight: 800; letter-spacing: -1px; }
+  #hk-l2 { left: 72px; top: 416px; font-size: 92px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+  #hk-l3 { left: 66px; top: 510px; font-size: 128px; font-weight: 900; letter-spacing: -4px; line-height: 1; white-space: nowrap; }
+  #hk-l4 { left: 72px; top: 655px; font-size: 44px; font-weight: 700; color: #c8c9cf; }
+  #hk-stage { left: 0; top: 712px; width: 1080px; height: 520px; }
+  #hk-rays { left: 240px; top: -60px; width: 600px; height: 600px; opacity: .0; }
+  #hk-myst { left: 165px; top: 120px; width: 750px; height: 300px; }
+  #hk-q { left: 470px; top: 40px; font-size: 200px; font-weight: 900; }
+  .cand { position: absolute; top: 40px; width: 440px; height: 400px; }
+  .cand .ph { position: absolute; left: 0; top: 0; width: 440px; height: 300px; background-size: cover; background-position: center; }
+  .cand .nm { position: absolute; left: 0; top: 304px; width: 440px; text-align: center; }
+  .cand .nm b { display: block; font-size: 40px; font-weight: 800; margin-top: 18px; }
+  .cand .nm i { display: block; font-style: normal; font-size: 18px; letter-spacing: 4px; color: var(--gold); font-weight: 700; margin-top: 4px; }
+  .xmark { position: absolute; left: 140px; top: 60px; width: 160px; height: 160px; border-radius: 50%; background: rgba(229,72,77,.92); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 10px rgba(229,72,77,.25); }
+  .xmark svg { width: 86px; height: 86px; }
+  #hk-car { left: 140px; top: 150px; width: 800px; height: 300px; }
+  #hk-badge { left: 780px; top: 10px; width: 190px; height: 190px; }
+  #hk-name { left: 0; top: 408px; width: 1080px; text-align: center; }
+  #hk-name i { display: block; font-style: normal; font-size: 26px; letter-spacing: 10px; color: var(--gold); font-weight: 700; }
+  #hk-name b { display: block; font-size: 88px; font-weight: 900; letter-spacing: -2px; line-height: 1.02; }
+  #hk-flash { inset: 0; background: radial-gradient(600px 500px at 50% 50%, rgba(255,236,190,.85), rgba(255,236,190,0) 70%); opacity: 0; }
+
+  /* ---------- stats ---------- */
+  #st-pill { left: 72px; top: 252px; }
+  #st-t1 { left: 72px; top: 330px; font-size: 60px; font-weight: 700; color: #d6d7dc; }
+  #st-t2 { left: 72px; top: 404px; font-size: 76px; font-weight: 900; letter-spacing: -2px; }
+  #st-cal { left: 798px; top: 300px; width: 210px; height: 220px; border-radius: 28px; overflow: hidden; background: #f5efe3; box-shadow: 0 24px 50px rgba(0,0,0,.5); }
+  #st-cal .top { height: 70px; background: var(--goldgrad); color: #1a1406; font-size: 28px; font-weight: 900; letter-spacing: 6px; display: flex; align-items: center; justify-content: center; }
+  #st-cal .day { color: #1b1c21; font-size: 84px; font-weight: 900; text-align: center; line-height: 110px; letter-spacing: -3px; }
+  #st-cal .cyr { color: #8f6a2c; font-size: 24px; font-weight: 800; text-align: center; letter-spacing: 6px; margin-top: -14px; }
+  #st-card { left: 72px; top: 560px; width: 936px; height: 600px; }
+  #st-card .lbl { position: absolute; left: 50px; top: 46px; font-size: 22px; font-weight: 800; letter-spacing: 5px; color: var(--mute); }
+  #st-num { position: absolute; left: 44px; top: 86px; font-size: 176px; font-weight: 900; letter-spacing: -7px; line-height: 1; }
+  #st-sub { position: absolute; left: 50px; top: 280px; font-size: 32px; font-weight: 700; color: #dcdde2; line-height: 1.3; }
+  #st-sub b { color: var(--gold-hi); }
+  #st-grid { position: absolute; left: 50px; top: 400px; width: 836px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 14px 10px; }
+  #st-grid svg { width: 72px; height: 34px; }
+  #st-stamp { position: absolute; left: 650px; top: 30px; padding: 10px 18px; border: 4px solid var(--green); border-radius: 14px; color: var(--green); font-size: 24px; font-weight: 900; letter-spacing: 3px; transform: rotate(-9deg); background: rgba(76,195,138,.08); }
+
+  /* ---------- reason 1 ---------- */
+  .media { left: 72px; top: 548px; width: 936px; height: 430px; }
+  .tiles { left: 72px; top: 1004px; width: 936px; height: 190px; }
+  .tiles .card { position: absolute; top: 0; height: 190px; }
+
+  /* gauge */
+  .gauge { width: 64px; height: 64px; }
+
+  /* ---------- reason 3 ---------- */
+  #r3-var { left: 72px; top: 560px; width: 470px; height: 300px; }
+  #r3-var .k { position: absolute; left: 40px; top: 40px; font-size: 22px; font-weight: 800; letter-spacing: 6px; color: var(--mute); }
+  #r3-var .v { position: absolute; left: 32px; top: 80px; font-size: 150px; font-weight: 900; letter-spacing: -6px; line-height: 1; }
+  #r3-var .s { position: absolute; left: 40px; top: 238px; font-size: 24px; font-weight: 700; color: #c9cad1; }
+  #r3-btn { left: 600px; top: 545px; width: 330px; height: 330px; }
+  .ckrow { position: absolute; left: 72px; width: 936px; height: 96px; display: flex; align-items: center; gap: 22px; padding: 0 26px; }
+  .ckrow .t { flex: 1; font-size: 34px; font-weight: 800; }
+  .ckrow .t small { display: block; font-size: 19px; font-weight: 600; color: var(--mute); letter-spacing: 2px; margin-top: 4px; }
+  .ckrow .ok { width: 54px; height: 54px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 8px rgba(76,195,138,.16); }
+  .ckrow .ok svg { width: 30px; height: 30px; }
+
+  /* ---------- reason 4 ---------- */
+  #r4-tl { left: 72px; top: 548px; width: 936px; height: 360px; }
+  #r4-track { position: absolute; left: 90px; top: 196px; width: 756px; height: 10px; border-radius: 6px; background: rgba(255,255,255,.1); }
+  #r4-fill { position: absolute; left: 0; top: 0; height: 10px; width: 756px; border-radius: 6px; background: var(--goldgrad); transform-origin: left center; box-shadow: 0 0 18px rgba(214,178,106,.6); }
+  .yr { position: absolute; top: 172px; width: 58px; height: 58px; margin-left: -29px; border-radius: 50%; background: #1b1d24; border: 3px solid rgba(255,255,255,.18); }
+  .yr.on { border-color: var(--gold); background: #2a2417; }
+  .yrl { position: absolute; top: 250px; width: 140px; margin-left: -70px; text-align: center; font-size: 30px; font-weight: 800; color: #9a9ca5; }
+  #r4-car { position: absolute; left: 60px; top: 112px; width: 120px; height: 56px; }
+  #r4-flag { position: absolute; left: 700px; top: 48px; padding: 12px 22px; border-radius: 16px; background: var(--goldgrad); color: #1a1406; font-size: 30px; font-weight: 900; letter-spacing: 1px; }
+  #r4-flag:after { content: ""; position: absolute; left: 50%; bottom: -14px; margin-left: -12px; border: 12px solid transparent; border-bottom: 0; border-top-color: #b48a42; }
+  #r4-tl .k { position: absolute; left: 44px; top: 42px; font-size: 22px; font-weight: 800; letter-spacing: 5px; color: var(--mute); }
+  #r4-sp { left: 72px; top: 940px; width: 936px; height: 250px; }
+  #r4-sp .ib { position: absolute; left: 40px; top: 46px; width: 150px; height: 150px; border-radius: 36px; background: rgba(214,178,106,.12); border: 1.5px solid rgba(214,178,106,.4); display: flex; align-items: center; justify-content: center; }
+  #r4-sp .ib svg { width: 86px; height: 86px; }
+  #r4-sp .t1 { position: absolute; left: 230px; top: 54px; font-size: 46px; font-weight: 900; line-height: 1.08; }
+  #r4-sp .t2 { position: absolute; left: 230px; top: 172px; font-size: 26px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 10px; }
+
+  /* ---------- CTA ---------- */
+  #ct-pill { left: 72px; top: 252px; }
+  #ct-l1 { left: 72px; top: 332px; font-size: 60px; font-weight: 800; line-height: 1.12; letter-spacing: -1px; }
+  #ct-l2 { left: 66px; top: 470px; font-size: 128px; font-weight: 900; letter-spacing: -4px; line-height: 1; }
+  #ct-l2 .q { color: #fff; }
+  #ct-wallet { left: 72px; top: 650px; width: 936px; height: 170px; }
+  #ct-wallet .ib { position: absolute; left: 34px; top: 38px; }
+  #ct-wallet .k { position: absolute; left: 124px; top: 40px; font-size: 20px; font-weight: 800; letter-spacing: 5px; color: var(--mute); }
+  #ct-wallet .v { position: absolute; left: 122px; top: 72px; font-size: 62px; font-weight: 900; letter-spacing: -1px; }
+  #ct-wallet .arrow { position: absolute; right: 40px; top: 50px; width: 70px; height: 70px; border-radius: 50%; background: var(--goldgrad); display: flex; align-items: center; justify-content: center; }
+  .var { position: absolute; top: 846px; width: 296px; height: 190px; text-align: center; }
+  .var svg { width: 200px; height: 70px; margin-top: 26px; }
+  .var b { display: block; font-size: 40px; font-weight: 900; margin-top: 6px; }
+  .var i { display: block; font-style: normal; font-size: 17px; letter-spacing: 4px; color: var(--mute); font-weight: 700; }
+  .var.hl { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(214,178,106,.35), 0 30px 60px rgba(0,0,0,.45); }
+  #ct-btn { left: 190px; top: 1070px; width: 700px; height: 112px; border-radius: 60px; background: var(--goldgrad); color: #1a1406; display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 38px; font-weight: 900; letter-spacing: 1px; box-shadow: 0 20px 50px rgba(214,178,106,.35); }
+  #ct-btn svg { width: 40px; height: 40px; }
+  #ct-ring { left: 190px; top: 1070px; width: 700px; height: 112px; border-radius: 60px; border: 3px solid var(--gold-hi); }
+  #ct-chev { left: 505px; top: 1196px; width: 70px; height: 80px; }
+
+  /* ---------- transitions ---------- */
+  .sweep { left: -700px; top: -400px; width: 420px; height: 2800px; transform: rotate(18deg); background: linear-gradient(90deg, rgba(246,223,168,0), rgba(246,223,168,.85) 45%, rgba(255,250,235,.95) 50%, rgba(246,223,168,.85) 55%, rgba(246,223,168,0)); filter: blur(6px); mix-blend-mode: screen; }
+  #wipe { left: 540px; top: 1126px; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--cream); }
+
+  /* ---------- captions ---------- */
+  #caps { left: 70px; top: 1296px; width: 940px; height: 200px; }
+  .phr { position: absolute; left: 0; top: 0; width: 940px; text-align: center; font-size: 54px; font-weight: 800; line-height: 1.22; letter-spacing: -.5px; text-shadow: 0 4px 18px rgba(0,0,0,.6); }
+  .wd { display: inline-block; margin: 0 8px; color: rgba(255,255,255,.32); }
+
+  /* ---------- closing ---------- */
+  #close-bg { inset: 0; background: radial-gradient(900px 900px at 50% 42%, #fbf8f2 0%, #f3ede2 55%, #e7dcc8 100%); }
+  #cl-waves { left: 0; top: 1380px; width: 1080px; height: 540px; opacity: .8; }
+  #cl-logo { left: 0; top: 0; width: 1080px; height: 1920px; }
+  #cl-mark { left: 250px; top: 560px; width: 580px; }
+  #cl-shine { left: 250px; top: 560px; width: 580px; height: 255px; -webkit-mask-image: url(assets/img/mark_light.png); mask-image: url(assets/img/mark_light.png); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; overflow: hidden; }
+  #cl-shine div { position: absolute; left: -300px; top: -100px; width: 160px; height: 500px; transform: rotate(20deg); background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.95), rgba(255,255,255,0)); }
+  #cl-salam { left: 215px; top: 860px; width: 650px; }
+  #cl-auto { left: 215px; top: 990px; width: 650px; }
+  #cl-tag { left: 245px; top: 1068px; width: 590px; }
+  #cl-div { left: 470px; top: 1140px; width: 140px; height: 3px; background: linear-gradient(90deg, rgba(178,138,66,0), #b48a42, rgba(178,138,66,0)); }
+  #cl-t1 { left: 0; top: 1176px; width: 1080px; text-align: center; font-size: 38px; font-weight: 700; color: #2a2b31; }
+  #cl-t2 { left: 0; top: 1236px; width: 1080px; text-align: center; font-size: 76px; font-weight: 900; color: #1b1c21; letter-spacing: -1px; }
+  #cl-t2 span { display: inline-block; }
+  #cl-t2 .g { background: linear-gradient(180deg, #d9b56f, #a77c34); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .dust { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle, #e8c77f, rgba(232,199,127,0)); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="62.5" data-width="1080" data-height="1920">
+
+  <!-- ================= BACKGROUND ================= -->
+  <div id="bg" class="clip" data-start="0" data-duration="56.6" data-track-index="0">
+    <div class="abs grid-dots"></div>
+    <div id="glow" class="abs"></div>
+    <svg id="waves" class="abs" viewBox="0 0 1080 480" fill="none">
+      <g id="wv" stroke="url(#wg)" stroke-width="2">
+        <path d="M-200 220 C 80 120, 320 330, 560 230 S 1000 120, 1300 240" />
+        <path d="M-200 260 C 90 170, 330 370, 570 270 S 1010 160, 1300 280" opacity=".6" />
+        <path d="M-200 300 C 100 220, 340 410, 580 310 S 1020 200, 1300 320" opacity=".35" />
+      </g>
+      <defs><linearGradient id="wg" x1="0" x2="1"><stop offset="0" stop-color="#d2ad66" stop-opacity="0" /><stop offset=".5" stop-color="#d2ad66" stop-opacity=".9" /><stop offset="1" stop-color="#d2ad66" stop-opacity="0" /></linearGradient></defs>
+    </svg>
+  </div>
+
+  <!-- ================= HEADER ================= -->
+  <div id="header-clip" class="clip" data-start="0" data-duration="56.1" data-track-index="1">
+    <div id="header" class="abs">
+      <img src="assets/img/mark_dark.png" alt="" />
+      <div class="brand"><b>SALAM</b><i>AUTOMOBILE</i></div>
+      <div class="hline"></div>
+    </div>
+  </div>
+
+  <!-- ================= S1 HOOK 0 – 9.0 ================= -->
+  <div id="s-hook" class="clip" data-start="0" data-duration="9.0" data-track-index="2">
+    <div id="hk-pill" class="abs pill"><span class="dot"></span>Fakta Kereta 2026</div>
+    <div id="hk-l1" class="abs">Korang tahu tak?</div>
+    <div id="hk-l2" class="abs">Kereta</div>
+    <div id="hk-l3" class="abs gold-text">PALING LARIS</div>
+    <div id="hk-l4" class="abs">tahun ni sebenarnya...</div>
+    <div id="hk-stage" class="abs">
+      <svg id="hk-rays" class="abs" viewBox="-300 -300 600 600"><g id="raysg"></g></svg>
+      <div id="hk-myst" class="abs" data-car="myst"></div>
+      <div id="hk-q" class="abs gold-text">?</div>
+      <div id="hk-axia" class="cand" style="left:72px">
+        <div class="card ph" style="background-image:url(assets/img/axia.jpg)"></div>
+        <div class="nm"><b>Axia</b><i>PERODUA</i></div>
+        <div class="xmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg></div>
+      </div>
+      <div id="hk-myvi" class="cand" style="left:568px">
+        <div class="card ph" style="background-image:url(assets/img/myvi.jpg)"></div>
+        <div class="nm"><b>Myvi</b><i>PERODUA</i></div>
+        <div class="xmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg></div>
+      </div>
+      <div id="hk-car" class="abs" data-car="hero"></div>
+      <svg id="hk-badge" class="abs" viewBox="0 0 200 200">
+        <defs><linearGradient id="bdg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8e3ae" /><stop offset=".5" stop-color="#d8b26a" /><stop offset="1" stop-color="#a37a35" /></linearGradient></defs>
+        <path d="M100 6 L118 26 L144 20 L150 46 L176 56 L168 82 L186 102 L166 120 L170 147 L144 152 L132 177 L108 168 L86 186 L70 164 L44 164 L42 138 L18 124 L30 100 L18 76 L42 64 L44 38 L70 36 L84 12 Z" fill="url(#bdg)" />
+        <circle cx="100" cy="98" r="58" fill="#14151a" />
+        <text x="100" y="92" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="58" fill="#f6dfa8">#1</text>
+        <text x="100" y="124" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="16" letter-spacing="3" fill="#d2ad66">TERLARIS</text>
+      </svg>
+      <div id="hk-name" class="abs"><i>JAWAPANNYA</i><b><span style="color:#fff">Perodua</span> <span class="gold-text">Bezza</span></b></div>
+    </div>
+    <div id="hk-flash" class="abs"></div>
+  </div>
+
+  <!-- ================= S2 STATS 9.0 – 17.75 ================= -->
+  <div id="s-stats" class="clip" data-start="9.0" data-duration="8.75" data-track-index="2">
+    <div id="st-pill" class="abs pill"><span class="dot"></span>Laporan Pendaftaran</div>
+    <div id="st-t1" class="abs">Sehingga</div>
+    <div id="st-t2" class="abs">September <span class="gold-text">2026</span></div>
+    <div id="st-cal" class="abs"><div class="top">SEPT</div><div class="day">30</div><div class="cyr">2026</div></div>
+    <div id="st-card" class="abs card">
+      <div class="lbl">JUMLAH DIDAFTARKAN</div>
+      <div id="st-num" class="gold-text">0</div>
+      <div id="st-sub">unit <b>Perodua Bezza</b><br />berjaya didaftarkan</div>
+      <div id="st-grid"></div>
+      <div id="st-stamp">✓ LEBIH 73K</div>
+    </div>
+  </div>
+
+  <!-- ================= S3 REASON 1 17.75 – 27.1 ================= -->
+  <div id="s-r1" class="clip" data-start="17.75" data-duration="9.35" data-track-index="2">
+    <div class="abs rhead">
+      <div class="rnum gold-text">01</div>
+      <div class="rmeta"><div class="lbl">SEBAB 1 / 4</div><div class="bars"><span class="on"></span><span></span><span></span><span></span></div>
+        <div class="rtitle">Ruang but<br /><em class="gold-text">paling luas</em></div></div>
+    </div>
+    <div class="abs rdiv"></div>
+    <div class="abs media card"><div class="photo" style="background-image:url(assets/img/boot.jpg)"></div><div class="tag">BUT BELAKANG</div>
+      <div id="r1-c1" class="chip" style="left:300px;top:28px"><span class="ci" data-ic="stroller"></span>Stroller anak</div>
+      <div id="r1-c2" class="chip" style="left:556px;top:116px"><span class="ci" data-ic="bag"></span>Beg raya</div>
+    </div>
+    <div class="abs tiles">
+      <div id="r1-t1" class="card tile" style="left:0;width:452px"><div class="k">Kapasiti</div><div class="v"><span id="r1-num" class="gold-text" style="font-size:96px">0</span><span class="gold-text" style="font-size:52px"> L</span></div><div class="s">ruang but</div></div>
+      <div id="r1-t2" class="card tile" style="left:484px;width:452px"><div class="icon-box" data-ic="trophy"></div><div class="v" style="font-size:40px;margin-top:16px">Paling luas</div><div class="s">dalam segmennya</div></div>
+    </div>
+  </div>
+
+  <!-- ================= S4 REASON 2 27.1 – 33.2 ================= -->
+  <div id="s-r2" class="clip" data-start="27.1" data-duration="6.1" data-track-index="2">
+    <div class="abs rhead">
+      <div class="rnum gold-text">02</div>
+      <div class="rmeta"><div class="lbl">SEBAB 2 / 4</div><div class="bars"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+        <div class="rtitle">Enjin <em class="gold-text">1.3L</em><br />lasak &amp; jimat</div></div>
+    </div>
+    <div class="abs rdiv"></div>
+    <div class="abs media card"><div class="photo" style="background-image:url(assets/img/engine.jpg);background-position:center 60%"></div><div class="tag">ENJIN 1.3L</div></div>
+    <div class="abs tiles">
+      <div id="r2-t1" class="card tile" style="left:0;width:296px"><div class="k">Enjin</div><div class="v"><span class="gold-text" style="font-size:84px">1.3</span><span class="gold-text" style="font-size:44px"> L</span></div></div>
+      <div id="r2-t2" class="card tile" style="left:320px;width:296px"><div class="icon-box" data-ic="shield"></div><div class="v" style="font-size:34px;margin-top:16px">Tahan lasak</div></div>
+      <div id="r2-t3" class="card tile" style="left:640px;width:296px"><div class="icon-box"><svg class="gauge" viewBox="0 0 64 64" style="width:44px;height:44px"><path d="M10 44 A24 24 0 0 1 54 44" fill="none" stroke="#d2ad66" stroke-width="5" stroke-linecap="round" /><g id="r2-needle" style="transform-origin:32px 44px"><line x1="32" y1="44" x2="32" y2="22" stroke="#fff" stroke-width="4" stroke-linecap="round" /></g><circle cx="32" cy="44" r="5" fill="#fff" /></svg></div><div class="v" style="font-size:34px;margin-top:16px">Jimat minyak</div></div>
+    </div>
+  </div>
+
+  <!-- ================= S5 REASON 3 33.2 – 40.75 ================= -->
+  <div id="s-r3" class="clip" data-start="33.2" data-duration="7.55" data-track-index="2">
+    <div class="abs rhead">
+      <div class="rnum gold-text">03</div>
+      <div class="rmeta"><div class="lbl">SEBAB 3 / 4</div><div class="bars"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+        <div class="rtitle">Ciri lebih<br /><em class="gold-text">canggih</em></div></div>
+    </div>
+    <div class="abs rdiv"></div>
+    <div id="r3-var" class="abs card"><div class="k">VARIANT</div><div class="v gold-text">1.3X</div><div class="s">kini dah datang dengan:</div></div>
+    <svg id="r3-btn" class="abs" viewBox="0 0 330 330">
+      <defs><radialGradient id="btnf" cx=".5" cy=".4" r=".6"><stop offset="0" stop-color="#2b2d35" /><stop offset="1" stop-color="#121318" /></radialGradient>
+        <linearGradient id="btnr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8e3ae" /><stop offset=".5" stop-color="#d8b26a" /><stop offset="1" stop-color="#8f6a2c" /></linearGradient></defs>
+      <circle id="r3-glow" cx="165" cy="165" r="150" fill="none" stroke="#d2ad66" stroke-width="3" opacity=".35" />
+      <circle cx="165" cy="165" r="128" fill="url(#btnr)" />
+      <circle cx="165" cy="165" r="116" fill="url(#btnf)" />
+      <g id="r3-pw" stroke="#f6dfa8" stroke-width="9" stroke-linecap="round" fill="none" transform="translate(165 122) scale(.72) translate(-165 -150)"><path d="M165 100 V150" /><path d="M134 116 A52 52 0 1 0 196 116" /></g>
+      <text x="165" y="210" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" letter-spacing="3" fill="#d2ad66">ENGINE</text>
+      <text x="165" y="234" text-anchor="middle" font-family="Montserrat" font-weight="700" font-size="15" letter-spacing="3" fill="#9a9ca5">START · STOP</text>
+    </svg>
+    <div id="r3-k1" class="ckrow card" style="top:900px"><div class="icon-box" data-ic="power"></div><div class="t">Push Start Button<small>HIDUP ENJIN SATU SENTUHAN</small></div><div class="ok" data-ic="check"></div></div>
+    <div id="r3-k2" class="ckrow card" style="top:1008px"><div class="icon-box" data-ic="vsc"></div><div class="t">Kawalan Kestabilan<small>LEBIH STABIL DI SELEKOH</small></div><div class="ok" data-ic="check"></div></div>
+    <div id="r3-k3" class="ckrow card" style="top:1116px"><div class="icon-box" data-ic="hill"></div><div class="t">Hill Start Assist<small>TAK UNDUR BILA MENDAKI</small></div><div class="ok" data-ic="check"></div></div>
+  </div>
+
+  <!-- ================= S6 REASON 4 40.75 – 49.5 ================= -->
+  <div id="s-r4" class="clip" data-start="40.75" data-duration="8.75" data-track-index="2">
+    <div class="abs rhead">
+      <div class="rnum gold-text">04</div>
+      <div class="rmeta"><div class="lbl">SEBAB 4 / 4</div><div class="bars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+        <div class="rtitle">Dijual hingga<br /><em class="gold-text">2030</em></div></div>
+    </div>
+    <div class="abs rdiv"></div>
+    <div id="r4-tl" class="abs card">
+      <div class="k">JANGKAAN JUALAN MODEL SEMASA</div>
+      <div id="r4-track"><div id="r4-fill"></div></div>
+      <div id="r4-flag">2030</div>
+      <div id="r4-car" data-car="mini"></div>
+    </div>
+    <div id="r4-sp" class="abs card">
+      <div class="ib" data-ic="wrench"></div>
+      <div class="t1">Spare part<br /><span class="gold-text">senang dicari</span></div>
+      <div class="t2"><span class="ok" data-ic="checkg"></span>Bukan lagi masalah</div>
+    </div>
+  </div>
+
+  <!-- ================= S7 CTA 49.5 – 56.1 ================= -->
+  <div id="s-cta" class="clip" data-start="49.5" data-duration="7.0" data-track-index="2">
+    <div id="ct-pill" class="abs pill"><span class="dot"></span>Nak beli Bezza?</div>
+    <div id="ct-l1" class="abs">Variant mana yang<br />sesuai dengan</div>
+    <div id="ct-l2" class="abs"><span class="gold-text">GAJI</span> <span class="q">korang?</span></div>
+    <div id="ct-wallet" class="abs card">
+      <div class="ib icon-box" data-ic="wallet"></div>
+      <div class="k">GAJI BULANAN KORANG</div>
+      <div class="v">RM <span id="ct-sal" class="gold-text">0,000</span></div>
+      <div class="arrow"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#1a1406" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6" /></svg></div>
+    </div>
+    <div id="ct-v1" class="var card" style="left:72px"><div data-car="v"></div><b>1.0 G</b><i>BEZZA</i></div>
+    <div id="ct-v2" class="var card" style="left:392px"><div data-car="v"></div><b>1.3 X</b><i>BEZZA</i></div>
+    <div id="ct-v3" class="var card" style="left:712px"><div data-car="v"></div><b>1.3 AV</b><i>BEZZA</i></div>
+    <div id="ct-ring" class="abs"></div>
+    <div id="ct-btn" class="abs"><span data-ic="form"></span>ISI FORM DI BAWAH</div>
+    <svg id="ct-chev" class="abs" viewBox="0 0 70 80" fill="none" stroke="#d2ad66" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path class="cv" d="M15 12 L35 30 L55 12" /><path class="cv" d="M15 36 L35 54 L55 36" /></svg>
+  </div>
+
+  <!-- ================= CAPTIONS 0 – 56.1 ================= -->
+  <div id="caps" class="clip" data-start="0" data-duration="56.1" data-track-index="3"></div>
+
+  <!-- ================= TRANSITION SWEEPS ================= -->
+  <div id="sw1" class="clip sweep" data-start="8.7" data-duration="0.7" data-track-index="4" style="inset:auto"></div>
+  <div id="sw2" class="clip sweep" data-start="17.45" data-duration="0.7" data-track-index="4" style="inset:auto"></div>
+  <div id="sw3" class="clip sweep" data-start="26.8" data-duration="0.7" data-track-index="4" style="inset:auto"></div>
+  <div id="sw4" class="clip sweep" data-start="32.9" data-duration="0.7" data-track-index="4" style="inset:auto"></div>
+  <div id="sw5" class="clip sweep" data-start="40.45" data-duration="0.7" data-track-index="4" style="inset:auto"></div>
+  <div id="sw6" class="clip sweep" data-start="49.2" data-duration="0.7" data-track-index="4" style="inset:auto"></div>
+
+  <!-- ================= CLOSING 55.85 – 62.5 ================= -->
+  <div id="wipe" class="clip" data-start="55.85" data-duration="0.9" data-track-index="5" style="inset:auto"></div>
+  <div id="s-close" class="clip" data-start="56.5" data-duration="6.0" data-track-index="6">
+    <div id="close-bg" class="abs"></div>
+    <svg id="cl-waves" class="abs" viewBox="0 0 1080 540" fill="none" stroke="#c9a45c" stroke-width="2">
+      <path id="clw1" d="M-200 260 C 90 150, 330 380, 570 270 S 1010 140, 1300 280" opacity=".55" />
+      <path id="clw2" d="M-200 300 C 100 200, 340 420, 580 310 S 1020 190, 1300 320" opacity=".3" />
+    </svg>
+    <div id="cl-logo" class="abs">
+      <div id="cl-dust" class="abs" style="inset:0"></div>
+      <img id="cl-mark" class="abs" src="assets/img/mark_light.png" alt="" />
+      <div id="cl-shine" class="abs"><div></div></div>
+      <img id="cl-salam" class="abs" src="assets/img/salam_light.png" alt="" />
+      <img id="cl-auto" class="abs" src="assets/img/auto_light.png" alt="" />
+      <img id="cl-tag" class="abs" src="assets/img/tag_light.png" alt="" />
+      <div id="cl-div" class="abs"></div>
+      <div id="cl-t1" class="abs">Kami guide &amp; assist anda dari</div>
+      <div id="cl-t2" class="abs"><span id="cl-a" class="g">A</span> <span id="cl-h">hingga</span> <span id="cl-z" class="g">Z</span></div>
+    </div>
+  </div>
+
+  <!-- ================= AUDIO ================= -->
+  <audio id="a-vo" src="assets/vo.wav" data-start="0" data-duration="58.6" data-volume="1" data-track-index="10"></audio>
+  <audio id="a-bgm1" src="assets/bgm.wav" data-start="0" data-duration="56.3" data-media-start="0" data-volume="0.16" data-fade-out="0.4" data-track-index="11"></audio>
+  <audio id="a-bgm2" src="assets/bgm.wav" data-start="56.3" data-duration="6.2" data-media-start="56.3" data-volume="0.36" data-fade-in="0.4" data-fade-out="1.2" data-track-index="11"></audio>
+  <!-- SFX:BEGIN -->
+  <audio id="sfx0" src="assets/sfx/whoosh.wav" data-start="0.000" data-duration="0.700" data-volume="0.55" data-track-index="12"></audio>
+  <audio id="sfx1" src="assets/sfx/pop.wav" data-start="0.100" data-duration="0.160" data-volume="0.55" data-track-index="13"></audio>
+  <audio id="sfx2" src="assets/sfx/click.wav" data-start="1.800" data-duration="0.050" data-volume="0.6" data-track-index="14"></audio>
+  <audio id="sfx3" src="assets/sfx/riser.wav" data-start="2.350" data-duration="0.900" data-volume="0.3" data-track-index="15"></audio>
+  <audio id="sfx4" src="assets/sfx/pop.wav" data-start="2.900" data-duration="0.160" data-volume="0.5" data-track-index="12"></audio>
+  <audio id="sfx5" src="assets/sfx/pop.wav" data-start="4.300" data-duration="0.160" data-volume="0.45" data-track-index="13"></audio>
+  <audio id="sfx6" src="assets/sfx/pop.wav" data-start="5.200" data-duration="0.160" data-volume="0.5" data-track-index="14"></audio>
+  <audio id="sfx7" src="assets/sfx/buzz.wav" data-start="5.450" data-duration="0.320" data-volume="0.32" data-track-index="15"></audio>
+  <audio id="sfx8" src="assets/sfx/pop.wav" data-start="6.250" data-duration="0.160" data-volume="0.5" data-track-index="12"></audio>
+  <audio id="sfx9" src="assets/sfx/buzz.wav" data-start="6.500" data-duration="0.320" data-volume="0.32" data-track-index="13"></audio>
+  <audio id="sfx10" src="assets/sfx/riser.wav" data-start="6.950" data-duration="0.900" data-volume="0.5" data-track-index="14"></audio>
+  <audio id="sfx11" src="assets/sfx/impact.wav" data-start="7.780" data-duration="1.400" data-volume="0.8" data-track-index="15"></audio>
+  <audio id="sfx12" src="assets/sfx/shimmer.wav" data-start="7.850" data-duration="2.200" data-volume="0.35" data-track-index="12"></audio>
+  <audio id="sfx13" src="assets/sfx/whoosh.wav" data-start="8.750" data-duration="0.700" data-volume="0.55" data-track-index="13"></audio>
+  <audio id="sfx14" src="assets/sfx/pop.wav" data-start="9.300" data-duration="0.160" data-volume="0.45" data-track-index="14"></audio>
+  <audio id="sfx15" src="assets/sfx/stamp.wav" data-start="10.500" data-duration="0.350" data-volume="0.5" data-track-index="15"></audio>
+  <audio id="sfx16" src="assets/sfx/pop.wav" data-start="11.650" data-duration="0.160" data-volume="0.45" data-track-index="12"></audio>
+  <audio id="sfx17" src="assets/sfx/tick.wav" data-start="12.650" data-duration="0.035" data-volume="0.28" data-track-index="13"></audio>
+  <audio id="sfx18" src="assets/sfx/tick.wav" data-start="12.780" data-duration="0.035" data-volume="0.28" data-track-index="14"></audio>
+  <audio id="sfx19" src="assets/sfx/tick.wav" data-start="12.910" data-duration="0.035" data-volume="0.28" data-track-index="15"></audio>
+  <audio id="sfx20" src="assets/sfx/tick.wav" data-start="13.040" data-duration="0.035" data-volume="0.28" data-track-index="12"></audio>
+  <audio id="sfx21" src="assets/sfx/tick.wav" data-start="13.170" data-duration="0.035" data-volume="0.28" data-track-index="13"></audio>
+  <audio id="sfx22" src="assets/sfx/tick.wav" data-start="13.300" data-duration="0.035" data-volume="0.28" data-track-index="14"></audio>
+  <audio id="sfx23" src="assets/sfx/tick.wav" data-start="13.430" data-duration="0.035" data-volume="0.28" data-track-index="15"></audio>
+  <audio id="sfx24" src="assets/sfx/tick.wav" data-start="13.560" data-duration="0.035" data-volume="0.28" data-track-index="12"></audio>
+  <audio id="sfx25" src="assets/sfx/tick.wav" data-start="13.690" data-duration="0.035" data-volume="0.28" data-track-index="13"></audio>
+  <audio id="sfx26" src="assets/sfx/tick.wav" data-start="13.820" data-duration="0.035" data-volume="0.28" data-track-index="14"></audio>
+  <audio id="sfx27" src="assets/sfx/tick.wav" data-start="13.950" data-duration="0.035" data-volume="0.28" data-track-index="15"></audio>
+  <audio id="sfx28" src="assets/sfx/tick.wav" data-start="14.080" data-duration="0.035" data-volume="0.28" data-track-index="12"></audio>
+  <audio id="sfx29" src="assets/sfx/ding.wav" data-start="14.300" data-duration="1.100" data-volume="0.35" data-track-index="13"></audio>
+  <audio id="sfx30" src="assets/sfx/stamp.wav" data-start="15.900" data-duration="0.350" data-volume="0.55" data-track-index="14"></audio>
+  <audio id="sfx31" src="assets/sfx/whoosh.wav" data-start="17.500" data-duration="0.700" data-volume="0.55" data-track-index="15"></audio>
+  <audio id="sfx32" src="assets/sfx/pop.wav" data-start="17.950" data-duration="0.160" data-volume="0.45" data-track-index="12"></audio>
+  <audio id="sfx33" src="assets/sfx/pop.wav" data-start="20.800" data-duration="0.160" data-volume="0.5" data-track-index="13"></audio>
+  <audio id="sfx34" src="assets/sfx/tick.wav" data-start="20.950" data-duration="0.035" data-volume="0.25" data-track-index="14"></audio>
+  <audio id="sfx35" src="assets/sfx/tick.wav" data-start="21.070" data-duration="0.035" data-volume="0.25" data-track-index="15"></audio>
+  <audio id="sfx36" src="assets/sfx/tick.wav" data-start="21.190" data-duration="0.035" data-volume="0.25" data-track-index="12"></audio>
+  <audio id="sfx37" src="assets/sfx/tick.wav" data-start="21.310" data-duration="0.035" data-volume="0.25" data-track-index="13"></audio>
+  <audio id="sfx38" src="assets/sfx/tick.wav" data-start="21.430" data-duration="0.035" data-volume="0.25" data-track-index="14"></audio>
+  <audio id="sfx39" src="assets/sfx/tick.wav" data-start="21.550" data-duration="0.035" data-volume="0.25" data-track-index="15"></audio>
+  <audio id="sfx40" src="assets/sfx/ding.wav" data-start="22.550" data-duration="1.100" data-volume="0.35" data-track-index="12"></audio>
+  <audio id="sfx41" src="assets/sfx/pop.wav" data-start="24.250" data-duration="0.160" data-volume="0.5" data-track-index="13"></audio>
+  <audio id="sfx42" src="assets/sfx/pop.wav" data-start="25.900" data-duration="0.160" data-volume="0.5" data-track-index="14"></audio>
+  <audio id="sfx43" src="assets/sfx/whoosh.wav" data-start="26.850" data-duration="0.700" data-volume="0.55" data-track-index="15"></audio>
+  <audio id="sfx44" src="assets/sfx/pop.wav" data-start="27.300" data-duration="0.160" data-volume="0.45" data-track-index="12"></audio>
+  <audio id="sfx45" src="assets/sfx/pop.wav" data-start="28.350" data-duration="0.160" data-volume="0.5" data-track-index="13"></audio>
+  <audio id="sfx46" src="assets/sfx/pop.wav" data-start="30.300" data-duration="0.160" data-volume="0.5" data-track-index="14"></audio>
+  <audio id="sfx47" src="assets/sfx/pop.wav" data-start="32.200" data-duration="0.160" data-volume="0.5" data-track-index="15"></audio>
+  <audio id="sfx48" src="assets/sfx/whoosh.wav" data-start="32.950" data-duration="0.700" data-volume="0.55" data-track-index="12"></audio>
+  <audio id="sfx49" src="assets/sfx/pop.wav" data-start="33.400" data-duration="0.160" data-volume="0.45" data-track-index="13"></audio>
+  <audio id="sfx50" src="assets/sfx/click.wav" data-start="34.900" data-duration="0.050" data-volume="0.55" data-track-index="14"></audio>
+  <audio id="sfx51" src="assets/sfx/ding.wav" data-start="37.250" data-duration="1.100" data-volume="0.32" data-track-index="15"></audio>
+  <audio id="sfx52" src="assets/sfx/ding.wav" data-start="38.250" data-duration="1.100" data-volume="0.32" data-track-index="12"></audio>
+  <audio id="sfx53" src="assets/sfx/ding.wav" data-start="39.750" data-duration="1.100" data-volume="0.32" data-track-index="13"></audio>
+  <audio id="sfx54" src="assets/sfx/whoosh.wav" data-start="40.500" data-duration="0.700" data-volume="0.55" data-track-index="14"></audio>
+  <audio id="sfx55" src="assets/sfx/pop.wav" data-start="40.950" data-duration="0.160" data-volume="0.45" data-track-index="15"></audio>
+  <audio id="sfx56" src="assets/sfx/riser.wav" data-start="43.400" data-duration="0.900" data-volume="0.3" data-track-index="12"></audio>
+  <audio id="sfx57" src="assets/sfx/ding.wav" data-start="45.100" data-duration="1.100" data-volume="0.38" data-track-index="13"></audio>
+  <audio id="sfx58" src="assets/sfx/pop.wav" data-start="46.000" data-duration="0.160" data-volume="0.5" data-track-index="14"></audio>
+  <audio id="sfx59" src="assets/sfx/ding.wav" data-start="47.800" data-duration="1.100" data-volume="0.32" data-track-index="15"></audio>
+  <audio id="sfx60" src="assets/sfx/whoosh.wav" data-start="49.250" data-duration="0.700" data-volume="0.55" data-track-index="12"></audio>
+  <audio id="sfx61" src="assets/sfx/pop.wav" data-start="49.700" data-duration="0.160" data-volume="0.45" data-track-index="13"></audio>
+  <audio id="sfx62" src="assets/sfx/pop.wav" data-start="50.900" data-duration="0.160" data-volume="0.45" data-track-index="14"></audio>
+  <audio id="sfx63" src="assets/sfx/click.wav" data-start="52.300" data-duration="0.050" data-volume="0.5" data-track-index="15"></audio>
+  <audio id="sfx64" src="assets/sfx/stamp.wav" data-start="53.850" data-duration="0.350" data-volume="0.45" data-track-index="12"></audio>
+  <audio id="sfx65" src="assets/sfx/click.wav" data-start="54.850" data-duration="0.050" data-volume="0.7" data-track-index="13"></audio>
+  <audio id="sfx66" src="assets/sfx/whoosh_big.wav" data-start="55.800" data-duration="1.100" data-volume="0.65" data-track-index="14"></audio>
+  <audio id="sfx67" src="assets/sfx/impact.wav" data-start="56.600" data-duration="1.400" data-volume="0.35" data-track-index="15"></audio>
+  <audio id="sfx68" src="assets/sfx/shimmer.wav" data-start="56.750" data-duration="2.200" data-volume="0.45" data-track-index="12"></audio>
+  <audio id="sfx69" src="assets/sfx/pop.wav" data-start="57.620" data-duration="0.160" data-volume="0.5" data-track-index="13"></audio>
+  <audio id="sfx70" src="assets/sfx/pop.wav" data-start="58.300" data-duration="0.160" data-volume="0.5" data-track-index="14"></audio>
+  <audio id="sfx71" src="assets/sfx/shimmer.wav" data-start="59.300" data-duration="2.200" data-volume="0.22" data-track-index="15"></audio>
+  <!-- SFX:END -->
+</div>
+
+<script>
+(function () {
+  /* ---------------- static builders (deterministic) ---------------- */
+  const ICONS = {
+    stroller: '<svg viewBox="0 0 24 24" fill="none" stroke="#1a1406" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h2l2 9h10"/><path d="M8 13a6 6 0 0 1 6-6h4v6"/><circle cx="9" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg>',
+    bag: '<svg viewBox="0 0 24 24" fill="none" stroke="#1a1406" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M4 13h16"/></svg>',
+    trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M8 20h8M9 17h6"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+    power: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v8"/><path d="M7 6.5a7 7 0 1 0 10 0"/></svg>',
+    vsc: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="4"/><path d="M3 8c1 2 1 6 0 8M21 8c-1 2-1 6 0 8"/><path d="M10 8l-1 8M14 8l1 8"/></svg>',
+    hill: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20L22 8v12z"/><path d="M8 13.5l5-3"/><circle cx="9" cy="15.5" r="1.3"/><circle cx="14" cy="12.5" r="1.3"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    checkg: '<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#4cc38a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.5 3.5L17 9"/></svg>',
+    wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8 6.2 21l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>',
+    wallet: '<svg viewBox="0 0 24 24" fill="none" stroke="#d2ad66" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18"/><path d="M16 15h2"/><path d="M6 6l9-3 1.5 3"/></svg>',
+    form: '<svg viewBox="0 0 24 24" fill="none" stroke="#1a1406" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h7M9 17h5"/></svg>'
+  };
+  document.querySelectorAll("[data-ic]").forEach(el => { el.innerHTML = ICONS[el.dataset.ic]; });
+
+  // 2D flat sedan (side profile) — infographic illustration
+  const BODY = "M24 150 L24 124 Q26 108 44 104 L134 94 Q154 91 172 72 L214 42 Q226 34 242 33 L362 33 Q384 34 398 46 L446 82 Q458 88 474 90 L556 100 Q576 104 580 120 L583 146 Q581 156 570 157 L500 157 A46 46 0 0 0 408 157 L192 157 A46 46 0 0 0 100 157 L34 157 Q24 156 24 150 Z";
+  function car(kind) {
+    const gold = kind === "myst" ? "#3a3d46" : "#d2ad66";
+    const fill = kind === "myst" ? "#1a1c22" : "url(#cb-" + kind + ")";
+    const win = kind === "myst" ? "#23262e" : "#2c3440";
+    const detail = kind === "myst" ? "" : `
+      <path d="M300 44 L300 150 M200 100 L420 100" stroke="${gold}" stroke-opacity=".35" stroke-width="2"/>
+      <rect x="318" y="106" width="26" height="6" rx="3" fill="${gold}" opacity=".8"/>
+      <rect x="226" y="106" width="26" height="6" rx="3" fill="${gold}" opacity=".8"/>
+      <path d="M548 106 L578 112 L578 122 L552 118 Z" fill="#fff3d6"/>
+      <path d="M26 112 L46 108 L46 122 L26 124 Z" fill="#e5484d"/>
+      <path d="M470 92 L520 98" stroke="${gold}" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>`;
+    const wheel = (cx) => `<g class="wheel" style="transform-origin:${cx}px 157px"><circle cx="${cx}" cy="157" r="40" fill="#0d0e12" stroke="${gold}" stroke-width="${kind === 'myst' ? 3 : 4}"/><circle cx="${cx}" cy="157" r="22" fill="none" stroke="${gold}" stroke-opacity=".7" stroke-width="3"/>${kind === 'myst' ? '' : `<path d="M${cx} 137 V177 M${cx - 20} 157 H${cx + 20} M${cx - 14} 143 L${cx + 14} 171 M${cx + 14} 143 L${cx - 14} 171" stroke="${gold}" stroke-opacity=".55" stroke-width="2.5"/>`}<circle cx="${cx}" cy="157" r="5" fill="${gold}"/></g>`;
+    return `<svg viewBox="0 0 610 210" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+      <defs><linearGradient id="cb-${kind}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2d36"/><stop offset="1" stop-color="#15171c"/></linearGradient></defs>
+      <ellipse cx="302" cy="200" rx="290" ry="9" fill="#000" opacity=".45"/>
+      <path d="${BODY}" fill="${fill}" stroke="${gold}" stroke-width="${kind === 'myst' ? 3 : 4}" stroke-linejoin="round"/>
+      <path d="M184 92 L224 52 Q230 46 242 46 L294 46 L294 92 Z" fill="${win}" stroke="${gold}" stroke-opacity=".5" stroke-width="2"/>
+      <path d="M306 46 L356 46 Q372 47 384 56 L428 92 L306 92 Z" fill="${win}" stroke="${gold}" stroke-opacity=".5" stroke-width="2"/>
+      ${detail}${wheel(146)}${wheel(454)}</svg>`;
+  }
+  document.querySelectorAll("[data-car]").forEach(el => { el.innerHTML = car(el.dataset.car); });
+
+  // rays for the reveal
+  let rays = ""; for (let i = 0; i < 24; i++) { rays += `<path d="M0 0 L-16 -300 L16 -300 Z" transform="rotate(${i * 15})" fill="#d2ad66" opacity="${i % 2 ? .10 : .20}"/>`; }
+  document.getElementById("raysg").innerHTML = rays;
+
+  // registration grid: 40 small car icons
+  const mini = '<svg viewBox="0 0 64 30"><path d="M3 22 L3 17 Q4 14 8 13 L18 12 Q21 11 24 8 L29 4 Q31 3 33 3 L46 3 Q49 3 51 5 L57 11 L61 12 Q63 13 63 16 L63 21 Q63 23 61 23 L56 23 A5 5 0 0 0 46 23 L19 23 A5 5 0 0 0 9 23 L5 23 Q3 23 3 22Z" fill="currentColor"/><circle cx="14" cy="23" r="4" fill="currentColor"/><circle cx="51" cy="23" r="4" fill="currentColor"/></svg>';
+  const grid = document.getElementById("st-grid");
+  for (let i = 0; i < 30; i++) { const d = document.createElement("div"); d.className = "gcar"; d.style.color = "rgba(255,255,255,.12)"; d.innerHTML = mini; grid.appendChild(d); }
+
+  // timeline year nodes
+  const track = document.getElementById("r4-tl");
+  [2026, 2027, 2028, 2029, 2030].forEach((y, i) => {
+    const x = 90 + i * 189;
+    const n = document.createElement("div"); n.className = "yr"; n.id = "yr" + i; n.style.left = x + "px"; track.appendChild(n);
+    const l = document.createElement("div"); l.className = "yrl"; l.id = "yrl" + i; l.style.left = x + "px"; l.textContent = y; track.appendChild(l);
+  });
+
+  // closing gold dust (fixed positions)
+  const dust = document.getElementById("cl-dust");
+  const DP = [[180,520],[860,560],[300,1380],[790,1330],[120,900],[960,960],[420,430],[680,1460],[230,1180],[880,1180],[560,380],[980,720]];
+  DP.forEach((p, i) => { const d = document.createElement("div"); d.className = "dust"; d.id = "dust" + i; d.style.left = p[0] + "px"; d.style.top = p[1] + "px"; d.style.transform = "scale(" + (0.8 + (i % 4) * 0.45) + ")"; dust.appendChild(d); });
+
+  // captions
+  const caps = document.getElementById("caps");
+  window.CAPTIONS.forEach((p, i) => {
+    const el = document.createElement("div"); el.className = "phr"; el.id = "ph" + i; el.style.opacity = 0;
+    p.w.forEach((w, j) => { const s = document.createElement("span"); s.className = "wd"; s.id = `w${i}_${j}`; s.textContent = w.t; el.appendChild(s); });
+    caps.appendChild(el);
+  });
+
+})();
+</script>
+
+<script>
+(function () {
+  const tl = gsap.timeline({ paused: true });
+  const $ = (s) => document.querySelector(s);
+  const E = "power3.out", EB = "back.out(1.7)";
+  const inUp = (sel, t, d = 0.55, y = 50) => tl.fromTo(sel, { autoAlpha: 0, y, filter: "blur(10px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: d, ease: E }, t);
+  const popIn = (sel, t, d = 0.5) => tl.fromTo(sel, { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: d, ease: EB }, t);
+  const outUp = (sel, t, d = 0.32) => tl.to(sel, { autoAlpha: 0, y: -40, filter: "blur(8px)", duration: d, ease: "power2.in" }, t);
+  const sweep = (sel, t) => tl.fromTo(sel, { x: 0 }, { x: 2000, duration: 0.7, ease: "power2.inOut" }, t);
+
+  /* ---------------- ambient ---------------- */
+  tl.fromTo("#glow", { x: -60, opacity: .7 }, { x: 60, opacity: 1, duration: 28, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+  tl.fromTo("#wv", { x: -60 }, { x: 60, duration: 28, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+  tl.fromTo("#header", { autoAlpha: 0, y: -20 }, { autoAlpha: 1, y: 0, duration: .6, ease: E }, 0.05);
+  tl.fromTo("#header .hline", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: .9, ease: E }, 0.2);
+
+  /* ---------------- S1 HOOK ---------------- */
+  tl.fromTo("#hk-pill", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: .45, ease: E }, 0.02);
+  inUp("#hk-l1", 0.0, .5, 30);
+  inUp("#hk-l2", 1.75, .45);
+  tl.fromTo("#hk-l3", { autoAlpha: 0, scale: 1.35, filter: "blur(16px)", transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", duration: .6, ease: "expo.out" }, 3.2);
+  inUp("#hk-l4", 4.0, .45, 24);
+  // mystery silhouette + "?"
+  tl.fromTo("#hk-myst", { autoAlpha: 0, x: 120 }, { autoAlpha: 1, x: 0, duration: .7, ease: E }, 0.25);
+  popIn("#hk-q", 0.5, .6);
+  tl.to("#hk-q", { y: -16, duration: .9, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.1);
+  tl.to(["#hk-myst", "#hk-q"], { autoAlpha: 0, scale: .9, duration: .3, ease: "power2.in" }, 4.9);
+  // candidates
+  tl.fromTo("#hk-axia", { autoAlpha: 0, y: 80, rotation: -4 }, { autoAlpha: 1, y: 0, rotation: 0, duration: .5, ease: EB }, 5.15);
+  tl.fromTo("#hk-axia .xmark", { autoAlpha: 0, scale: 2.2, rotation: -30 }, { autoAlpha: 1, scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)" }, 5.45);
+  tl.to("#hk-axia .ph", { filter: "grayscale(1) brightness(.55)", duration: .3 }, 5.5);
+  tl.fromTo("#hk-myvi", { autoAlpha: 0, y: 80, rotation: 4 }, { autoAlpha: 1, y: 0, rotation: 0, duration: .5, ease: EB }, 6.2);
+  tl.fromTo("#hk-myvi .xmark", { autoAlpha: 0, scale: 2.2, rotation: 30 }, { autoAlpha: 1, scale: 1, rotation: 0, duration: .35, ease: "back.out(2.5)" }, 6.5);
+  tl.to("#hk-myvi .ph", { filter: "grayscale(1) brightness(.55)", duration: .3 }, 6.55);
+  tl.to("#hk-axia", { x: -700, autoAlpha: 0, rotation: -12, duration: .45, ease: "power3.in" }, 7.3);
+  tl.to("#hk-myvi", { x: 700, autoAlpha: 0, rotation: 12, duration: .45, ease: "power3.in" }, 7.3);
+  // headline dims + reveal
+  tl.to(["#hk-l1", "#hk-l4"], { autoAlpha: .35, duration: .3 }, 7.5);
+  tl.fromTo("#hk-flash", { opacity: 0 }, { opacity: 1, duration: .08 }, 7.78).to("#hk-flash", { opacity: 0, duration: .6, ease: "power2.out" }, 7.86);
+  tl.fromTo("#hk-rays", { opacity: 0, scale: .4 }, { opacity: 1, scale: 1, duration: .7, ease: E }, 7.8);
+  tl.fromTo("#raysg", { rotation: 0, svgOrigin: "0 0" }, { rotation: 40, svgOrigin: "0 0", duration: 1.4, ease: "none" }, 7.8);
+  tl.fromTo("#hk-car", { autoAlpha: 0, x: 600, skewX: -12 }, { autoAlpha: 1, x: 0, skewX: 0, duration: .65, ease: "expo.out" }, 7.75);
+  tl.fromTo("#hk-car .wheel", { rotation: -540 }, { rotation: 0, duration: .8, ease: "expo.out" }, 7.75);
+  popIn("#hk-badge", 8.1, .5);
+  tl.fromTo("#hk-name", { autoAlpha: 0, y: 40, scale: .9 }, { autoAlpha: 1, y: 0, scale: 1, duration: .45, ease: EB }, 7.95);
+  outUp("#s-hook > *:not(#hk-flash)", 8.68);
+
+  /* ---------------- S2 STATS ---------------- */
+  sweep("#sw1", 8.7);
+  tl.fromTo("#st-pill", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: .45, ease: E }, 9.05);
+  inUp("#st-t1", 9.1, .45, 30);
+  inUp("#st-t2", 10.3, .5);
+  tl.fromTo("#st-cal", { autoAlpha: 0, rotationX: -90, transformPerspective: 800, transformOrigin: "50% 0%" }, { autoAlpha: 1, rotationX: 0, duration: .6, ease: EB }, 10.45);
+  tl.fromTo("#st-card", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: .6, ease: E }, 11.6);
+  const cnt = { v: 0 }; const numEl = $("#st-num");
+  tl.fromTo(cnt, { v: 0 }, { v: 73000, duration: 1.75, ease: "power2.out", onUpdate: () => { numEl.textContent = Math.round(cnt.v).toLocaleString("en-US") + (cnt.v > 72990 ? "+" : ""); } }, 12.6);
+  document.querySelectorAll("#st-grid .gcar").forEach((g, i) => {
+    tl.fromTo(g, { color: "rgba(255,255,255,.12)", scale: .7 }, { color: "#d2ad66", scale: 1, duration: .25, ease: EB }, 12.6 + i * 0.055);
+  });
+  tl.fromTo("#st-stamp", { autoAlpha: 0, scale: 2.4, rotation: -25 }, { autoAlpha: 1, scale: 1, rotation: -9, duration: .32, ease: "back.out(2)" }, 15.85);
+  tl.fromTo("#st-card", { x: 0 }, { x: 8, duration: .05, yoyo: true, repeat: 3 }, 16.0);
+  outUp("#s-stats > *", 17.42);
+
+  /* ---------------- reason helper ---------------- */
+  function reasonIn(sc, t) {
+    tl.fromTo(`${sc} .rnum`, { autoAlpha: 0, x: -80, filter: "blur(14px)" }, { autoAlpha: 1, x: 0, filter: "blur(0px)", duration: .55, ease: "expo.out" }, t);
+    tl.fromTo(`${sc} .rmeta .lbl`, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .4, ease: E }, t + .12);
+    tl.fromTo(`${sc} .bars span`, { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: .3, stagger: .06, ease: E }, t + .18);
+    tl.fromTo(`${sc} .rtitle`, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: .5, ease: E }, t + .22);
+    tl.fromTo(`${sc} .rdiv`, { scaleX: 0 }, { scaleX: 1, duration: .7, ease: E }, t + .3);
+  }
+
+  /* ---------------- S3 REASON 1 ---------------- */
+  sweep("#sw2", 17.45);
+  reasonIn("#s-r1", 17.8);
+  tl.fromTo("#s-r1 .media", { autoAlpha: 0, y: 70, scale: .96 }, { autoAlpha: 1, y: 0, scale: 1, duration: .6, ease: E }, 18.6);
+  tl.fromTo("#s-r1 .photo", { scale: 1.18 }, { scale: 1.0, duration: 8.5, ease: "none" }, 18.6);
+  popIn("#r1-t1", 20.75);
+  const lit = { v: 0 }; const litEl = $("#r1-num");
+  tl.fromTo(lit, { v: 0 }, { v: 508, immediateRender: false, duration: .8, ease: "power2.out", onUpdate: () => { litEl.textContent = Math.round(lit.v); } }, 20.85);
+  popIn("#r1-t2", 22.5);
+  tl.fromTo("#r1-t2 .icon-box", { rotation: -25 }, { rotation: 0, duration: .5, ease: EB }, 22.6);
+  tl.fromTo("#r1-c1", { autoAlpha: 0, x: -50, scale: .8 }, { autoAlpha: 1, x: 0, scale: 1, duration: .45, ease: EB }, 24.2);
+  tl.fromTo("#r1-c2", { autoAlpha: 0, x: 50, scale: .8 }, { autoAlpha: 1, x: 0, scale: 1, duration: .45, ease: EB }, 25.85);
+  outUp("#s-r1 > *", 26.78);
+
+  /* ---------------- S4 REASON 2 ---------------- */
+  sweep("#sw3", 26.8);
+  reasonIn("#s-r2", 27.15);
+  tl.fromTo("#s-r2 .media", { autoAlpha: 0, y: 70, scale: .96 }, { autoAlpha: 1, y: 0, scale: 1, duration: .6, ease: E }, 27.5);
+  tl.fromTo("#s-r2 .photo", { scale: 1.0 }, { scale: 1.15, duration: 6, ease: "none" }, 27.5);
+  popIn("#r2-t1", 28.3);
+  popIn("#r2-t2", 30.25);
+  popIn("#r2-t3", 32.15);
+  tl.fromTo("#r2-needle", { rotation: -80 }, { rotation: 62, duration: .7, ease: "back.out(2.2)" }, 32.3);
+  outUp("#s-r2 > *", 32.88);
+
+  /* ---------------- S5 REASON 3 ---------------- */
+  sweep("#sw4", 32.9);
+  reasonIn("#s-r3", 33.25);
+  tl.fromTo("#r3-var", { autoAlpha: 0, x: -60 }, { autoAlpha: 1, x: 0, duration: .5, ease: E }, 34.6);
+  tl.fromTo("#r3-var .v", { scale: 1.4, transformOrigin: "left center" }, { scale: 1, duration: .5, ease: "expo.out" }, 34.85);
+  tl.fromTo("#r3-btn", { autoAlpha: 0, scale: .5, rotation: -40 }, { autoAlpha: 1, scale: 1, rotation: 0, duration: .6, ease: EB }, 34.8);
+  tl.to("#r3-btn", { scale: .9, duration: .1, ease: "power2.in" }, 37.2).to("#r3-btn", { scale: 1, duration: .35, ease: "back.out(3)" }, 37.3);
+  tl.fromTo("#r3-glow", { attr: { r: 130 }, opacity: .8 }, { attr: { r: 165 }, opacity: 0, duration: .8, ease: "power2.out" }, 37.25);
+  tl.fromTo("#r3-pw", { opacity: .6 }, { opacity: 1, duration: .2 }, 37.25);
+  [["#r3-k1", 37.15], ["#r3-k2", 38.15], ["#r3-k3", 39.65]].forEach(([s, t]) => {
+    tl.fromTo(s, { autoAlpha: 0, x: 80 }, { autoAlpha: 1, x: 0, duration: .45, ease: E }, t - .1);
+    tl.fromTo(`${s} .ok`, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: .4, ease: "back.out(2.5)" }, t + .1);
+  });
+  outUp("#s-r3 > *", 40.43);
+
+  /* ---------------- S6 REASON 4 ---------------- */
+  sweep("#sw5", 40.45);
+  reasonIn("#s-r4", 40.8);
+  tl.fromTo("#r4-tl", { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, duration: .55, ease: E }, 41.7);
+  for (let i = 0; i < 5; i++) {
+    tl.fromTo("#yr" + i, { scale: 0 }, { scale: 1, duration: .3, ease: EB }, 41.9 + i * 0.07);
+    tl.fromTo("#yrl" + i, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .3 }, 41.95 + i * 0.07);
+  }
+  tl.fromTo("#r4-fill", { scaleX: 0 }, { scaleX: 1, duration: 2.6, ease: "power1.inOut" }, 42.5);
+  tl.fromTo("#r4-car", { x: 0 }, { x: 756, duration: 2.6, ease: "power1.inOut" }, 42.5);
+  tl.fromTo("#r4-car .wheel", { rotation: 0 }, { rotation: 900, duration: 2.6, ease: "power1.inOut" }, 42.5);
+  for (let i = 0; i < 5; i++) {
+    tl.to("#yr" + i, { borderColor: "#d2ad66", backgroundColor: "#2a2417", duration: .15 }, 42.5 + i * 0.62);
+    tl.to("#yrl" + i, { color: i === 4 ? "#f6dfa8" : "#ffffff", duration: .15 }, 42.5 + i * 0.62);
+  }
+  tl.fromTo("#r4-flag", { autoAlpha: 0, y: 30, scale: .6 }, { autoAlpha: 1, y: 0, scale: 1, duration: .45, ease: EB }, 45.05);
+  tl.fromTo("#r4-sp", { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, duration: .55, ease: E }, 45.95);
+  tl.fromTo("#r4-sp .ib", { rotation: -60, scale: .6 }, { rotation: 0, scale: 1, duration: .6, ease: EB }, 46.1);
+  tl.fromTo("#r4-sp .t2", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: .4, ease: E }, 47.75);
+  outUp("#s-r4 > *", 49.18);
+
+  /* ---------------- S7 CTA ---------------- */
+  sweep("#sw6", 49.2);
+  tl.fromTo("#ct-pill", { autoAlpha: 0, x: -30 }, { autoAlpha: 1, x: 0, duration: .45, ease: E }, 49.55);
+  inUp("#ct-l1", 49.6, .5);
+  tl.fromTo("#ct-l2", { autoAlpha: 0, scale: 1.3, filter: "blur(14px)", transformOrigin: "left center" }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", duration: .55, ease: "expo.out" }, 50.0);
+  tl.fromTo("#ct-wallet", { autoAlpha: 0, y: 60 }, { autoAlpha: 1, y: 0, duration: .5, ease: E }, 50.85);
+  const sal = { v: 0 }; const salEl = $("#ct-sal");
+  tl.fromTo(sal, { v: 0 }, { v: 9999, immediateRender: false, duration: 2.6, ease: "none", onUpdate: () => { if (sal.v >= 9999) { salEl.textContent = "?,???"; return; } const n = Math.floor(sal.v * 7.31) % 9000 + 1000; salEl.textContent = String(n).replace(/(\d)(\d{3})$/, "$1,$2"); } }, 51.0);
+  [["#ct-v1", 52.2], ["#ct-v2", 52.3], ["#ct-v3", 52.4]].forEach(([s, t]) => tl.fromTo(s, { autoAlpha: 0, y: 60 }, { autoAlpha: 1, y: 0, duration: .45, ease: EB }, t));
+  const HL = { borderColor: "#d2ad66", boxShadow: "0 0 0 3px rgba(214,178,106,.45), 0 30px 60px rgba(0,0,0,.45)", y: -10 };
+  const NO = { borderColor: "rgba(214,178,106,.22)", boxShadow: "0 30px 60px rgba(0,0,0,.45)", y: 0 };
+  [["#ct-v1", 52.9], ["#ct-v2", 53.25], ["#ct-v3", 53.6]].forEach(([sel, t]) => { tl.to(sel, { ...HL, duration: .15 }, t); tl.to(sel, { ...NO, duration: .15 }, t + .35); });
+  tl.to("#ct-v2", { ...HL, duration: .2 }, 54.1);
+  tl.fromTo("#ct-l2 .gold-text", { scale: 1 }, { scale: 1.12, duration: .18, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "left center" }, 53.8);
+  tl.set("#ct-l2 .gold-text", { display: "inline-block" }, 49.5);
+  tl.fromTo("#ct-btn", { autoAlpha: 0, y: 40, scale: .8 }, { autoAlpha: 1, y: 0, scale: 1, duration: .42, ease: EB }, 54.38);
+  tl.to("#ct-btn", { scale: .93, duration: .1 }, 54.85).to("#ct-btn", { scale: 1, duration: .3, ease: "back.out(3)" }, 54.95);
+  tl.fromTo("#ct-ring", { autoAlpha: .9, scale: 1 }, { autoAlpha: 0, scale: 1.25, duration: .7, ease: "power2.out" }, 54.9);
+  tl.fromTo("#ct-chev", { autoAlpha: 0 }, { autoAlpha: 1, duration: .3 }, 54.8);
+  tl.fromTo("#ct-chev .cv", { y: -6, opacity: .4 }, { y: 8, opacity: 1, duration: .35, stagger: .12, yoyo: true, repeat: 3, ease: "sine.inOut" }, 54.9);
+
+  /* ---------------- CLOSING ---------------- */
+  tl.fromTo("#wipe", { scale: 1 }, { scale: 460, duration: .7, ease: "power3.in" }, 55.85);
+  tl.fromTo("#close-bg", { scale: 1.06 }, { scale: 1, duration: 6, ease: "none" }, 56.5);
+  tl.fromTo(["#clw1", "#clw2"], { x: -80 }, { x: 60, duration: 6, ease: "none" }, 56.5);
+  tl.fromTo("#cl-mark", { autoAlpha: 0, scale: 1.25, filter: "blur(18px)", clipPath: "inset(0% 100% 0% 0%)" }, { autoAlpha: 1, scale: 1, filter: "blur(0px)", clipPath: "inset(0% 0% 0% 0%)", duration: 1.0, ease: "expo.out" }, 56.55);
+  tl.fromTo("#cl-shine div", { x: 0 }, { x: 1100, duration: .9, ease: "power2.inOut" }, 57.35);
+  tl.fromTo("#cl-salam", { autoAlpha: 0, y: 26, clipPath: "inset(0% 50% 0% 50%)" }, { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)", duration: .75, ease: "expo.out" }, 57.0);
+  tl.fromTo("#cl-auto", { autoAlpha: 0, scaleX: .6 }, { autoAlpha: 1, scaleX: 1, duration: .6, ease: E }, 57.25);
+  tl.fromTo("#cl-tag", { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .5, ease: E }, 57.45);
+  tl.fromTo("#cl-div", { scaleX: 0 }, { scaleX: 1, duration: .5, ease: E }, 57.45);
+  tl.fromTo("#cl-t1", { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .45, ease: E }, 57.2);
+  tl.fromTo("#cl-a", { autoAlpha: 0, scale: .3 }, { autoAlpha: 1, scale: 1, duration: .45, ease: "back.out(2.5)" }, 57.6);
+  tl.fromTo("#cl-h", { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .4, ease: E }, 57.85);
+  tl.fromTo("#cl-z", { autoAlpha: 0, scale: .3 }, { autoAlpha: 1, scale: 1, duration: .45, ease: "back.out(2.5)" }, 58.28);
+  tl.fromTo("#cl-logo", { scale: 1 }, { scale: 1.035, duration: 4.2, ease: "sine.inOut", transformOrigin: "50% 45%" }, 58.3);
+  document.querySelectorAll(".dust").forEach((d, i) => {
+    tl.fromTo(d, { opacity: 0, y: 30 }, { opacity: .9, y: -40 - (i % 3) * 20, duration: 3.2, ease: "sine.out" }, 56.9 + (i % 6) * 0.2);
+  });
+
+  /* ---------------- captions karaoke ---------------- */
+  window.CAPTIONS.forEach((p, i) => {
+    const s = Math.max(0, p.s);
+    tl.fromTo("#ph" + i, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .14, ease: "power2.out" }, s);
+    tl.set("#ph" + i, { opacity: 0 }, p.e);
+    p.w.forEach((w, j) => {
+      tl.fromTo(`#w${i}_${j}`, { color: "rgba(255,255,255,0.32)", scale: 1 }, { color: w.g ? "#e9c77f" : "#ffffff", scale: 1.06, duration: .08, ease: "power1.out" }, Math.max(0, w.s));
+      tl.to(`#w${i}_${j}`, { scale: 1, duration: .16, ease: "power1.out" }, Math.max(0, w.s) + .08);
+    });
+  });
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+})();
+</script>
+</body>
+</html>

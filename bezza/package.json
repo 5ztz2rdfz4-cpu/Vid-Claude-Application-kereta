@@ -1,0 +1,11 @@
+{
+  "name": "salam-bezza-paling-laris",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "hyperframes check",
+    "render": "hyperframes render",
+    "build:audio": "python3 tools/make_audio.py assets"
+  },
+  "dependencies": { "gsap": "3.13.0", "hyperframes": "0.9.74" }
+}
