@@ -84,9 +84,14 @@
   .cand .nm i { display: block; font-style: normal; font-size: 18px; letter-spacing: 4px; color: var(--gold); font-weight: 700; margin-top: 4px; }
   .xmark { position: absolute; left: 140px; top: 60px; width: 160px; height: 160px; border-radius: 50%; background: rgba(229,72,77,.92); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 10px rgba(229,72,77,.25); }
   .xmark svg { width: 86px; height: 86px; }
-  #hk-car { left: 140px; top: 150px; width: 800px; height: 300px; }
-  #hk-badge { left: 780px; top: 10px; width: 190px; height: 190px; }
-  #hk-name { left: 0; top: 408px; width: 1080px; text-align: center; }
+  #hk-spot { left: 140px; top: 40px; width: 800px; height: 460px; border-radius: 50%; background: radial-gradient(closest-side, rgba(246,223,168,.55), rgba(214,178,106,.18) 55%, rgba(214,178,106,0)); }
+  #hk-floor { left: 190px; top: 380px; width: 700px; height: 60px; border-radius: 50%; background: radial-gradient(closest-side, rgba(246,223,168,.5), rgba(246,223,168,0)); }
+  #hk-car { left: 210px; top: 56px; width: 660px; height: 368px; }
+  #hk-car img { width: 100%; height: 100%; display: block; filter: drop-shadow(0 0 2px rgba(246,223,168,.55)) drop-shadow(0 18px 30px rgba(0,0,0,.6)); }
+  #hk-carshine { left: 210px; top: 56px; width: 660px; height: 368px; -webkit-mask-image: url(assets/img/bezza_cut.png); mask-image: url(assets/img/bezza_cut.png); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; overflow: hidden; }
+  #hk-carshine div { position: absolute; left: -260px; top: -120px; width: 150px; height: 620px; transform: rotate(22deg); background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,246,222,.55), rgba(255,255,255,0)); }
+  #hk-badge { left: 820px; top: -14px; width: 190px; height: 190px; }
+  #hk-name { left: 0; top: 430px; width: 1080px; text-align: center; }
   #hk-name i { display: block; font-style: normal; font-size: 26px; letter-spacing: 10px; color: var(--gold); font-weight: 700; }
   #hk-name b { display: block; font-size: 88px; font-weight: 900; letter-spacing: -2px; line-height: 1.02; }
   #hk-flash { inset: 0; background: radial-gradient(600px 500px at 50% 50%, rgba(255,236,190,.85), rgba(255,236,190,0) 70%); opacity: 0; }
@@ -239,7 +244,10 @@
         <div class="nm"><b>Myvi</b><i>PERODUA</i></div>
         <div class="xmark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg></div>
       </div>
-      <div id="hk-car" class="abs" data-car="hero"></div>
+      <div id="hk-spot" class="abs"></div>
+      <div id="hk-floor" class="abs"></div>
+      <div id="hk-car" class="abs"><img src="assets/img/bezza_cut.png" alt="Perodua Bezza" /></div>
+      <div id="hk-carshine" class="abs"><div></div></div>
       <svg id="hk-badge" class="abs" viewBox="0 0 200 200">
         <defs><linearGradient id="bdg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8e3ae" /><stop offset=".5" stop-color="#d8b26a" /><stop offset="1" stop-color="#a37a35" /></linearGradient></defs>
         <path d="M100 6 L118 26 L144 20 L150 46 L176 56 L168 82 L186 102 L166 120 L170 147 L144 152 L132 177 L108 168 L86 186 L70 164 L44 164 L42 138 L18 124 L30 100 L18 76 L42 64 L44 38 L70 36 L84 12 Z" fill="url(#bdg)" />
@@ -399,8 +407,7 @@
 
   <!-- ================= AUDIO ================= -->
   <audio id="a-vo" src="assets/vo.wav" data-start="0" data-duration="58.6" data-volume="1" data-track-index="10"></audio>
-  <audio id="a-bgm1" src="assets/bgm.wav" data-start="0" data-duration="56.3" data-media-start="0" data-volume="0.16" data-fade-out="0.4" data-track-index="11"></audio>
-  <audio id="a-bgm2" src="assets/bgm.wav" data-start="56.3" data-duration="6.2" data-media-start="56.3" data-volume="0.36" data-fade-in="0.4" data-fade-out="1.2" data-track-index="11"></audio>
+  <audio id="a-bgm" src="assets/bgm_ducked.wav" data-start="0" data-duration="62.5" data-volume="0.55" data-fade-out="1.0" data-track-index="11"></audio>
   <!-- SFX:BEGIN -->
   <audio id="sfx0" src="assets/sfx/whoosh.wav" data-start="0.000" data-duration="0.700" data-volume="0.55" data-track-index="12"></audio>
   <audio id="sfx1" src="assets/sfx/pop.wav" data-start="0.100" data-duration="0.160" data-volume="0.55" data-track-index="13"></audio>
@@ -594,8 +601,11 @@
   tl.fromTo("#hk-flash", { opacity: 0 }, { opacity: 1, duration: .08 }, 7.78).to("#hk-flash", { opacity: 0, duration: .6, ease: "power2.out" }, 7.86);
   tl.fromTo("#hk-rays", { opacity: 0, scale: .4 }, { opacity: 1, scale: 1, duration: .7, ease: E }, 7.8);
   tl.fromTo("#raysg", { rotation: 0, svgOrigin: "0 0" }, { rotation: 40, svgOrigin: "0 0", duration: 1.4, ease: "none" }, 7.8);
-  tl.fromTo("#hk-car", { autoAlpha: 0, x: 600, skewX: -12 }, { autoAlpha: 1, x: 0, skewX: 0, duration: .65, ease: "expo.out" }, 7.75);
-  tl.fromTo("#hk-car .wheel", { rotation: -540 }, { rotation: 0, duration: .8, ease: "expo.out" }, 7.75);
+  tl.fromTo("#hk-spot", { opacity: 0, scale: .5 }, { opacity: 1, scale: 1, duration: .6, ease: E }, 7.78);
+  tl.fromTo("#hk-floor", { opacity: 0, scaleX: .3 }, { opacity: 1, scaleX: 1, duration: .6, ease: E }, 7.85);
+  tl.fromTo("#hk-car", { autoAlpha: 0, x: 520, scale: .92, filter: "blur(14px)" }, { autoAlpha: 1, x: 0, scale: 1, filter: "blur(0px)", duration: .7, ease: "expo.out" }, 7.75);
+  tl.fromTo("#hk-car img", { scale: 1 }, { scale: 1.04, duration: 1.0, ease: "sine.out" }, 7.9);
+  tl.fromTo("#hk-carshine div", { x: 0 }, { x: 1150, duration: .75, ease: "power2.inOut" }, 8.05);
   popIn("#hk-badge", 8.1, .5);
   tl.fromTo("#hk-name", { autoAlpha: 0, y: 40, scale: .9 }, { autoAlpha: 1, y: 0, scale: 1, duration: .45, ease: EB }, 7.95);
   outUp("#s-hook > *:not(#hk-flash)", 8.68);

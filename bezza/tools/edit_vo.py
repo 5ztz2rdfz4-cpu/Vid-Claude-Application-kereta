@@ -7,11 +7,20 @@ TEMPO = 1.08
 CUTS = [(20.95, 27.0), (55.80, 56.74)]          # "dan ini antara sebab..." / "untuk maklumat"
 MAX_GAP, KEEP_GAP = 0.28, 0.16
 
-raw = subprocess.run(["ffmpeg","-v","error","-i",SRC_WAV,"-ac","1","-ar",str(SR),"-f","f32le","-"],capture_output=True).stdout
+import os
+MODEL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "sh.rnnn")
+# 1) clean-up on the full take (consistent noise profile): neural denoise + residual
+#    spectral denoise, de-mud / presence EQ, de-ess
+CLEAN = (f"highpass=f=75,arnndn=m='{MODEL}':mix=0.9,afftdn=nr=10:nf=-48:tn=1,"
+         "equalizer=f=280:t=q:w=1.1:g=-3,equalizer=f=3600:t=q:w=1.0:g=2.5,"
+         "highshelf=f=9500:g=2,deesser=i=0.35:m=0.5:f=0.5,lowpass=f=16000")
+raw = subprocess.run(["ffmpeg","-v","error","-i",SRC_WAV,"-ac","1","-ar",str(SR),"-af",CLEAN,"-f","f32le","-"],capture_output=True,check=True).stdout
 a = np.frombuffer(raw, np.float32).copy(); dur = len(a)/SR
-# silence map (20ms frames, -40 dB)
-fr = int(0.02*SR); n = len(a)//fr
-db = 20*np.log10(np.sqrt((a[:n*fr].reshape(n,fr)**2).mean(1))+1e-9)
+# silence map from the ORIGINAL take (20ms frames, -40 dB) so cut points stay stable
+orig = np.frombuffer(subprocess.run(["ffmpeg","-v","error","-i",SRC_WAV,"-ac","1","-ar",str(SR),"-f","f32le","-"],
+                                    capture_output=True,check=True).stdout, np.float32)
+fr = int(0.02*SR); n = len(orig)//fr
+db = 20*np.log10(np.sqrt((orig[:n*fr].reshape(n,fr)**2).mean(1))+1e-9)
 sil = db < -40
 gaps=[]; i=0
 while i<n:
@@ -50,7 +59,9 @@ def mapt(t):
     return acc/TEMPO
 tmp=OUT_DIR+"/_vo_cat.f32"; out.astype(np.float32).tofile(tmp)
 subprocess.run(["ffmpeg","-v","error","-y","-f","f32le","-ar",str(SR),"-ac","1","-i",tmp,
-  "-af",f"highpass=f=80,afftdn=nf=-30,acompressor=threshold=-20dB:ratio=3:attack=5:release=80,atempo={TEMPO},loudnorm=I=-15:TP=-1.5:LRA=7",
+  "-af",f"rubberband=tempo={TEMPO}:formant=preserved:pitchq=quality:window=short,"
+        "acompressor=threshold=-24dB:ratio=3:attack=6:release=120:makeup=2,"
+        "loudnorm=I=-14:TP=-1.5:LRA=6,alimiter=limit=0.89:level=false",
   "-ar",str(SR),"-ac","2",OUT_DIR+"/vo.wav"],check=True)
 W=json.load(open(WORDS)); res=[]
 for w in W:
