@@ -167,7 +167,7 @@
   .var.hl { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(214,178,106,.35), 0 30px 60px rgba(0,0,0,.45); }
   #ct-btn { left: 190px; top: 1070px; width: 700px; height: 112px; border-radius: 60px; background: var(--goldgrad); color: #1a1406; display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 38px; font-weight: 900; letter-spacing: 1px; box-shadow: 0 20px 50px rgba(214,178,106,.35); }
   #ct-btn svg { width: 40px; height: 40px; }
-  #ct-ring { left: 190px; top: 1070px; width: 700px; height: 112px; border-radius: 60px; border: 3px solid var(--gold-hi); }
+  #ct-ring { left: 190px; top: 1070px; width: 700px; height: 112px; border-radius: 60px; border: 3px solid var(--gold-hi); opacity: 0; visibility: hidden; }
   #ct-chev { left: 505px; top: 1196px; width: 70px; height: 80px; }
 
   /* ---------- transitions ---------- */
@@ -713,7 +713,7 @@
   tl.set("#ct-l2 .gold-text", { display: "inline-block" }, 49.5);
   tl.fromTo("#ct-btn", { autoAlpha: 0, y: 40, scale: .8 }, { autoAlpha: 1, y: 0, scale: 1, duration: .42, ease: EB }, 54.38);
   tl.to("#ct-btn", { scale: .93, duration: .1 }, 54.85).to("#ct-btn", { scale: 1, duration: .3, ease: "back.out(3)" }, 54.95);
-  tl.fromTo("#ct-ring", { autoAlpha: .9, scale: 1 }, { autoAlpha: 0, scale: 1.25, duration: .7, ease: "power2.out" }, 54.9);
+  tl.fromTo("#ct-ring", { autoAlpha: .9, scale: 1 }, { autoAlpha: 0, scale: 1.25, duration: .7, ease: "power2.out", immediateRender: false }, 54.9);
   tl.fromTo("#ct-chev", { autoAlpha: 0 }, { autoAlpha: 1, duration: .3 }, 54.8);
   tl.fromTo("#ct-chev .cv", { y: -6, opacity: .4 }, { y: 8, opacity: 1, duration: .35, stagger: .12, yoyo: true, repeat: 3, ease: "sine.inOut" }, 54.9);
 
